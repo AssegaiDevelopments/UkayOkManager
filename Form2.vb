@@ -14,6 +14,7 @@
         Next
 
         dgvCart.ColumnCount = 4
+        dgvCart.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvCart.Columns(0).Name = "Item"
         dgvCart.Columns(1).Name = "Price"
         dgvCart.Columns(2).Name = "Quantity"
@@ -26,7 +27,7 @@
 
     Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs) Handles btnAddItemToCart.Click
 
-        If IsNumeric(txtbItemPrice.Text) Then
+        If IsNumeric(txtbItemPrice.Text) And Not nudQuantity.Value >= 0 Then
 
             price = txtbItemPrice.Text
             clothingType = cbClothingType.Text
@@ -38,16 +39,15 @@
                 itemTotal = (quantity * price) * (1 - (discount * 0.01))
             End If
 
-            dgvCart.Rows.Add(clothingType, "₱" & price, quantity, "₱" & itemTotal)
+            dgvCart.Rows.Add(clothingType, "₱" & price, quantity, itemTotal)
             For Each row As DataGridViewRow In dgvCart.Rows
                 If Not row.IsNewRow Then
                     grandTotal += Convert.ToDecimal(row.Cells("Total").Value)
                 End If
             Next
-
-
-
-
+            lGrandTotal.Text = "₱" & grandTotal
+        ElseIf nudQuantity.Value >= 0 Then
+            MsgBox("Quantity value invalid, please enter a quantity greater than 0.")
         Else
             MsgBox("Price value not valid!")
         End If
@@ -69,5 +69,9 @@
             lDiscount.Enabled = False
 
         End If
+    End Sub
+
+    Private Sub SplitContainer1_SplitterMoved(sender As Object, e As SplitterEventArgs)
+
     End Sub
 End Class

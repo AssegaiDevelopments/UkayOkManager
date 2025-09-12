@@ -35,9 +35,12 @@ Partial Class Form2
         chbxDiscount = New CheckBox()
         tbDiscount = New TrackBar()
         lDiscount = New Label()
+        Panel1 = New Panel()
+        lGrandTotal = New Label()
         CType(nudQuantity, ComponentModel.ISupportInitialize).BeginInit()
         CType(dgvCart, ComponentModel.ISupportInitialize).BeginInit()
         CType(tbDiscount, ComponentModel.ISupportInitialize).BeginInit()
+        Panel1.SuspendLayout()
         SuspendLayout()
         ' 
         ' btnRemoveItemFromCart
@@ -61,9 +64,10 @@ Partial Class Form2
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(255, 418)
+        Label1.Font = New Font("Lucida Sans", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label1.Location = New Point(3, 5)
         Label1.Name = "Label1"
-        Label1.Size = New Size(32, 15)
+        Label1.Size = New Size(37, 15)
         Label1.TabIndex = 4
         Label1.Text = "Total"
         ' 
@@ -106,8 +110,9 @@ Partial Class Form2
         dgvCart.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         dgvCart.BackgroundColor = Color.White
         dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvCart.EditMode = DataGridViewEditMode.EditProgrammatically
         dgvCart.GridColor = Color.White
-        dgvCart.Location = New Point(255, 23)
+        dgvCart.Location = New Point(238, 26)
         dgvCart.Name = "dgvCart"
         dgvCart.Size = New Size(600, 358)
         dgvCart.TabIndex = 9
@@ -144,7 +149,6 @@ Partial Class Form2
         tbDiscount.Enabled = False
         tbDiscount.Location = New Point(688, 415)
         tbDiscount.Maximum = 80
-        tbDiscount.Minimum = 1
         tbDiscount.Name = "tbDiscount"
         tbDiscount.Size = New Size(116, 45)
         tbDiscount.TabIndex = 13
@@ -161,12 +165,35 @@ Partial Class Form2
         lDiscount.TabIndex = 14
         lDiscount.Text = "Discount: 0%"
         ' 
+        ' Panel1
+        ' 
+        Panel1.BackColor = Color.Yellow
+        Panel1.BorderStyle = BorderStyle.FixedSingle
+        Panel1.Controls.Add(lGrandTotal)
+        Panel1.Controls.Add(Label1)
+        Panel1.Location = New Point(238, 392)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(101, 69)
+        Panel1.TabIndex = 15
+        ' 
+        ' lGrandTotal
+        ' 
+        lGrandTotal.AutoSize = True
+        lGrandTotal.Font = New Font("Consolas", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lGrandTotal.Location = New Point(33, 27)
+        lGrandTotal.Name = "lGrandTotal"
+        lGrandTotal.Size = New Size(16, 18)
+        lGrandTotal.TabIndex = 5
+        lGrandTotal.Text = "0"
+        lGrandTotal.TextAlign = ContentAlignment.MiddleCenter
+        ' 
         ' Form2
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(172), CByte(199), CByte(199))
         ClientSize = New Size(886, 504)
+        Controls.Add(Panel1)
         Controls.Add(lDiscount)
         Controls.Add(tbDiscount)
         Controls.Add(chbxDiscount)
@@ -177,7 +204,6 @@ Partial Class Form2
         Controls.Add(nudQuantity)
         Controls.Add(Label2)
         Controls.Add(cbClothingType)
-        Controls.Add(Label1)
         Controls.Add(btnAddItemToCart)
         Controls.Add(btnRemoveItemFromCart)
         Name = "Form2"
@@ -185,6 +211,8 @@ Partial Class Form2
         CType(nudQuantity, ComponentModel.ISupportInitialize).EndInit()
         CType(dgvCart, ComponentModel.ISupportInitialize).EndInit()
         CType(tbDiscount, ComponentModel.ISupportInitialize).EndInit()
+        Panel1.ResumeLayout(False)
+        Panel1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -201,4 +229,6 @@ Partial Class Form2
     Friend WithEvents chbxDiscount As CheckBox
     Friend WithEvents tbDiscount As TrackBar
     Friend WithEvents lDiscount As Label
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents lGrandTotal As Label
 End Class
