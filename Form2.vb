@@ -20,20 +20,34 @@
         dgvCart.Columns(3).Name = "Total"
     End Sub
 
-    Dim Discount As Integer
-    Dim Price As Decimal
-    Dim ClothingType As String
-    Dim Quantity As Integer
-    Dim Total As Decimal
+    Dim clothingType As String
+    Dim quantity, discount As Integer
+    Dim itemTotal, price, grandTotal As Decimal
+
     Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs) Handles btnAddItemToCart.Click
 
         If IsNumeric(txtbItemPrice.Text) Then
-            Price = txtbItemPrice.Text
-            ClothingType = cbClothingType.Text
-            Quantity = nudQuantity.Value
-            Total = (Quantity * Price) * (Discount * 0.1)
 
-            dgvCart.Rows.Add(ClothingType, "₱" & Price, Quantity, "₱" & Total)
+            price = txtbItemPrice.Text
+            clothingType = cbClothingType.Text
+            quantity = nudQuantity.Value
+
+            If Not chbxDiscount.Checked Then
+                itemTotal = (quantity * price)
+            Else
+                itemTotal = (quantity * price) * (1 - (discount * 0.01))
+            End If
+
+            dgvCart.Rows.Add(clothingType, "₱" & price, quantity, "₱" & itemTotal)
+            For Each row As DataGridViewRow In dgvCart.Rows
+                If Not row.IsNewRow Then
+                    grandTotal += Convert.ToDecimal(row.Cells("Total").Value)
+                End If
+            Next
+
+
+
+
         Else
             MsgBox("Price value not valid!")
         End If
@@ -41,7 +55,19 @@
 
     Private Sub tbDiscount_Scroll(sender As Object, e As EventArgs) Handles tbDiscount.Scroll
         lDiscount.Text = tbDiscount.Value & "%"
-        Discount = tbDiscount.Value
+        discount = tbDiscount.Value
     End Sub
 
+    Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs) Handles chbxDiscount.CheckedChanged
+        If chbxDiscount.Checked Then
+            tbDiscount.Enabled = True
+            lDiscount.Enabled = True
+        Else
+            tbDiscount.Enabled = False
+            tbDiscount.Value = 0
+            lDiscount.Text = "0%"
+            lDiscount.Enabled = False
+
+        End If
+    End Sub
 End Class

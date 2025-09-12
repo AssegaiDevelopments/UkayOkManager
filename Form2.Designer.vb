@@ -32,9 +32,8 @@ Partial Class Form2
         dgvCart = New DataGridView()
         txtbItemPrice = New TextBox()
         Label4 = New Label()
-        chbxDiscountEnabled = New CheckBox()
+        chbxDiscount = New CheckBox()
         tbDiscount = New TrackBar()
-        Label5 = New Label()
         lDiscount = New Label()
         CType(nudQuantity, ComponentModel.ISupportInitialize).BeginInit()
         CType(dgvCart, ComponentModel.ISupportInitialize).BeginInit()
@@ -104,6 +103,7 @@ Partial Class Form2
         ' 
         ' dgvCart
         ' 
+        dgvCart.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         dgvCart.BackgroundColor = Color.White
         dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvCart.GridColor = Color.White
@@ -129,42 +129,37 @@ Partial Class Form2
         Label4.TabIndex = 11
         Label4.Text = "Price:"
         ' 
-        ' chbxDiscountEnabled
+        ' chbxDiscount
         ' 
-        chbxDiscountEnabled.AutoSize = True
-        chbxDiscountEnabled.Location = New Point(688, 391)
-        chbxDiscountEnabled.Name = "chbxDiscountEnabled"
-        chbxDiscountEnabled.Size = New Size(116, 19)
-        chbxDiscountEnabled.TabIndex = 12
-        chbxDiscountEnabled.Text = "Enable Discount?"
-        chbxDiscountEnabled.UseVisualStyleBackColor = True
+        chbxDiscount.AutoSize = True
+        chbxDiscount.Location = New Point(688, 391)
+        chbxDiscount.Name = "chbxDiscount"
+        chbxDiscount.Size = New Size(116, 19)
+        chbxDiscount.TabIndex = 12
+        chbxDiscount.Text = "Enable Discount?"
+        chbxDiscount.UseVisualStyleBackColor = True
         ' 
         ' tbDiscount
         ' 
-        tbDiscount.Location = New Point(688, 405)
+        tbDiscount.Enabled = False
+        tbDiscount.Location = New Point(688, 415)
         tbDiscount.Maximum = 80
+        tbDiscount.Minimum = 1
         tbDiscount.Name = "tbDiscount"
         tbDiscount.Size = New Size(116, 45)
         tbDiscount.TabIndex = 13
         tbDiscount.TickStyle = TickStyle.Both
-        ' 
-        ' Label5
-        ' 
-        Label5.AutoSize = True
-        Label5.Location = New Point(676, 453)
-        Label5.Name = "Label5"
-        Label5.Size = New Size(97, 15)
-        Label5.TabIndex = 14
-        Label5.Text = "Discount Percent"
+        tbDiscount.Value = 1
         ' 
         ' lDiscount
         ' 
         lDiscount.AutoSize = True
-        lDiscount.Location = New Point(779, 453)
+        lDiscount.Enabled = False
+        lDiscount.Location = New Point(707, 445)
         lDiscount.Name = "lDiscount"
-        lDiscount.Size = New Size(23, 15)
-        lDiscount.TabIndex = 15
-        lDiscount.Text = "0%"
+        lDiscount.Size = New Size(76, 15)
+        lDiscount.TabIndex = 14
+        lDiscount.Text = "Discount: 0%"
         ' 
         ' Form2
         ' 
@@ -173,9 +168,8 @@ Partial Class Form2
         BackColor = Color.FromArgb(CByte(172), CByte(199), CByte(199))
         ClientSize = New Size(886, 504)
         Controls.Add(lDiscount)
-        Controls.Add(Label5)
         Controls.Add(tbDiscount)
-        Controls.Add(chbxDiscountEnabled)
+        Controls.Add(chbxDiscount)
         Controls.Add(Label4)
         Controls.Add(txtbItemPrice)
         Controls.Add(dgvCart)
@@ -204,8 +198,7 @@ Partial Class Form2
     Friend WithEvents dgvCart As DataGridView
     Friend WithEvents txtbItemPrice As TextBox
     Friend WithEvents Label4 As Label
-    Friend WithEvents chbxDiscountEnabled As CheckBox
+    Friend WithEvents chbxDiscount As CheckBox
     Friend WithEvents tbDiscount As TrackBar
-    Friend WithEvents Label5 As Label
     Friend WithEvents lDiscount As Label
 End Class
