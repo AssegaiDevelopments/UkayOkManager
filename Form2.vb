@@ -9,6 +9,7 @@
         AStrClothingType(5) = "Polo"
         Dim i As Integer
 
+        'add clothing types to categories
         For i = 0 To AStrClothingType.Length - 1
             cbClothingType.Items.Add(AStrClothingType(i))
         Next
@@ -27,7 +28,7 @@
 
     Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs) Handles btnAddItemToCart.Click
 
-        If IsNumeric(txtbItemPrice.Text) And Not nudQuantity.Value >= 0 Then
+        If IsNumeric(txtbItemPrice.Text) And Not nudQuantity.Value <= 0 Then
 
             price = txtbItemPrice.Text
             clothingType = cbClothingType.Text
@@ -39,6 +40,7 @@
                 itemTotal = (quantity * price) * (1 - (discount * 0.01))
             End If
 
+            'add value to datagridview
             dgvCart.Rows.Add(clothingType, "₱" & price, quantity, itemTotal)
             For Each row As DataGridViewRow In dgvCart.Rows
                 If Not row.IsNewRow Then
@@ -46,7 +48,13 @@
                 End If
             Next
             lGrandTotal.Text = "₱" & grandTotal
-        ElseIf nudQuantity.Value >= 0 Then
+
+            price = 0
+            clothingType = ""
+            quantity = 0
+            grandTotal = 0
+
+        ElseIf nudQuantity.Value <= 0 Then
             MsgBox("Quantity value invalid, please enter a quantity greater than 0.")
         Else
             MsgBox("Price value not valid!")
@@ -71,7 +79,4 @@
         End If
     End Sub
 
-    Private Sub SplitContainer1_SplitterMoved(sender As Object, e As SplitterEventArgs)
-
-    End Sub
 End Class
