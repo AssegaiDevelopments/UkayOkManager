@@ -77,7 +77,7 @@ Partial Class Login
         GroupBox1.Controls.Add(txtbPassword)
         GroupBox1.FlatStyle = FlatStyle.Popup
         GroupBox1.Font = New Font("Segoe UI", 11F)
-        GroupBox1.ForeColor = Color.Black
+        GroupBox1.ForeColor = Color.White
         GroupBox1.Location = New Point(111, 71)
         GroupBox1.Name = "GroupBox1"
         GroupBox1.Size = New Size(363, 240)
@@ -90,7 +90,7 @@ Partial Class Login
         Label2.AutoSize = True
         Label2.FlatStyle = FlatStyle.Flat
         Label2.Font = New Font("Corbel", 11.25F, FontStyle.Bold)
-        Label2.ForeColor = Color.Black
+        Label2.ForeColor = Color.White
         Label2.Location = New Point(28, 116)
         Label2.Name = "Label2"
         Label2.Size = New Size(73, 18)
@@ -101,21 +101,21 @@ Partial Class Login
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Corbel", 11.25F, FontStyle.Bold)
-        Label1.ForeColor = Color.Black
+        Label1.ForeColor = Color.White
         Label1.Location = New Point(28, 47)
         Label1.Name = "Label1"
         Label1.Size = New Size(42, 18)
         Label1.TabIndex = 3
         Label1.Text = "User:"
         ' 
-        ' Form1
+        ' Login
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.FromArgb(CByte(172), CByte(199), CByte(199))
+        BackColor = Color.FromArgb(CByte(70), CByte(88), CByte(113))
         ClientSize = New Size(590, 394)
         Controls.Add(GroupBox1)
-        Name = "Form1"
+        Name = "Login"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Log-in"
         GroupBox1.ResumeLayout(False)

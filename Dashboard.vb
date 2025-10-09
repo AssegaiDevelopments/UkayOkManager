@@ -5,17 +5,23 @@ Public Class Dashboard
     Dim clothingType As String
     Dim quantity, discount As Integer
     Dim itemTotal, price, grandTotal As Decimal
+    Dim tempStock As New Dictionary(Of String, Integer)
+
+
     Private Sub Dashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Login.Hide()
 
         Using con As New SqlConnection(connectAs)
             Try
                 con.Open()
-                Dim cmd As New SqlCommand("SELECT ProductName FROM Products", con)
+                Dim cmd As New SqlCommand("SELECT ProductName, Stock FROM Products", con)
                 Dim reader As SqlDataReader = cmd.ExecuteReader()
 
                 While reader.Read()
-                    cbClothingType.Items.Add(reader("ProductName").ToString())
+                    Dim pname As String = reader("ProductName").ToString()
+                    Dim stock As Integer = Convert.ToInt32(reader("Stock"))
+                    tempStock(pname) = stock
+                    cbClothingType.Items.Add(pname)
                 End While
                 reader.Close()
             Catch ex As Exception
@@ -30,32 +36,35 @@ Public Class Dashboard
         dgvCart.Columns(1).Name = "Price"
         dgvCart.Columns(2).Name = "Quantity"
         dgvCart.Columns(3).Name = "Total"
+        dgvCart.Columns(3).DefaultCellStyle.Format = "N2"
+
     End Sub
 
     Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs) Handles btnAddItemToCart.Click
+        ' Validate price and quantity
+        Dim parsedPrice As Decimal
+        If Decimal.TryParse(txtbItemPrice.Text, parsedPrice) AndAlso nudQuantity.Value > 0 Then
 
-        If IsNumeric(txtbItemPrice.Text) And Not nudQuantity.Value <= 0 Then
-
-
-
-            price = txtbItemPrice.Text
+            price = parsedPrice
             clothingType = cbClothingType.Text
-            quantity = nudQuantity.Value
+            quantity = CInt(nudQuantity.Value)
 
             If Not chbxDiscount.Checked Then
                 itemTotal = (quantity * price)
             Else
-                itemTotal = (quantity * price) * (1 - (discount * 0.01))
+                itemTotal = (quantity * price) * (1 - (discount * 0.01D))
             End If
 
-            Dim availableStock As Integer = 0
-            Using con As New SqlConnection(connectAs)
-                con.Open()
-                Dim cmd As New SqlCommand("SELECT Stock FROM Products WHERE ProductName = @pname", con)
-                cmd.Parameters.AddWithValue("@pname", cbClothingType.Text)
-                availableStock = Convert.ToInt32(cmd.ExecuteScalar())
-            End Using
+            ' Get available stock from DB
+            Dim selectedItem As String = cbClothingType.Text
+            Dim availableStock As Integer = tempStock(selectedItem)
 
+            If nudQuantity.Value > availableStock Then
+                MsgBox("Not enough stock available.")
+                Exit Sub
+            End If
+
+            ' Check combined quantities already in cart for the same item
             Dim totalInCart As Integer = 0
             For Each row As DataGridViewRow In dgvCart.Rows
                 If Not row.IsNewRow AndAlso row.Cells("Item").Value.ToString() = clothingType Then
@@ -64,28 +73,27 @@ Public Class Dashboard
             Next
 
             Dim totalRequested As Integer = totalInCart + quantity
-
             If totalRequested > availableStock Then
                 MsgBox("Not enough stock available. You already have " & totalInCart &
-           " of this item in your cart. Only " & (availableStock - totalInCart) & " left.")
+               " of this item in your cart. Only " & (availableStock - totalInCart) & " left.")
                 Exit Sub
             End If
 
-            lblStock.Text = "Stock: " & (availableStock - totalRequested).ToString()
+            ' Add value to DataGridView
+            ' Keep the Price cell display-friendly, but Total store numeric
+            dgvCart.Rows.Add(clothingType, "₱" & price.ToString("N2"), quantity, itemTotal)
 
-            'add value to datagridview
-            dgvCart.Rows.Add(clothingType, "₱" & price, quantity, itemTotal)
-            For Each row As DataGridViewRow In dgvCart.Rows
-                If Not row.IsNewRow Then
-                    grandTotal += Convert.ToDecimal(row.Cells("Total").Value)
-                End If
-            Next
-            lGrandTotal.Text = "₱" & grandTotal
+            ' Recalculate grand total from the grid (safer than keeping incremental state)
+            RecalculateGrandTotal()
+            ' Deduct locally
+            tempStock(selectedItem) -= quantity
+            lblStock.Text = "Remaining Stock: " & tempStock(selectedItem)
 
+
+            ' Reset inputs (but DON'T reset grandTotal here)
             price = 0
             clothingType = ""
             quantity = 0
-            grandTotal = 0
 
         ElseIf nudQuantity.Value <= 0 Then
             MsgBox("Quantity value invalid, please enter a quantity greater than 0.")
@@ -120,7 +128,7 @@ Public Class Dashboard
             Dim reader As SqlDataReader = cmd.ExecuteReader()
             If reader.Read() Then
                 txtbItemPrice.Text = reader("RegularPrice").ToString()
-                lblStock.Text = "Stock: " & reader("Stock").ToString()
+                lblStock.Text = "Remaining Stock: " & reader("Stock").ToString()
                 'lblStockAvailable.Text = "Available: " & reader("Stock").ToString()
             End If
             reader.Close()
@@ -141,4 +149,108 @@ Public Class Dashboard
     Private Sub btnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
         Me.WindowState = FormWindowState.Minimized
     End Sub
+
+    Private Sub btnRemoveItemFromCart_Click(sender As Object, e As EventArgs) Handles btnRemoveItemFromCart.Click
+        If dgvCart.SelectedRows.Count > 0 Then
+            Dim row As DataGridViewRow = dgvCart.SelectedRows(0)
+            Dim itemName As String = row.Cells("Item").Value.ToString()
+            Dim qty As Integer = Convert.ToInt32(row.Cells("Quantity").Value)
+            Dim total As Decimal = Convert.ToDecimal(row.Cells("Total").Value)
+
+            ' Restore local stock
+            tempStock(itemName) += qty
+
+            ' Update grand total
+            grandTotal -= total
+            lGrandTotal.Text = "₱" & grandTotal
+
+            ' Remove row
+            dgvCart.Rows.Remove(row)
+
+            ' Update label
+            lblStock.Text = "Remaining stock: " & tempStock(itemName)
+        Else
+            MsgBox("Please select an item to remove.")
+        End If
+    End Sub
+
+    Private Sub btnCheckout_Click(sender As Object, e As EventArgs) Handles btnCheckout.Click
+        If dgvCart.Rows.Count = 0 Then
+            MsgBox("Your cart is empty!", vbExclamation, "Checkout")
+            Exit Sub
+        End If
+
+        Dim confirm = MsgBox("Proceed to checkout?", vbYesNo + vbQuestion, "Confirm")
+        If confirm = vbNo Then Exit Sub
+
+        Dim totalAmount As Decimal = 0D
+        For Each row As DataGridViewRow In dgvCart.Rows
+            If row.IsNewRow Then Continue For
+            totalAmount += Convert.ToDecimal(row.Cells("Total").Value)
+        Next
+
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+
+            ' Insert the transaction first
+            Dim cmdTrans As New SqlCommand("INSERT INTO Transactions (Username, TotalAmount, PaymentMethod, Status) 
+                                        OUTPUT INSERTED.TransactionID
+                                        VALUES (@user, @total, @method, @status)", con)
+
+            cmdTrans.Parameters.AddWithValue("@user", "Admin")  ' Replace with your logged-in user variable
+            cmdTrans.Parameters.AddWithValue("@total", totalAmount)
+            cmdTrans.Parameters.AddWithValue("@method", "Cash")      ' Placeholder, can be combo box later
+            cmdTrans.Parameters.AddWithValue("@status", "Completed")
+
+            Dim transactionID As Integer = Convert.ToInt32(cmdTrans.ExecuteScalar())
+
+            ' Insert each item into TransactionItems
+            For Each row As DataGridViewRow In dgvCart.Rows
+                If row.IsNewRow Then Continue For
+
+                Dim cmdItem As New SqlCommand("INSERT INTO TransactionItems (TransactionID, ProductName, Quantity, Price, Total)
+                                           VALUES (@tid, @pname, @qty, @price, @total)", con)
+                cmdItem.Parameters.AddWithValue("@tid", transactionID)
+                cmdItem.Parameters.AddWithValue("@pname", row.Cells("Item").Value.ToString())
+                cmdItem.Parameters.AddWithValue("@qty", Convert.ToInt32(row.Cells("Quantity").Value))
+                cmdItem.Parameters.AddWithValue("@price", Convert.ToDecimal(row.Cells("Price").Value.ToString().Replace("₱", "")))
+                cmdItem.Parameters.AddWithValue("@total", Convert.ToDecimal(row.Cells("Total").Value))
+                cmdItem.ExecuteNonQuery()
+            Next
+        End Using
+
+        MsgBox("Checkout successful! Transaction saved.", vbInformation, "Success")
+
+        dgvCart.Rows.Clear()
+        grandTotal = 0
+        lGrandTotal.Text = "₱0.00"
+    End Sub
+
+
+    ' Recalculate grand total from dgvCart and update label
+    Private Sub RecalculateGrandTotal()
+        grandTotal = 0D
+        For Each row As DataGridViewRow In dgvCart.Rows
+            If Not row.IsNewRow Then
+                Dim cellVal = row.Cells("Total").Value
+                Dim dec As Decimal = 0D
+
+                If cellVal IsNot Nothing Then
+                    If TypeOf cellVal Is Decimal OrElse TypeOf cellVal Is Double OrElse TypeOf cellVal Is Single OrElse TypeOf cellVal Is Integer Then
+                        dec = Convert.ToDecimal(cellVal)
+                    Else
+                        ' If it’s a string (maybe with currency symbol), try to parse safely
+                        Dim s As String = cellVal.ToString().Replace("₱", "").Trim()
+                        Decimal.TryParse(s, Globalization.NumberStyles.Any, Globalization.CultureInfo.CurrentCulture, dec)
+                    End If
+                End If
+
+                grandTotal += dec
+            End If
+        Next
+
+        lGrandTotal.Text = "₱" & grandTotal.ToString("N2")
+    End Sub
+
+
 End Class
