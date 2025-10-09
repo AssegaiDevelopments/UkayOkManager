@@ -1,5 +1,9 @@
-﻿Public Class Form2
+﻿Imports System.Data.SqlClient
+
+Public Class Form2
+
     Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Form1.Hide()
         Dim AStrClothingType(5) As String
         AStrClothingType(0) = "Shoes"
         AStrClothingType(1) = "T-Shirt"
