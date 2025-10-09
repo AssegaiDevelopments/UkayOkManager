@@ -3,13 +3,13 @@ Imports System.Runtime.CompilerServices.RuntimeHelpers
 Imports System.Windows
 Imports System.Security.Cryptography
 Imports System.Text
-Imports System.Data.SqlClient
+Imports Microsoft.Data.SqlClient
 
 Module DatabaseConnection
     'connection details
-    Public connectAs As String = "Data Source=.\SQL2022;Initial Catalog=UkayDB;Integrated Security=True"
+    Public connectAs As String = "Data Source=.\SQL2022;Initial Catalog=UkayDB;Integrated Security=True;TrustServerCertificate=True"
 End Module
-Public Class Form1
+Public Class Login
     Public Function ComputeSha256Hash(rawData As String) As String
         Using sha256Hash As SHA256 = SHA256.Create()
             Dim bytes As Byte() = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData))
@@ -67,7 +67,7 @@ Public Class Form1
     End Sub
 
     Sub LoginSuccess()
-        Dim form2 As New Form2()
-        form2.Show()
+        Dim Dashboard As New Dashboard()
+        Dashboard.Show()
     End Sub
 End Class
