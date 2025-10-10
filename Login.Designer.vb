@@ -120,6 +120,7 @@ Partial Class Login
         ' 
         PictureBox1.BackgroundImage = My.Resources.Resources.flavor
         PictureBox1.BackgroundImageLayout = ImageLayout.Zoom
+        PictureBox1.BorderStyle = BorderStyle.FixedSingle
         PictureBox1.Location = New Point(117, 22)
         PictureBox1.Name = "PictureBox1"
         PictureBox1.Size = New Size(642, 401)
