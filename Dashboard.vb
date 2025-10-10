@@ -8,7 +8,7 @@ Public Class Dashboard
     Dim tempStock As New Dictionary(Of String, Integer)
 
 
-    Private Sub Dashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Public Sub Dashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Login.Hide()
 
         Using con As New SqlConnection(connectAs)
@@ -19,6 +19,9 @@ Public Class Dashboard
 
                 While reader.Read()
                     Dim pname As String = reader("ProductName").ToString()
+                    If pname = "T-Shirt" Then
+                        lblStock.Text = "Remaining stock: " & reader("Stock").ToString()
+                    End If
                     Dim stock As Integer = Convert.ToInt32(reader("Stock"))
                     tempStock(pname) = stock
                     cbClothingType.Items.Add(pname)
@@ -39,6 +42,36 @@ Public Class Dashboard
         dgvCart.Columns(3).DefaultCellStyle.Format = "N2"
 
     End Sub
+
+    Public Sub RefreshProductInfo()
+        ' Step 1: Update dictionary
+        tempStock.Clear()
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+            Dim cmd As New SqlCommand("SELECT ProductName, Stock FROM Products", con)
+            Using reader As SqlDataReader = cmd.ExecuteReader()
+                While reader.Read()
+                    tempStock(reader("ProductName").ToString()) = Convert.ToInt32(reader("Stock"))
+                End While
+            End Using
+
+
+            ' Step 2: Reset combobox
+            Dim cmd2 As New SqlCommand("SELECT ProductName FROM Products WHERE ProductID = 1", con)
+            Dim result = cmd2.ExecuteScalar()
+            If result IsNot Nothing Then
+                cbClothingType.Text = result.ToString()
+            End If
+        End Using
+
+        ' Step 3: Update stock label
+        If tempStock.ContainsKey(cbClothingType.Text) Then
+            lblStock.Text = "Remaining stock: " & tempStock(cbClothingType.Text).ToString()
+        Else
+            lblStock.Text = "N/A"
+        End If
+    End Sub
+
 
     Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs) Handles btnAddItemToCart.Click
         ' Validate price and quantity
@@ -79,7 +112,7 @@ Public Class Dashboard
                 Exit Sub
             End If
 
-            ' Add value to DataGridView
+            ' Add value to DataGridView Cart
             ' Keep the Price cell display-friendly, but Total store numeric
             dgvCart.Rows.Add(clothingType, "₱" & price.ToString("N2"), quantity, itemTotal)
 
@@ -87,7 +120,7 @@ Public Class Dashboard
             RecalculateGrandTotal()
             ' Deduct locally
             tempStock(selectedItem) -= quantity
-            lblStock.Text = "Remaining Stock: " & tempStock(selectedItem)
+            lblStock.Text = "Remaining stock: " & tempStock(selectedItem).ToString
 
 
             ' Reset inputs (but DON'T reset grandTotal here)
@@ -128,28 +161,32 @@ Public Class Dashboard
             Dim reader As SqlDataReader = cmd.ExecuteReader()
             If reader.Read() Then
                 txtbItemPrice.Text = reader("RegularPrice").ToString()
-                lblStock.Text = "Remaining Stock: " & reader("Stock").ToString()
+                lblStock.Text = "Remaining stock: " & reader("Stock").ToString()
                 'lblStockAvailable.Text = "Available: " & reader("Stock").ToString()
             End If
             reader.Close()
         End Using
     End Sub
 
+    'Exit application
     Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click, Button1.Click
         Login.Close()
         Close()
     End Sub
 
+    'Clear cart and reset grand total
     Private Sub btnClearCart_Click(sender As Object, e As EventArgs) Handles btnClearCart.Click
         dgvCart.Rows.Clear()
         grandTotal = 0
         lGrandTotal.Text = "₱0.00"
     End Sub
 
+    'Minimize application
     Private Sub btnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
         Me.WindowState = FormWindowState.Minimized
     End Sub
 
+    ' Remove selected item from cart and update stock and grand total
     Private Sub btnRemoveItemFromCart_Click(sender As Object, e As EventArgs) Handles btnRemoveItemFromCart.Click
         If dgvCart.SelectedRows.Count > 0 Then
             Dim row As DataGridViewRow = dgvCart.SelectedRows(0)
@@ -158,11 +195,10 @@ Public Class Dashboard
             Dim total As Decimal = Convert.ToDecimal(row.Cells("Total").Value)
 
             ' Restore local stock
-            tempStock(itemName) += qty
-
+            If tempStock.ContainsKey(itemName) Then tempStock(itemName) += qty
             ' Update grand total
             grandTotal -= total
-            lGrandTotal.Text = "₱" & grandTotal
+            lGrandTotal.Text = "₱" & grandTotal.ToString("N2")
 
             ' Remove row
             dgvCart.Rows.Remove(row)
@@ -174,6 +210,7 @@ Public Class Dashboard
         End If
     End Sub
 
+    ' Checkout process: save transaction and items to DB, clear cart
     Private Sub btnCheckout_Click(sender As Object, e As EventArgs) Handles btnCheckout.Click
         If dgvCart.Rows.Count = 0 Then
             MsgBox("Your cart is empty!", vbExclamation, "Checkout")
@@ -216,7 +253,40 @@ Public Class Dashboard
                 cmdItem.Parameters.AddWithValue("@price", Convert.ToDecimal(row.Cells("Price").Value.ToString().Replace("₱", "")))
                 cmdItem.Parameters.AddWithValue("@total", Convert.ToDecimal(row.Cells("Total").Value))
                 cmdItem.ExecuteNonQuery()
+                ' Update stock after inserting each item
+                Dim cmdUpdateStock As New SqlCommand("
+                  UPDATE Products 
+                  SET Stock = CASE 
+                    WHEN Stock >= @qty THEN Stock - @qty 
+                    ELSE 0 
+                  END
+                  WHERE ProductName = @pname", con)
+
+                cmdUpdateStock.Parameters.AddWithValue("@qty", Convert.ToInt32(row.Cells("Quantity").Value))
+                cmdUpdateStock.Parameters.AddWithValue("@pname", row.Cells("Item").Value.ToString())
+                cmdUpdateStock.ExecuteNonQuery()
+
             Next
+
+            'refresh local stock data
+            Try
+                tempStock.Clear()
+                cbClothingType.Items.Clear()
+
+                Dim cmd As New SqlCommand("SELECT ProductName, Stock FROM Products", con)
+                Dim reader As SqlDataReader = cmd.ExecuteReader()
+
+                While reader.Read()
+                    Dim pname As String = reader("ProductName").ToString()
+                    Dim stock As Integer = Convert.ToInt32(reader("Stock"))
+                    tempStock(pname) = stock
+                    cbClothingType.Items.Add(pname)
+                End While
+                reader.Close()
+            Catch ex As Exception
+                MessageBox.Show("Error loading products: " & ex.Message)
+            End Try
+
         End Using
 
         MsgBox("Checkout successful! Transaction saved.", vbInformation, "Success")
@@ -224,6 +294,9 @@ Public Class Dashboard
         dgvCart.Rows.Clear()
         grandTotal = 0
         lGrandTotal.Text = "₱0.00"
+        RefreshProductInfo()
+
+
     End Sub
 
 
@@ -252,5 +325,9 @@ Public Class Dashboard
         lGrandTotal.Text = "₱" & grandTotal.ToString("N2")
     End Sub
 
-
+    Private Sub btnManageStocks_Click(sender As Object, e As EventArgs) Handles btnManageStocks.Click
+        Dim manageStocks As New ManageStocks()
+        AddHandler manageStocks.StocksUpdated, AddressOf RefreshProductInfo
+        manageStocks.Show()  ' Waits here until form is closed
+    End Sub
 End Class

@@ -5,10 +5,6 @@ Imports System.Security.Cryptography
 Imports System.Text
 Imports Microsoft.Data.SqlClient
 
-Module DatabaseConnection
-    'connection details
-    Public connectAs As String = "Data Source=.\SQL2022;Initial Catalog=UkayDB;Integrated Security=True;TrustServerCertificate=True"
-End Module
 Public Class Login
     Public Function ComputeSha256Hash(rawData As String) As String
         Using sha256Hash As SHA256 = SHA256.Create()
