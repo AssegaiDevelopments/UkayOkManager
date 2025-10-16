@@ -41,6 +41,8 @@ Public Class Dashboard
         dgvCart.Columns(3).Name = "Total"
         dgvCart.Columns(3).DefaultCellStyle.Format = "N2"
 
+        cbClothingType.SelectedIndex = 0
+
     End Sub
 
     Public Sub RefreshProductInfo()
@@ -326,8 +328,8 @@ Public Class Dashboard
     End Sub
 
     Private Sub btnManageStocks_Click(sender As Object, e As EventArgs) Handles btnManageStocks.Click
-        Dim manageStocks As New ManageStocks()
+        Dim manageStocks As New ManageStocks
         AddHandler manageStocks.StocksUpdated, AddressOf RefreshProductInfo
-        manageStocks.Show()  ' Waits here until form is closed
+        manageStocks.Show  ' Waits here until form is closed
     End Sub
 End Class
