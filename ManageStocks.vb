@@ -1,7 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.Data.Common
-'Imports System.Data.SqlClient
-Imports Microsoft.Data.SqlClient
+Imports System.Data.SqlClient
+'Imports Microsoft.Data.SqlClient
 
 Public Class ManageStocks
     Dim con As New SqlConnection(connectAs)

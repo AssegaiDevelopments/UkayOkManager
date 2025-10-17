@@ -11,6 +11,8 @@ Public Class Dashboard
     Public Sub Dashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Login.Hide()
 
+        rbCash.Checked = True ' Default to Cash
+
         Using con As New SqlConnection(connectAs)
             Try
                 con.Open()
@@ -231,46 +233,67 @@ Public Class Dashboard
         Using con As New SqlConnection(connectAs)
             con.Open()
 
-            ' Insert the transaction first
-            Dim cmdTrans As New SqlCommand("INSERT INTO Transactions (Username, TotalAmount, PaymentMethod, Status) 
-                                        OUTPUT INSERTED.TransactionID
-                                        VALUES (@user, @total, @method, @status)", con)
+            ' 🧠 Insert the transaction first
+            Dim cmdTrans As New SqlCommand("
+            INSERT INTO Transactions 
+            (Username, TotalAmount, PaymentMethod, Status, TransactionDate, Remarks, TransactionType)
+            OUTPUT INSERTED.TransactionID
+            VALUES (@user, @total, @method, @status, @date, @remarks, @type)", con)
 
-            cmdTrans.Parameters.AddWithValue("@user", "Admin")  ' Replace with your logged-in user variable
+            cmdTrans.Parameters.AddWithValue("@user", "Admin")
             cmdTrans.Parameters.AddWithValue("@total", totalAmount)
-            cmdTrans.Parameters.AddWithValue("@method", "Cash")      ' Placeholder, can be combo box later
+            Dim paymentMethod As String = ""
+            If rbCash.Checked Then
+                paymentMethod = "Cash"
+            ElseIf rbGCash.Checked Then
+                paymentMethod = "GCash"
+            Else
+                MsgBox("Please select a payment method.", vbExclamation, "Missing Info")
+                Exit Sub
+            End If
+            cmdTrans.Parameters.AddWithValue("@method", paymentMethod)
             cmdTrans.Parameters.AddWithValue("@status", "Completed")
+            cmdTrans.Parameters.AddWithValue("@date", DateTime.Now)
+            If txtbRemarks.Text.IsNullOrWhiteSpace(txtbRemarks.Text) Then
+                cmdTrans.Parameters.AddWithValue("@remarks", DBNull.Value)
+            Else
+                cmdTrans.Parameters.AddWithValue("@remarks", CStr(txtbRemarks.Text))             ' remarks
+            End If
+            cmdTrans.Parameters.AddWithValue("@type", "Sale")               ' e.g. "Sale", "Return", "Exchange", etc.
 
             Dim transactionID As Integer = Convert.ToInt32(cmdTrans.ExecuteScalar())
 
-            ' Insert each item into TransactionItems
+            'Insert each item into TransactionItems
             For Each row As DataGridViewRow In dgvCart.Rows
                 If row.IsNewRow Then Continue For
 
-                Dim cmdItem As New SqlCommand("INSERT INTO TransactionItems (TransactionID, ProductName, Quantity, Price, Total)
-                                           VALUES (@tid, @pname, @qty, @price, @total)", con)
+                Dim cmdItem As New SqlCommand("
+                INSERT INTO TransactionItems 
+                (TransactionID, ProductName, Quantity, Price, Total)
+                VALUES (@tid, @pname, @qty, @price, @total)", con)
+
                 cmdItem.Parameters.AddWithValue("@tid", transactionID)
                 cmdItem.Parameters.AddWithValue("@pname", row.Cells("Item").Value.ToString())
                 cmdItem.Parameters.AddWithValue("@qty", Convert.ToInt32(row.Cells("Quantity").Value))
                 cmdItem.Parameters.AddWithValue("@price", Convert.ToDecimal(row.Cells("Price").Value.ToString().Replace("₱", "")))
                 cmdItem.Parameters.AddWithValue("@total", Convert.ToDecimal(row.Cells("Total").Value))
                 cmdItem.ExecuteNonQuery()
-                ' Update stock after inserting each item
+
+                'Update stock after inserting each item
                 Dim cmdUpdateStock As New SqlCommand("
-                  UPDATE Products 
-                  SET Stock = CASE 
+                UPDATE Products 
+                SET Stock = CASE 
                     WHEN Stock >= @qty THEN Stock - @qty 
                     ELSE 0 
-                  END
-                  WHERE ProductName = @pname", con)
+                END
+                WHERE ProductName = @pname", con)
 
                 cmdUpdateStock.Parameters.AddWithValue("@qty", Convert.ToInt32(row.Cells("Quantity").Value))
                 cmdUpdateStock.Parameters.AddWithValue("@pname", row.Cells("Item").Value.ToString())
                 cmdUpdateStock.ExecuteNonQuery()
-
             Next
 
-            'refresh local stock data
+            ' Refresh local stock data
             Try
                 tempStock.Clear()
                 cbClothingType.Items.Clear()
@@ -288,7 +311,6 @@ Public Class Dashboard
             Catch ex As Exception
                 MessageBox.Show("Error loading products: " & ex.Message)
             End Try
-
         End Using
 
         MsgBox("Checkout successful! Transaction saved.", vbInformation, "Success")
@@ -297,9 +319,8 @@ Public Class Dashboard
         grandTotal = 0
         lGrandTotal.Text = "₱0.00"
         RefreshProductInfo()
-
-
     End Sub
+
 
 
     ' Recalculate grand total from dgvCart and update label
@@ -331,5 +352,10 @@ Public Class Dashboard
         Dim manageStocks As New ManageStocks
         AddHandler manageStocks.StocksUpdated, AddressOf RefreshProductInfo
         manageStocks.Show  ' Waits here until form is closed
+    End Sub
+
+    Private Sub btnViewTransaction_Click(sender As Object, e As EventArgs) Handles btnViewTransaction.Click
+        Dim viewTransaction As New ViewTransactions
+        viewTransaction.Show()
     End Sub
 End Class

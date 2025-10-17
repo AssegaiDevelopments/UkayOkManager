@@ -22,7 +22,7 @@ Partial Class Dashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Dashboard))
         btnRemoveItemFromCart = New Button()
         btnAddItemToCart = New Button()
@@ -49,14 +49,20 @@ Partial Class Dashboard
         SqlCommand1 = New Microsoft.Data.SqlClient.SqlCommand()
         btnManageStocks = New Button()
         FlowLayoutPanel1 = New FlowLayoutPanel()
-        PictureBox2 = New PictureBox()
         btnViewTransaction = New Button()
+        Label6 = New Label()
+        Label7 = New Label()
+        txtbRemarks = New TextBox()
+        Label8 = New Label()
+        GroupBox1 = New GroupBox()
+        rbGCash = New RadioButton()
+        rbCash = New RadioButton()
         CType(nudQuantity, ComponentModel.ISupportInitialize).BeginInit()
         CType(dgvCart, ComponentModel.ISupportInitialize).BeginInit()
         CType(tbDiscount, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         FlowLayoutPanel1.SuspendLayout()
-        CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
+        GroupBox1.SuspendLayout()
         SuspendLayout()
         ' 
         ' btnRemoveItemFromCart
@@ -145,21 +151,21 @@ Partial Class Dashboard
         dgvCart.Anchor = AnchorStyles.Right
         dgvCart.BackgroundColor = Color.White
         dgvCart.BorderStyle = BorderStyle.Fixed3D
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = SystemColors.Control
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle2.ForeColor = SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = Color.MediumTurquoise
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
-        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = SystemColors.Control
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = Color.MediumTurquoise
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvCart.EditMode = DataGridViewEditMode.EditProgrammatically
         dgvCart.GridColor = Color.White
-        dgvCart.Location = New Point(504, 60)
+        dgvCart.Location = New Point(480, 60)
         dgvCart.Name = "dgvCart"
         dgvCart.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvCart.Size = New Size(728, 472)
+        dgvCart.Size = New Size(752, 472)
         dgvCart.TabIndex = 9
         ' 
         ' txtbItemPrice
@@ -307,12 +313,14 @@ Partial Class Dashboard
         ' lblStock
         ' 
         lblStock.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        lblStock.AutoSize = True
         lblStock.ForeColor = Color.White
-        lblStock.Location = New Point(824, 575)
+        lblStock.Location = New Point(652, 627)
         lblStock.Name = "lblStock"
-        lblStock.Size = New Size(0, 15)
+        lblStock.RightToLeft = RightToLeft.No
+        lblStock.Size = New Size(161, 15)
         lblStock.TabIndex = 19
+        lblStock.Text = "0"
+        lblStock.TextAlign = ContentAlignment.MiddleRight
         ' 
         ' btnCheckout
         ' 
@@ -346,11 +354,12 @@ Partial Class Dashboard
         ' btnManageStocks
         ' 
         btnManageStocks.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        btnManageStocks.Cursor = Cursors.Hand
         btnManageStocks.FlatStyle = FlatStyle.Flat
         btnManageStocks.ForeColor = Color.White
         btnManageStocks.Location = New Point(3, 3)
         btnManageStocks.Name = "btnManageStocks"
-        btnManageStocks.Size = New Size(110, 50)
+        btnManageStocks.Size = New Size(109, 42)
         btnManageStocks.TabIndex = 0
         btnManageStocks.Text = "📦" & vbCrLf & "Manage Stocks"
         btnManageStocks.TextAlign = ContentAlignment.TopCenter
@@ -361,37 +370,101 @@ Partial Class Dashboard
         FlowLayoutPanel1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         FlowLayoutPanel1.Controls.Add(btnManageStocks)
         FlowLayoutPanel1.Controls.Add(btnViewTransaction)
-        FlowLayoutPanel1.Controls.Add(PictureBox2)
-        FlowLayoutPanel1.FlowDirection = FlowDirection.TopDown
-        FlowLayoutPanel1.Location = New Point(12, 10)
+        FlowLayoutPanel1.Location = New Point(78, 103)
         FlowLayoutPanel1.Margin = New Padding(3, 10, 3, 10)
         FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        FlowLayoutPanel1.Size = New Size(113, 664)
+        FlowLayoutPanel1.Size = New Size(289, 362)
         FlowLayoutPanel1.TabIndex = 23
-        ' 
-        ' PictureBox2
-        ' 
-        PictureBox2.BackgroundImage = My.Resources.Resources.shopee
-        PictureBox2.BackgroundImageLayout = ImageLayout.Zoom
-        PictureBox2.Location = New Point(3, 124)
-        PictureBox2.Name = "PictureBox2"
-        PictureBox2.Size = New Size(110, 65)
-        PictureBox2.TabIndex = 25
-        PictureBox2.TabStop = False
-        PictureBox2.Visible = False
         ' 
         ' btnViewTransaction
         ' 
-        btnViewTransaction.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        btnViewTransaction.Cursor = Cursors.Hand
         btnViewTransaction.FlatStyle = FlatStyle.Flat
         btnViewTransaction.ForeColor = Color.White
-        btnViewTransaction.Location = New Point(3, 59)
+        btnViewTransaction.Location = New Point(118, 3)
         btnViewTransaction.Name = "btnViewTransaction"
-        btnViewTransaction.Size = New Size(110, 59)
+        btnViewTransaction.Size = New Size(142, 42)
         btnViewTransaction.TabIndex = 26
         btnViewTransaction.Text = "📠" & vbCrLf & "View Transaction Logs"
         btnViewTransaction.TextAlign = ContentAlignment.TopCenter
         btnViewTransaction.UseVisualStyleBackColor = True
+        ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = True
+        Label6.Font = New Font("Miriam Libre", 20.2499962F, FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        Label6.ForeColor = Color.White
+        Label6.Location = New Point(23, 22)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(242, 35)
+        Label6.TabIndex = 24
+        Label6.Text = "Admin Dashboard"
+        ' 
+        ' Label7
+        ' 
+        Label7.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        Label7.AutoSize = True
+        Label7.Font = New Font("Miriam Libre", 20.2499962F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label7.ForeColor = Color.White
+        Label7.Location = New Point(480, 22)
+        Label7.Name = "Label7"
+        Label7.Size = New Size(70, 35)
+        Label7.TabIndex = 25
+        Label7.Text = "Cart"
+        ' 
+        ' txtbRemarks
+        ' 
+        txtbRemarks.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        txtbRemarks.Location = New Point(835, 614)
+        txtbRemarks.Name = "txtbRemarks"
+        txtbRemarks.Size = New Size(262, 23)
+        txtbRemarks.TabIndex = 26
+        ' 
+        ' Label8
+        ' 
+        Label8.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        Label8.AutoSize = True
+        Label8.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
+        Label8.Location = New Point(835, 596)
+        Label8.Name = "Label8"
+        Label8.Size = New Size(55, 15)
+        Label8.TabIndex = 27
+        Label8.Text = "Remarks:"
+        Label8.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' GroupBox1
+        ' 
+        GroupBox1.Controls.Add(rbGCash)
+        GroupBox1.Controls.Add(rbCash)
+        GroupBox1.ForeColor = Color.White
+        GroupBox1.Location = New Point(835, 645)
+        GroupBox1.Name = "GroupBox1"
+        GroupBox1.Size = New Size(262, 40)
+        GroupBox1.TabIndex = 28
+        GroupBox1.TabStop = False
+        GroupBox1.Text = "Payment Method"
+        ' 
+        ' rbGCash
+        ' 
+        rbGCash.AutoSize = True
+        rbGCash.Location = New Point(109, 16)
+        rbGCash.Name = "rbGCash"
+        rbGCash.Size = New Size(70, 19)
+        rbGCash.TabIndex = 1
+        rbGCash.TabStop = True
+        rbGCash.Text = "📱 GCash"
+        rbGCash.UseVisualStyleBackColor = True
+        ' 
+        ' rbCash
+        ' 
+        rbCash.AutoSize = True
+        rbCash.Location = New Point(6, 16)
+        rbCash.Name = "rbCash"
+        rbCash.Size = New Size(66, 19)
+        rbCash.TabIndex = 0
+        rbCash.TabStop = True
+        rbCash.Text = "💴 Cash"
+        rbCash.UseVisualStyleBackColor = True
         ' 
         ' Dashboard
         ' 
@@ -399,6 +472,11 @@ Partial Class Dashboard
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(69), CByte(88), CByte(113))
         ClientSize = New Size(1280, 720)
+        Controls.Add(GroupBox1)
+        Controls.Add(Label8)
+        Controls.Add(txtbRemarks)
+        Controls.Add(Label7)
+        Controls.Add(Label6)
         Controls.Add(FlowLayoutPanel1)
         Controls.Add(Label5)
         Controls.Add(btnCheckout)
@@ -431,7 +509,8 @@ Partial Class Dashboard
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         FlowLayoutPanel1.ResumeLayout(False)
-        CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
+        GroupBox1.ResumeLayout(False)
+        GroupBox1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -460,6 +539,12 @@ Partial Class Dashboard
     Friend WithEvents SqlCommand1 As Microsoft.Data.SqlClient.SqlCommand
     Friend WithEvents btnManageStocks As Button
     Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
-    Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents btnViewTransaction As Button
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents txtbRemarks As TextBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents rbGCash As RadioButton
+    Friend WithEvents rbCash As RadioButton
 End Class

@@ -36,9 +36,9 @@ Partial Class ManageStocks
         dgvStocks.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Right
         dgvStocks.BackgroundColor = SystemColors.ActiveCaption
         dgvStocks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        dgvStocks.Location = New Point(212, 12)
+        dgvStocks.Location = New Point(194, 12)
         dgvStocks.Name = "dgvStocks"
-        dgvStocks.Size = New Size(576, 426)
+        dgvStocks.Size = New Size(594, 426)
         dgvStocks.TabIndex = 0
         ' 
         ' btnSaveChanges
@@ -46,7 +46,7 @@ Partial Class ManageStocks
         btnSaveChanges.BackColor = Color.FromArgb(CByte(243), CByte(182), CByte(80))
         btnSaveChanges.FlatStyle = FlatStyle.Popup
         btnSaveChanges.ForeColor = Color.Black
-        btnSaveChanges.Location = New Point(109, 406)
+        btnSaveChanges.Location = New Point(91, 406)
         btnSaveChanges.Name = "btnSaveChanges"
         btnSaveChanges.Size = New Size(97, 32)
         btnSaveChanges.TabIndex = 1
