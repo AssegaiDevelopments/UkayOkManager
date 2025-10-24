@@ -183,6 +183,7 @@ Public Class Dashboard
         dgvCart.Rows.Clear()
         grandTotal = 0
         lGrandTotal.Text = "₱0.00"
+        RefreshProductInfo()
     End Sub
 
     'Minimize application
@@ -242,13 +243,18 @@ Public Class Dashboard
 
             cmdTrans.Parameters.AddWithValue("@user", "Admin")
             cmdTrans.Parameters.AddWithValue("@total", totalAmount)
+
             'Payment Method
             Dim paymentForm As New SelectPayment()
-            If paymentForm.ShowDialog() <> DialogResult.OK Then
-                MsgBox("Checkout cancelled.", vbExclamation, "Cancelled")
+            paymentForm.CartTotal = totalAmount   ' Pass total to the payment window
+
+            If paymentForm.ShowDialog() <> DialogResult.OK OrElse Not paymentForm.PaymentConfirmed Then
+                MsgBox("Checkout cancelled or not confirmed.", vbExclamation, "Cancelled")
                 Exit Sub
             End If
+
             Dim paymentMethod As String = paymentForm.SelectedMethod
+
             cmdTrans.Parameters.AddWithValue("@method", paymentMethod)
             cmdTrans.Parameters.AddWithValue("@status", "Completed")
             cmdTrans.Parameters.AddWithValue("@date", DateTime.Now)
