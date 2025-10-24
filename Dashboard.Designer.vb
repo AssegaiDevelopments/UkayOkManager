@@ -53,14 +53,10 @@ Partial Class Dashboard
         Label7 = New Label()
         txtbRemarks = New TextBox()
         Label8 = New Label()
-        GroupBox1 = New GroupBox()
-        rbGCash = New RadioButton()
-        rbCash = New RadioButton()
         CType(nudQuantity, ComponentModel.ISupportInitialize).BeginInit()
         CType(dgvCart, ComponentModel.ISupportInitialize).BeginInit()
         CType(tbDiscount, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
-        GroupBox1.SuspendLayout()
         SuspendLayout()
         ' 
         ' btnRemoveItemFromCart
@@ -420,41 +416,6 @@ Partial Class Dashboard
         Label8.Text = "Remarks:"
         Label8.TextAlign = ContentAlignment.MiddleRight
         ' 
-        ' GroupBox1
-        ' 
-        GroupBox1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        GroupBox1.Controls.Add(rbGCash)
-        GroupBox1.Controls.Add(rbCash)
-        GroupBox1.ForeColor = Color.White
-        GroupBox1.Location = New Point(835, 635)
-        GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(262, 40)
-        GroupBox1.TabIndex = 28
-        GroupBox1.TabStop = False
-        GroupBox1.Text = "Payment Method"
-        ' 
-        ' rbGCash
-        ' 
-        rbGCash.AutoSize = True
-        rbGCash.Location = New Point(109, 16)
-        rbGCash.Name = "rbGCash"
-        rbGCash.Size = New Size(70, 19)
-        rbGCash.TabIndex = 1
-        rbGCash.TabStop = True
-        rbGCash.Text = "📱 GCash"
-        rbGCash.UseVisualStyleBackColor = True
-        ' 
-        ' rbCash
-        ' 
-        rbCash.AutoSize = True
-        rbCash.Location = New Point(6, 16)
-        rbCash.Name = "rbCash"
-        rbCash.Size = New Size(66, 19)
-        rbCash.TabIndex = 0
-        rbCash.TabStop = True
-        rbCash.Text = "💴 Cash"
-        rbCash.UseVisualStyleBackColor = True
-        ' 
         ' Dashboard
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -463,7 +424,6 @@ Partial Class Dashboard
         ClientSize = New Size(1280, 720)
         Controls.Add(btnViewTransaction)
         Controls.Add(btnManageStocks)
-        Controls.Add(GroupBox1)
         Controls.Add(Label8)
         Controls.Add(txtbRemarks)
         Controls.Add(Label7)
@@ -498,8 +458,6 @@ Partial Class Dashboard
         CType(tbDiscount, ComponentModel.ISupportInitialize).EndInit()
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
-        GroupBox1.ResumeLayout(False)
-        GroupBox1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -532,7 +490,4 @@ Partial Class Dashboard
     Friend WithEvents Label7 As Label
     Friend WithEvents txtbRemarks As TextBox
     Friend WithEvents Label8 As Label
-    Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents rbGCash As RadioButton
-    Friend WithEvents rbCash As RadioButton
 End Class

@@ -11,8 +11,6 @@ Public Class Dashboard
     Public Sub Dashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Login.Hide()
 
-        rbCash.Checked = True ' Default to Cash
-
         Using con As New SqlConnection(connectAs)
             Try
                 con.Open()
@@ -144,6 +142,7 @@ Public Class Dashboard
         discount = tbDiscount.Value
     End Sub
 
+    'discount feature
     Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs) Handles chbxDiscount.CheckedChanged
         If chbxDiscount.Checked Then
             tbDiscount.Enabled = True
@@ -157,6 +156,7 @@ Public Class Dashboard
         End If
     End Sub
 
+    'Display price and stock based on selected clothing type
     Private Sub cbClothingType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbClothingType.SelectedIndexChanged
         Using con As New SqlConnection(connectAs)
             Dim cmd As New SqlCommand("SELECT RegularPrice, Stock FROM Products WHERE ProductName = @name", con)
@@ -233,7 +233,7 @@ Public Class Dashboard
         Using con As New SqlConnection(connectAs)
             con.Open()
 
-            ' 🧠 Insert the transaction first
+            ' Insert the transaction first
             Dim cmdTrans As New SqlCommand("
             INSERT INTO Transactions 
             (Username, TotalAmount, PaymentMethod, Status, TransactionDate, Remarks, TransactionType)
@@ -242,15 +242,13 @@ Public Class Dashboard
 
             cmdTrans.Parameters.AddWithValue("@user", "Admin")
             cmdTrans.Parameters.AddWithValue("@total", totalAmount)
-            Dim paymentMethod As String = ""
-            If rbCash.Checked Then
-                paymentMethod = "Cash"
-            ElseIf rbGCash.Checked Then
-                paymentMethod = "GCash"
-            Else
-                MsgBox("Please select a payment method.", vbExclamation, "Missing Info")
+            'Payment Method
+            Dim paymentForm As New SelectPayment()
+            If paymentForm.ShowDialog() <> DialogResult.OK Then
+                MsgBox("Checkout cancelled.", vbExclamation, "Cancelled")
                 Exit Sub
             End If
+            Dim paymentMethod As String = paymentForm.SelectedMethod
             cmdTrans.Parameters.AddWithValue("@method", paymentMethod)
             cmdTrans.Parameters.AddWithValue("@status", "Completed")
             cmdTrans.Parameters.AddWithValue("@date", DateTime.Now)
