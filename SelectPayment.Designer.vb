@@ -167,12 +167,12 @@ Partial Class SelectPayment
         Label9.AutoSize = True
         Label9.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label9.ForeColor = Color.White
-        Label9.Location = New Point(189, 37)
+        Label9.Location = New Point(189, 36)
         Label9.Name = "Label9"
-        Label9.RightToLeft = RightToLeft.No
-        Label9.Size = New Size(125, 19)
+        Label9.RightToLeft = RightToLeft.Yes
+        Label9.Size = New Size(81, 38)
         Label9.TabIndex = 10
-        Label9.Text = "Cash Payment"
+        Label9.Text = "Cash" & vbCrLf & "Payment"
         ' 
         ' lblChange
         ' 
@@ -218,9 +218,9 @@ Partial Class SelectPayment
         PictureBox3.BackColor = Color.Transparent
         PictureBox3.BackgroundImage = My.Resources.Resources.cashicon
         PictureBox3.BackgroundImageLayout = ImageLayout.Zoom
-        PictureBox3.Location = New Point(402, 12)
+        PictureBox3.Location = New Point(271, 28)
         PictureBox3.Name = "PictureBox3"
-        PictureBox3.Size = New Size(100, 79)
+        PictureBox3.Size = New Size(57, 54)
         PictureBox3.TabIndex = 6
         PictureBox3.TabStop = False
         ' 
