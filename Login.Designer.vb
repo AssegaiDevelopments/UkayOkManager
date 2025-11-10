@@ -26,36 +26,43 @@ Partial Class Login
         txtbUser = New TextBox()
         txtbPassword = New TextBox()
         btnLogin = New Button()
-        GroupBox1 = New GroupBox()
-        Label2 = New Label()
-        Label1 = New Label()
+        Panel1 = New Panel()
         PictureBox1 = New PictureBox()
-        GroupBox1.SuspendLayout()
+        PictureBox2 = New PictureBox()
+        Label1 = New Label()
+        Panel1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' txtbUser
         ' 
         txtbUser.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        txtbUser.BackColor = Color.White
+        txtbUser.BorderStyle = BorderStyle.None
+        txtbUser.Cursor = Cursors.IBeam
         txtbUser.Font = New Font("Segoe UI", 12F)
-        txtbUser.Location = New Point(28, 67)
+        txtbUser.Location = New Point(36, 43)
         txtbUser.MaxLength = 128
         txtbUser.Name = "txtbUser"
-        txtbUser.Size = New Size(298, 29)
+        txtbUser.PlaceholderText = "Username"
+        txtbUser.Size = New Size(298, 22)
         txtbUser.TabIndex = 0
-        txtbUser.TextAlign = HorizontalAlignment.Center
         ' 
         ' txtbPassword
         ' 
         txtbPassword.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        txtbPassword.BackColor = Color.White
+        txtbPassword.BorderStyle = BorderStyle.None
+        txtbPassword.Cursor = Cursors.IBeam
         txtbPassword.Font = New Font("Segoe UI", 12F)
-        txtbPassword.Location = New Point(28, 136)
+        txtbPassword.Location = New Point(36, 137)
         txtbPassword.MaxLength = 128
         txtbPassword.Name = "txtbPassword"
         txtbPassword.PasswordChar = "•"c
-        txtbPassword.Size = New Size(298, 29)
+        txtbPassword.PlaceholderText = "Password"
+        txtbPassword.Size = New Size(298, 22)
         txtbPassword.TabIndex = 1
-        txtbPassword.TextAlign = HorizontalAlignment.Center
         ' 
         ' btnLogin
         ' 
@@ -65,7 +72,7 @@ Partial Class Login
         btnLogin.FlatStyle = FlatStyle.Popup
         btnLogin.Font = New Font("Segoe UI", 9F)
         btnLogin.ForeColor = Color.Black
-        btnLogin.Location = New Point(262, 210)
+        btnLogin.Location = New Point(270, 208)
         btnLogin.Margin = New Padding(0)
         btnLogin.Name = "btnLogin"
         btnLogin.Size = New Size(64, 30)
@@ -73,84 +80,81 @@ Partial Class Login
         btnLogin.Text = "Log-in"
         btnLogin.UseVisualStyleBackColor = False
         ' 
-        ' GroupBox1
+        ' Panel1
         ' 
-        GroupBox1.BackColor = Color.Transparent
-        GroupBox1.Controls.Add(Label2)
-        GroupBox1.Controls.Add(Label1)
-        GroupBox1.Controls.Add(txtbUser)
-        GroupBox1.Controls.Add(btnLogin)
-        GroupBox1.Controls.Add(txtbPassword)
-        GroupBox1.FlatStyle = FlatStyle.Popup
-        GroupBox1.Font = New Font("Segoe UI", 11F)
-        GroupBox1.ForeColor = Color.White
-        GroupBox1.Location = New Point(29, 60)
-        GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(363, 266)
-        GroupBox1.TabIndex = 3
-        GroupBox1.TabStop = False
-        GroupBox1.Text = "Log-in"
-        ' 
-        ' Label2
-        ' 
-        Label2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        Label2.AutoSize = True
-        Label2.FlatStyle = FlatStyle.Flat
-        Label2.Font = New Font("Corbel", 11.25F, FontStyle.Bold)
-        Label2.ForeColor = Color.White
-        Label2.Location = New Point(28, 116)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(73, 18)
-        Label2.TabIndex = 4
-        Label2.Text = "Password:"
-        ' 
-        ' Label1
-        ' 
-        Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        Label1.AutoSize = True
-        Label1.Font = New Font("Corbel", 11.25F, FontStyle.Bold)
-        Label1.ForeColor = Color.White
-        Label1.Location = New Point(28, 47)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(42, 18)
-        Label1.TabIndex = 3
-        Label1.Text = "User:"
+        Panel1.BackColor = Color.Transparent
+        Panel1.Controls.Add(txtbPassword)
+        Panel1.Controls.Add(btnLogin)
+        Panel1.Controls.Add(txtbUser)
+        Panel1.Controls.Add(PictureBox1)
+        Panel1.Controls.Add(PictureBox2)
+        Panel1.Location = New Point(12, 181)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(374, 299)
+        Panel1.TabIndex = 4
         ' 
         ' PictureBox1
         ' 
-        PictureBox1.BackgroundImage = My.Resources.Resources.flavor
-        PictureBox1.BackgroundImageLayout = ImageLayout.Zoom
-        PictureBox1.Location = New Point(117, 22)
+        PictureBox1.BackgroundImage = My.Resources.Resources.ovaltextbox
+        PictureBox1.BackgroundImageLayout = ImageLayout.Stretch
+        PictureBox1.Location = New Point(21, 29)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(642, 401)
-        PictureBox1.TabIndex = 4
+        PictureBox1.Size = New Size(329, 50)
+        PictureBox1.TabIndex = 3
         PictureBox1.TabStop = False
+        ' 
+        ' PictureBox2
+        ' 
+        PictureBox2.BackgroundImage = My.Resources.Resources.ovaltextbox
+        PictureBox2.BackgroundImageLayout = ImageLayout.Stretch
+        PictureBox2.Location = New Point(21, 119)
+        PictureBox2.Name = "PictureBox2"
+        PictureBox2.Size = New Size(329, 58)
+        PictureBox2.TabIndex = 4
+        PictureBox2.TabStop = False
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.BackColor = Color.Transparent
+        Label1.Font = New Font("Malgun Gothic", 20.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.ForeColor = Color.White
+        Label1.Location = New Point(36, 109)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(241, 37)
+        Label1.TabIndex = 5
+        Label1.Text = "UkayOk Manager"
         ' 
         ' Login
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.FromArgb(CByte(70), CByte(88), CByte(113))
-        ClientSize = New Size(590, 394)
-        Controls.Add(GroupBox1)
-        Controls.Add(PictureBox1)
+        BackColor = Color.White
+        BackgroundImage = My.Resources.Resources.bglogin
+        BackgroundImageLayout = ImageLayout.Center
+        ClientSize = New Size(722, 473)
+        Controls.Add(Label1)
+        Controls.Add(Panel1)
+        DoubleBuffered = True
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MaximizeBox = False
         Name = "Login"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Log-in"
-        GroupBox1.ResumeLayout(False)
-        GroupBox1.PerformLayout()
+        Panel1.ResumeLayout(False)
+        Panel1.PerformLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents txtbUser As TextBox
     Friend WithEvents txtbPassword As TextBox
     Friend WithEvents btnLogin As Button
-    Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents Label1 As Label
-    Friend WithEvents Label2 As Label
+    Friend WithEvents Panel1 As Panel
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents Label1 As Label
 
 End Class
