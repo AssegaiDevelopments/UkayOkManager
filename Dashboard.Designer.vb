@@ -22,16 +22,13 @@ Partial Class Dashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Dashboard))
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        btnExit = New Button()
-        Button1 = New Button()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        pnlNav = New Panel()
         btnMinimize = New Button()
-        Label5 = New Label()
+        btnExit = New Button()
         SqlCommand1 = New Microsoft.Data.SqlClient.SqlCommand()
         btnManageStocks = New Button()
         btnViewTransaction = New Button()
-        Label6 = New Label()
         pnlCart = New Panel()
         Label8 = New Label()
         txtbRemarks = New TextBox()
@@ -59,7 +56,7 @@ Partial Class Dashboard
         pnlMain = New Panel()
         pnlTransactions = New Panel()
         pnlManageStocks = New Panel()
-        pnlNav = New Panel()
+        pnlNav.SuspendLayout()
         pnlCart.SuspendLayout()
         Panel2.SuspendLayout()
         CType(tbDiscount, ComponentModel.ISupportInitialize).BeginInit()
@@ -68,40 +65,18 @@ Partial Class Dashboard
         pnlSidebar.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         pnlMain.SuspendLayout()
-        pnlNav.SuspendLayout()
         SuspendLayout()
         ' 
-        ' btnExit
+        ' pnlNav
         ' 
-        btnExit.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnExit.Cursor = Cursors.Hand
-        btnExit.FlatAppearance.BorderSize = 0
-        btnExit.FlatStyle = FlatStyle.Flat
-        btnExit.ForeColor = Color.White
-        btnExit.Location = New Point(1097, 9)
-        btnExit.Name = "btnExit"
-        btnExit.Size = New Size(26, 26)
-        btnExit.TabIndex = 16
-        btnExit.Text = "✖"
-        btnExit.UseMnemonic = False
-        btnExit.UseVisualStyleBackColor = True
-        ' 
-        ' Button1
-        ' 
-        Button1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Button1.BackColor = Color.Transparent
-        Button1.Cursor = Cursors.Hand
-        Button1.FlatAppearance.BorderSize = 0
-        Button1.FlatStyle = FlatStyle.Flat
-        Button1.Font = New Font("Unispace", 9F, FontStyle.Bold)
-        Button1.ForeColor = Color.White
-        Button1.Location = New Point(1242, 12)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(26, 26)
-        Button1.TabIndex = 16
-        Button1.Text = "✖"
-        Button1.UseMnemonic = False
-        Button1.UseVisualStyleBackColor = False
+        pnlNav.BackColor = Color.Transparent
+        pnlNav.Controls.Add(btnMinimize)
+        pnlNav.Controls.Add(btnExit)
+        pnlNav.Dock = DockStyle.Top
+        pnlNav.Location = New Point(145, 0)
+        pnlNav.Name = "pnlNav"
+        pnlNav.Size = New Size(1135, 38)
+        pnlNav.TabIndex = 28
         ' 
         ' btnMinimize
         ' 
@@ -121,16 +96,20 @@ Partial Class Dashboard
         btnMinimize.UseMnemonic = False
         btnMinimize.UseVisualStyleBackColor = False
         ' 
-        ' Label5
+        ' btnExit
         ' 
-        Label5.Anchor = AnchorStyles.Bottom
-        Label5.BackColor = Color.Transparent
-        Label5.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label5.Location = New Point(-171, 677)
-        Label5.Name = "Label5"
-        Label5.Size = New Size(1967, 15)
-        Label5.TabIndex = 21
-        Label5.Text = resources.GetString("Label5.Text")
+        btnExit.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnExit.Cursor = Cursors.Hand
+        btnExit.FlatAppearance.BorderSize = 0
+        btnExit.FlatStyle = FlatStyle.Flat
+        btnExit.ForeColor = Color.White
+        btnExit.Location = New Point(1097, 9)
+        btnExit.Name = "btnExit"
+        btnExit.Size = New Size(26, 26)
+        btnExit.TabIndex = 16
+        btnExit.Text = "✖"
+        btnExit.UseMnemonic = False
+        btnExit.UseVisualStyleBackColor = True
         ' 
         ' SqlCommand1
         ' 
@@ -144,7 +123,7 @@ Partial Class Dashboard
         btnManageStocks.Cursor = Cursors.Hand
         btnManageStocks.FlatAppearance.BorderSize = 0
         btnManageStocks.FlatStyle = FlatStyle.Flat
-        btnManageStocks.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnManageStocks.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnManageStocks.ForeColor = Color.White
         btnManageStocks.Location = New Point(0, 102)
         btnManageStocks.Name = "btnManageStocks"
@@ -168,18 +147,6 @@ Partial Class Dashboard
         btnViewTransaction.TabIndex = 26
         btnViewTransaction.Text = "📠" & vbCrLf & "View Transaction Logs"
         btnViewTransaction.UseVisualStyleBackColor = False
-        ' 
-        ' Label6
-        ' 
-        Label6.AutoSize = True
-        Label6.BackColor = Color.Transparent
-        Label6.Font = New Font("Miriam Libre", 24F, FontStyle.Italic, GraphicsUnit.Point, CByte(0))
-        Label6.ForeColor = Color.White
-        Label6.Location = New Point(23, 9)
-        Label6.Name = "Label6"
-        Label6.Size = New Size(289, 42)
-        Label6.TabIndex = 24
-        Label6.Text = "Admin Dashboard"
         ' 
         ' pnlCart
         ' 
@@ -206,7 +173,7 @@ Partial Class Dashboard
         pnlCart.Dock = DockStyle.Fill
         pnlCart.Location = New Point(0, 0)
         pnlCart.Name = "pnlCart"
-        pnlCart.Size = New Size(1135, 720)
+        pnlCart.Size = New Size(1135, 682)
         pnlCart.TabIndex = 29
         ' 
         ' Label8
@@ -215,7 +182,7 @@ Partial Class Dashboard
         Label8.AutoSize = True
         Label8.BackColor = Color.Transparent
         Label8.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label8.Location = New Point(566, 648)
+        Label8.Location = New Point(566, 610)
         Label8.Name = "Label8"
         Label8.Size = New Size(55, 15)
         Label8.TabIndex = 46
@@ -225,7 +192,7 @@ Partial Class Dashboard
         ' txtbRemarks
         ' 
         txtbRemarks.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        txtbRemarks.Location = New Point(566, 666)
+        txtbRemarks.Location = New Point(566, 628)
         txtbRemarks.Name = "txtbRemarks"
         txtbRemarks.Size = New Size(262, 23)
         txtbRemarks.TabIndex = 45
@@ -237,7 +204,7 @@ Partial Class Dashboard
         Label7.BackColor = Color.Transparent
         Label7.Font = New Font("Miriam Libre", 20.2499962F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label7.ForeColor = Color.White
-        Label7.Location = New Point(1033, 23)
+        Label7.Location = New Point(1044, 52)
         Label7.Name = "Label7"
         Label7.Size = New Size(70, 35)
         Label7.TabIndex = 44
@@ -249,9 +216,9 @@ Partial Class Dashboard
         btnCheckout.BackColor = Color.Transparent
         btnCheckout.Cursor = Cursors.Hand
         btnCheckout.FlatStyle = FlatStyle.Flat
-        btnCheckout.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnCheckout.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnCheckout.ForeColor = Color.Gold
-        btnCheckout.Location = New Point(890, 603)
+        btnCheckout.Location = New Point(890, 565)
         btnCheckout.Name = "btnCheckout"
         btnCheckout.Size = New Size(109, 60)
         btnCheckout.TabIndex = 43
@@ -263,7 +230,7 @@ Partial Class Dashboard
         lblStock.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         lblStock.BackColor = Color.Transparent
         lblStock.ForeColor = Color.White
-        lblStock.Location = New Point(550, 607)
+        lblStock.Location = New Point(550, 569)
         lblStock.Name = "lblStock"
         lblStock.RightToLeft = RightToLeft.No
         lblStock.Size = New Size(161, 15)
@@ -278,7 +245,7 @@ Partial Class Dashboard
         btnClearCart.Cursor = Cursors.Hand
         btnClearCart.FlatStyle = FlatStyle.Flat
         btnClearCart.ForeColor = Color.FromArgb(CByte(255), CByte(192), CByte(192))
-        btnClearCart.Location = New Point(890, 315)
+        btnClearCart.Location = New Point(890, 277)
         btnClearCart.Name = "btnClearCart"
         btnClearCart.Size = New Size(92, 43)
         btnClearCart.TabIndex = 41
@@ -292,7 +259,7 @@ Partial Class Dashboard
         Panel2.BackColor = Color.FromArgb(CByte(244), CByte(208), CByte(62))
         Panel2.Controls.Add(lGrandTotal)
         Panel2.Controls.Add(Label1)
-        Panel2.Location = New Point(890, 523)
+        Panel2.Location = New Point(890, 485)
         Panel2.Name = "Panel2"
         Panel2.Size = New Size(109, 69)
         Panel2.TabIndex = 40
@@ -312,7 +279,7 @@ Partial Class Dashboard
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Lucida Sans", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Lucida Sans", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label1.Location = New Point(3, 5)
         Label1.Name = "Label1"
         Label1.Size = New Size(37, 15)
@@ -326,7 +293,7 @@ Partial Class Dashboard
         lDiscount.BackColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
         lDiscount.Enabled = False
         lDiscount.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        lDiscount.Location = New Point(276, 653)
+        lDiscount.Location = New Point(276, 615)
         lDiscount.Name = "lDiscount"
         lDiscount.Size = New Size(76, 15)
         lDiscount.TabIndex = 39
@@ -338,7 +305,7 @@ Partial Class Dashboard
         tbDiscount.BackColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
         tbDiscount.Cursor = Cursors.NoMoveHoriz
         tbDiscount.Enabled = False
-        tbDiscount.Location = New Point(257, 630)
+        tbDiscount.Location = New Point(257, 592)
         tbDiscount.Maximum = 80
         tbDiscount.Name = "tbDiscount"
         tbDiscount.Size = New Size(116, 45)
@@ -353,7 +320,7 @@ Partial Class Dashboard
         chbxDiscount.BackColor = Color.Transparent
         chbxDiscount.Cursor = Cursors.Hand
         chbxDiscount.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        chbxDiscount.Location = New Point(257, 606)
+        chbxDiscount.Location = New Point(257, 568)
         chbxDiscount.Name = "chbxDiscount"
         chbxDiscount.Size = New Size(116, 19)
         chbxDiscount.TabIndex = 37
@@ -366,7 +333,7 @@ Partial Class Dashboard
         Label4.AutoSize = True
         Label4.BackColor = Color.Transparent
         Label4.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label4.Location = New Point(381, 635)
+        Label4.Location = New Point(381, 597)
         Label4.Name = "Label4"
         Label4.Size = New Size(36, 15)
         Label4.TabIndex = 36
@@ -375,7 +342,7 @@ Partial Class Dashboard
         ' txtbItemPrice
         ' 
         txtbItemPrice.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        txtbItemPrice.Location = New Point(423, 632)
+        txtbItemPrice.Location = New Point(423, 594)
         txtbItemPrice.MaxLength = 7
         txtbItemPrice.Name = "txtbItemPrice"
         txtbItemPrice.Size = New Size(121, 23)
@@ -388,18 +355,18 @@ Partial Class Dashboard
         dgvCart.Anchor = AnchorStyles.Right
         dgvCart.BackgroundColor = Color.White
         dgvCart.BorderStyle = BorderStyle.Fixed3D
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = SystemColors.Control
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle2.ForeColor = SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = Color.MediumTurquoise
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
-        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = SystemColors.Control
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9.0F)
+        DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = Color.MediumTurquoise
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvCart.EditMode = DataGridViewEditMode.EditProgrammatically
         dgvCart.GridColor = Color.White
-        dgvCart.Location = New Point(71, 72)
+        dgvCart.Location = New Point(71, 53)
         dgvCart.Name = "dgvCart"
         dgvCart.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         dgvCart.Size = New Size(813, 472)
@@ -411,7 +378,7 @@ Partial Class Dashboard
         Label3.AutoSize = True
         Label3.BackColor = Color.Transparent
         Label3.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label3.Location = New Point(451, 666)
+        Label3.Location = New Point(451, 628)
         Label3.Name = "Label3"
         Label3.Size = New Size(56, 15)
         Label3.TabIndex = 33
@@ -421,7 +388,7 @@ Partial Class Dashboard
         ' nudQuantity
         ' 
         nudQuantity.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        nudQuantity.Location = New Point(507, 661)
+        nudQuantity.Location = New Point(507, 623)
         nudQuantity.Name = "nudQuantity"
         nudQuantity.Size = New Size(37, 23)
         nudQuantity.TabIndex = 32
@@ -432,7 +399,7 @@ Partial Class Dashboard
         Label2.AutoSize = True
         Label2.BackColor = Color.Transparent
         Label2.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label2.Location = New Point(383, 609)
+        Label2.Location = New Point(383, 571)
         Label2.Name = "Label2"
         Label2.Size = New Size(34, 15)
         Label2.TabIndex = 31
@@ -443,7 +410,7 @@ Partial Class Dashboard
         cbClothingType.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         cbClothingType.BackColor = Color.White
         cbClothingType.DropDownStyle = ComboBoxStyle.DropDownList
-        cbClothingType.Location = New Point(423, 604)
+        cbClothingType.Location = New Point(423, 566)
         cbClothingType.Name = "cbClothingType"
         cbClothingType.Size = New Size(121, 23)
         cbClothingType.TabIndex = 30
@@ -455,7 +422,7 @@ Partial Class Dashboard
         btnAddItemToCart.Cursor = Cursors.Hand
         btnAddItemToCart.FlatStyle = FlatStyle.Flat
         btnAddItemToCart.ForeColor = Color.FromArgb(CByte(192), CByte(255), CByte(192))
-        btnAddItemToCart.Location = New Point(753, 607)
+        btnAddItemToCart.Location = New Point(753, 569)
         btnAddItemToCart.Name = "btnAddItemToCart"
         btnAddItemToCart.Size = New Size(75, 43)
         btnAddItemToCart.TabIndex = 29
@@ -470,7 +437,7 @@ Partial Class Dashboard
         btnRemoveItemFromCart.Cursor = Cursors.Hand
         btnRemoveItemFromCart.FlatStyle = FlatStyle.Flat
         btnRemoveItemFromCart.ForeColor = Color.FromArgb(CByte(255), CByte(224), CByte(192))
-        btnRemoveItemFromCart.Location = New Point(890, 266)
+        btnRemoveItemFromCart.Location = New Point(890, 228)
         btnRemoveItemFromCart.Name = "btnRemoveItemFromCart"
         btnRemoveItemFromCart.Size = New Size(92, 43)
         btnRemoveItemFromCart.TabIndex = 28
@@ -502,60 +469,51 @@ Partial Class Dashboard
         ' 
         ' pnlMain
         ' 
+        pnlMain.BackColor = Color.Transparent
+        pnlMain.Controls.Add(pnlCart)
         pnlMain.Controls.Add(pnlTransactions)
         pnlMain.Controls.Add(pnlManageStocks)
-        pnlMain.Controls.Add(pnlCart)
         pnlMain.Dock = DockStyle.Fill
-        pnlMain.Location = New Point(145, 0)
+        pnlMain.Location = New Point(145, 38)
         pnlMain.Name = "pnlMain"
-        pnlMain.Size = New Size(1135, 720)
+        pnlMain.Size = New Size(1135, 682)
         pnlMain.TabIndex = 47
         ' 
         ' pnlTransactions
         ' 
+        pnlTransactions.BackColor = Color.Transparent
         pnlTransactions.Dock = DockStyle.Fill
         pnlTransactions.Location = New Point(0, 0)
         pnlTransactions.Name = "pnlTransactions"
-        pnlTransactions.Size = New Size(1135, 720)
+        pnlTransactions.Size = New Size(1135, 682)
         pnlTransactions.TabIndex = 0
         ' 
         ' pnlManageStocks
         ' 
+        pnlManageStocks.BackColor = Color.Transparent
         pnlManageStocks.Dock = DockStyle.Fill
         pnlManageStocks.Location = New Point(0, 0)
         pnlManageStocks.Name = "pnlManageStocks"
-        pnlManageStocks.Size = New Size(1135, 720)
+        pnlManageStocks.Size = New Size(1135, 682)
         pnlManageStocks.TabIndex = 0
-        ' 
-        ' pnlNav
-        ' 
-        pnlNav.Controls.Add(btnMinimize)
-        pnlNav.Controls.Add(btnExit)
-        pnlNav.Dock = DockStyle.Top
-        pnlNav.Location = New Point(145, 0)
-        pnlNav.Name = "pnlNav"
-        pnlNav.Size = New Size(1135, 38)
-        pnlNav.TabIndex = 28
         ' 
         ' Dashboard
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.FromArgb(CByte(69), CByte(88), CByte(113))
+        BackColor = Color.White
         BackgroundImage = My.Resources.Resources.bg11
         BackgroundImageLayout = ImageLayout.Stretch
         ClientSize = New Size(1280, 720)
-        Controls.Add(pnlNav)
         Controls.Add(pnlMain)
+        Controls.Add(pnlNav)
         Controls.Add(pnlSidebar)
-        Controls.Add(Label6)
-        Controls.Add(Label5)
-        Controls.Add(Button1)
         FormBorderStyle = FormBorderStyle.None
         Name = "Dashboard"
         StartPosition = FormStartPosition.CenterScreen
         Text = "UkayOk Cart"
         WindowState = FormWindowState.Maximized
+        pnlNav.ResumeLayout(False)
         pnlCart.ResumeLayout(False)
         pnlCart.PerformLayout()
         Panel2.ResumeLayout(False)
@@ -566,18 +524,13 @@ Partial Class Dashboard
         pnlSidebar.ResumeLayout(False)
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         pnlMain.ResumeLayout(False)
-        pnlNav.ResumeLayout(False)
         ResumeLayout(False)
-        PerformLayout()
     End Sub
     Friend WithEvents btnExit As Button
-    Friend WithEvents Button1 As Button
     Friend WithEvents btnMinimize As Button
-    Friend WithEvents Label5 As Label
     Friend WithEvents SqlCommand1 As Microsoft.Data.SqlClient.SqlCommand
     Friend WithEvents btnManageStocks As Button
     Friend WithEvents btnViewTransaction As Button
-    Friend WithEvents Label6 As Label
     Friend WithEvents pnlCart As Panel
     Friend WithEvents Label8 As Label
     Friend WithEvents txtbRemarks As TextBox

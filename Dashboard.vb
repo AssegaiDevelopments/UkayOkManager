@@ -7,9 +7,18 @@ Public Class Dashboard
     Dim itemTotal, price, grandTotal As Decimal
     Dim tempStock As New Dictionary(Of String, Integer)
 
+    Private stocksControl As New ManageStocksControl()
+    Private transactionsControl As New ViewTransactionsControl()
+    'Private cartControl As New CartControl()
+
 
     Public Sub Dashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Login.Hide()
+        pnlMain.Controls.Add(stocksControl)
+        pnlMain.Controls.Add(transactionsControl)
+
+        stocksControl.Dock = DockStyle.Fill
+        transactionsControl.Dock = DockStyle.Fill
 
         Using con As New SqlConnection(connectAs)
             Try
@@ -48,6 +57,15 @@ Public Class Dashboard
 
 
     End Sub
+
+    Private Sub ShowPanel(ctrl As UserControl)
+        For Each c As Control In pnlMain.Controls
+            c.Visible = False
+        Next
+        ctrl.Visible = True
+        ctrl.BringToFront()
+    End Sub
+
 
     Public Sub RefreshProductInfo()
         ' Step 1: Update dictionary
@@ -177,7 +195,7 @@ Public Class Dashboard
     End Sub
 
     'Exit application
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click, Button1.Click
+    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
         Login.Close()
         Close()
     End Sub
@@ -357,13 +375,16 @@ Public Class Dashboard
     End Sub
 
     Private Sub btnManageStocks_Click(sender As Object, e As EventArgs) Handles btnManageStocks.Click
-        Dim manageStocks As New ManageStocks
-        AddHandler manageStocks.StocksUpdated, AddressOf RefreshProductInfo
-        manageStocks.Show  ' Waits here until form is closed
+        'Dim manageStocks As New ManageStocks
+        'AddHandler manageStocks.StocksUpdated, AddressOf RefreshProductInfo
+        'manageStocks.Show  ' Waits here until form is closed
+
+        ShowPanel(stocksControl)
     End Sub
 
     Private Sub btnViewTransaction_Click(sender As Object, e As EventArgs) Handles btnViewTransaction.Click
-        Dim viewTransaction As New ViewTransactions
-        viewTransaction.Show()
+        'Dim viewTransaction As New ViewTransactions
+        'viewTransaction.Show()
+        ShowPanel(transactionsControl)
     End Sub
 End Class

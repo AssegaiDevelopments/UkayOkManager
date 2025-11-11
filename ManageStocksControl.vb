@@ -28,7 +28,7 @@ Public Class ManageStocksControl
         dgvStocks.Columns(0).ReadOnly = True
     End Sub
 
-    Private Sub btnSaveChanges_Click(sender As Object, e As EventArgs)
+    Private Sub btnSaveChanges_Click(sender As Object, e As EventArgs) Handles btnSaveChanges.Click
         Try
             adapter.Update(dt)
             RaiseEvent StocksUpdated()
@@ -38,7 +38,7 @@ Public Class ManageStocksControl
         End Try
     End Sub
 
-    Private Sub btnApplyToCell_Click(sender As Object, e As EventArgs)
+    Private Sub btnApplyToCell_Click(sender As Object, e As EventArgs) Handles btnApplyToCell.Click
         If dgvStocks.CurrentCell Is Nothing Then
             MessageBox.Show("Please select a cell to modify.")
             Return
@@ -80,14 +80,14 @@ Public Class ManageStocksControl
     '    End If
     'End Sub
 
-    Private Sub btnAddItem_Click(sender As Object, e As EventArgs)
+    Private Sub btnAddItem_Click(sender As Object, e As EventArgs) Handles btnAddItem.Click
         Dim addForm As New AddProductForm
         If addForm.ShowDialog = DialogResult.OK Then
             LoadProducts()
         End If
     End Sub
 
-    Private Sub btnRemoveItem_Click(sender As Object, e As EventArgs)
+    Private Sub btnRemoveItem_Click(sender As Object, e As EventArgs) Handles btnRemoveItem.Click
         If dgvStocks.SelectedRows.Count = 0 Then
             MessageBox.Show("Select a product to remove.")
             Return
