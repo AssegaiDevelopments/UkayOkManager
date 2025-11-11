@@ -79,7 +79,7 @@ Public Class Dashboard
     End Sub
 
 
-    Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs) Handles btnAddItemToCart.Click
+    Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs)
         ' Validate price and quantity
         Dim parsedPrice As Decimal
         If Decimal.TryParse(txtbItemPrice.Text, parsedPrice) AndAlso nudQuantity.Value > 0 Then
@@ -89,14 +89,14 @@ Public Class Dashboard
             quantity = CInt(nudQuantity.Value)
 
             If Not chbxDiscount.Checked Then
-                itemTotal = (quantity * price)
+                itemTotal = quantity * price
             Else
-                itemTotal = (quantity * price) * (1 - (discount * 0.01D))
+                itemTotal = quantity * price * (1 - discount * 0.01D)
             End If
 
             ' Get available stock from DB
-            Dim selectedItem As String = cbClothingType.Text
-            Dim availableStock As Integer = tempStock(selectedItem)
+            Dim selectedItem = cbClothingType.Text
+            Dim availableStock = tempStock(selectedItem)
 
             If nudQuantity.Value > availableStock Then
                 MsgBox("Not enough stock available.")
@@ -104,17 +104,17 @@ Public Class Dashboard
             End If
 
             ' Check combined quantities already in cart for the same item
-            Dim totalInCart As Integer = 0
+            Dim totalInCart = 0
             For Each row As DataGridViewRow In dgvCart.Rows
-                If Not row.IsNewRow AndAlso row.Cells("Item").Value.ToString() = clothingType Then
+                If Not row.IsNewRow AndAlso row.Cells("Item").Value.ToString = clothingType Then
                     totalInCart += Convert.ToInt32(row.Cells("Quantity").Value)
                 End If
             Next
 
-            Dim totalRequested As Integer = totalInCart + quantity
+            Dim totalRequested = totalInCart + quantity
             If totalRequested > availableStock Then
                 MsgBox("Not enough stock available. You already have " & totalInCart &
-               " of this item in your cart. Only " & (availableStock - totalInCart) & " left.")
+               " of this item in your cart. Only " & availableStock - totalInCart & " left.")
                 Exit Sub
             End If
 
@@ -141,13 +141,13 @@ Public Class Dashboard
         End If
     End Sub
 
-    Private Sub tbDiscount_Scroll(sender As Object, e As EventArgs) Handles tbDiscount.Scroll
+    Private Sub tbDiscount_Scroll(sender As Object, e As EventArgs)
         lDiscount.Text = tbDiscount.Value & "%"
         discount = tbDiscount.Value
     End Sub
 
     'discount feature
-    Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs) Handles chbxDiscount.CheckedChanged
+    Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs)
         If chbxDiscount.Checked Then
             tbDiscount.Enabled = True
             lDiscount.Enabled = True
@@ -161,15 +161,15 @@ Public Class Dashboard
     End Sub
 
     'Display price and stock based on selected clothing type
-    Private Sub cbClothingType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbClothingType.SelectedIndexChanged
+    Private Sub cbClothingType_SelectedIndexChanged(sender As Object, e As EventArgs)
         Using con As New SqlConnection(connectAs)
             Dim cmd As New SqlCommand("SELECT RegularPrice, Stock FROM Products WHERE ProductName = @name", con)
             cmd.Parameters.AddWithValue("@name", cbClothingType.Text)
             con.Open()
-            Dim reader As SqlDataReader = cmd.ExecuteReader()
-            If reader.Read() Then
-                txtbItemPrice.Text = reader("RegularPrice").ToString()
-                lblStock.Text = "Remaining stock: " & reader("Stock").ToString()
+            Dim reader = cmd.ExecuteReader
+            If reader.Read Then
+                txtbItemPrice.Text = reader("RegularPrice").ToString
+                lblStock.Text = "Remaining stock: " & reader("Stock").ToString
                 'lblStockAvailable.Text = "Available: " & reader("Stock").ToString()
             End If
             reader.Close()
@@ -183,7 +183,7 @@ Public Class Dashboard
     End Sub
 
     'Clear cart and reset grand total
-    Private Sub btnClearCart_Click(sender As Object, e As EventArgs) Handles btnClearCart.Click
+    Private Sub btnClearCart_Click(sender As Object, e As EventArgs)
         dgvCart.Rows.Clear()
         grandTotal = 0
         lGrandTotal.Text = "₱0.00"
@@ -196,12 +196,12 @@ Public Class Dashboard
     End Sub
 
     ' Remove selected item from cart and update stock and grand total
-    Private Sub btnRemoveItemFromCart_Click(sender As Object, e As EventArgs) Handles btnRemoveItemFromCart.Click
+    Private Sub btnRemoveItemFromCart_Click(sender As Object, e As EventArgs)
         If dgvCart.SelectedRows.Count > 0 Then
-            Dim row As DataGridViewRow = dgvCart.SelectedRows(0)
-            Dim itemName As String = row.Cells("Item").Value.ToString()
-            Dim qty As Integer = Convert.ToInt32(row.Cells("Quantity").Value)
-            Dim total As Decimal = Convert.ToDecimal(row.Cells("Total").Value)
+            Dim row = dgvCart.SelectedRows(0)
+            Dim itemName = row.Cells("Item").Value.ToString
+            Dim qty = Convert.ToInt32(row.Cells("Quantity").Value)
+            Dim total = Convert.ToDecimal(row.Cells("Total").Value)
 
             ' Restore local stock
             If tempStock.ContainsKey(itemName) Then tempStock(itemName) += qty
@@ -220,7 +220,7 @@ Public Class Dashboard
     End Sub
 
     ' Checkout process: save transaction and items to DB, clear cart
-    Private Sub btnCheckout_Click(sender As Object, e As EventArgs) Handles btnCheckout.Click
+    Private Sub btnCheckout_Click(sender As Object, e As EventArgs)
         If dgvCart.Rows.Count = 0 Then
             MsgBox("Your cart is empty!", vbExclamation, "Checkout")
             Exit Sub
@@ -229,7 +229,7 @@ Public Class Dashboard
         Dim confirm = MsgBox("Proceed to checkout?", vbYesNo + vbQuestion, "Confirm")
         If confirm = vbNo Then Exit Sub
 
-        Dim totalAmount As Decimal = 0D
+        Dim totalAmount = 0D
         For Each row As DataGridViewRow In dgvCart.Rows
             If row.IsNewRow Then Continue For
             totalAmount += Convert.ToDecimal(row.Cells("Total").Value)
@@ -249,27 +249,27 @@ Public Class Dashboard
             cmdTrans.Parameters.AddWithValue("@total", totalAmount)
 
             'Payment Method
-            Dim paymentForm As New SelectPayment()
+            Dim paymentForm As New SelectPayment
             paymentForm.CartTotal = totalAmount   ' Pass total to the payment window
 
-            If paymentForm.ShowDialog() <> DialogResult.OK OrElse Not paymentForm.PaymentConfirmed Then
+            If paymentForm.ShowDialog <> DialogResult.OK OrElse Not paymentForm.PaymentConfirmed Then
                 MsgBox("Checkout cancelled or not confirmed.", vbExclamation, "Cancelled")
                 Exit Sub
             End If
 
-            Dim paymentMethod As String = paymentForm.SelectedMethod
+            Dim paymentMethod = paymentForm.SelectedMethod
 
             cmdTrans.Parameters.AddWithValue("@method", paymentMethod)
             cmdTrans.Parameters.AddWithValue("@status", "Completed")
-            cmdTrans.Parameters.AddWithValue("@date", DateTime.Now)
+            cmdTrans.Parameters.AddWithValue("@date", Date.Now)
             If txtbRemarks.Text.IsNullOrWhiteSpace(txtbRemarks.Text) Then
                 cmdTrans.Parameters.AddWithValue("@remarks", DBNull.Value)
             Else
-                cmdTrans.Parameters.AddWithValue("@remarks", CStr(txtbRemarks.Text))             ' remarks
+                cmdTrans.Parameters.AddWithValue("@remarks", txtbRemarks.Text)             ' remarks
             End If
             cmdTrans.Parameters.AddWithValue("@type", "Sale")               ' e.g. "Sale", "Return", "Exchange", etc.
 
-            Dim transactionID As Integer = Convert.ToInt32(cmdTrans.ExecuteScalar())
+            Dim transactionID = Convert.ToInt32(cmdTrans.ExecuteScalar)
 
             'Insert each item into TransactionItems
             For Each row As DataGridViewRow In dgvCart.Rows
@@ -281,9 +281,9 @@ Public Class Dashboard
                 VALUES (@tid, @pname, @qty, @price, @total)", con)
 
                 cmdItem.Parameters.AddWithValue("@tid", transactionID)
-                cmdItem.Parameters.AddWithValue("@pname", row.Cells("Item").Value.ToString())
+                cmdItem.Parameters.AddWithValue("@pname", row.Cells("Item").Value.ToString)
                 cmdItem.Parameters.AddWithValue("@qty", Convert.ToInt32(row.Cells("Quantity").Value))
-                cmdItem.Parameters.AddWithValue("@price", Convert.ToDecimal(row.Cells("Price").Value.ToString().Replace("₱", "")))
+                cmdItem.Parameters.AddWithValue("@price", Convert.ToDecimal(row.Cells("Price").Value.ToString.Replace("₱", "")))
                 cmdItem.Parameters.AddWithValue("@total", Convert.ToDecimal(row.Cells("Total").Value))
                 cmdItem.ExecuteNonQuery()
 
@@ -297,7 +297,7 @@ Public Class Dashboard
                 WHERE ProductName = @pname", con)
 
                 cmdUpdateStock.Parameters.AddWithValue("@qty", Convert.ToInt32(row.Cells("Quantity").Value))
-                cmdUpdateStock.Parameters.AddWithValue("@pname", row.Cells("Item").Value.ToString())
+                cmdUpdateStock.Parameters.AddWithValue("@pname", row.Cells("Item").Value.ToString)
                 cmdUpdateStock.ExecuteNonQuery()
             Next
 
@@ -307,11 +307,11 @@ Public Class Dashboard
                 cbClothingType.Items.Clear()
 
                 Dim cmd As New SqlCommand("SELECT ProductName, Stock FROM Products", con)
-                Dim reader As SqlDataReader = cmd.ExecuteReader()
+                Dim reader = cmd.ExecuteReader
 
-                While reader.Read()
-                    Dim pname As String = reader("ProductName").ToString()
-                    Dim stock As Integer = Convert.ToInt32(reader("Stock"))
+                While reader.Read
+                    Dim pname = reader("ProductName").ToString
+                    Dim stock = Convert.ToInt32(reader("Stock"))
                     tempStock(pname) = stock
                     cbClothingType.Items.Add(pname)
                 End While
