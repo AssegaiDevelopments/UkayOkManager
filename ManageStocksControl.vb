@@ -3,7 +3,8 @@ Imports System.Data.Common
 Imports System.Data.SqlClient
 'Imports Microsoft.Data.SqlClient
 
-Public Class ManageStocks
+Public Class ManageStocksControl
+    Inherits UserControl
     Dim con As New SqlConnection(connectAs)
     Dim adapter As SqlDataAdapter
     Dim dt As New DataTable()
@@ -21,13 +22,13 @@ Public Class ManageStocks
 
     End Sub
 
-    Private Sub ManageStocks_Load(sender As Object, e As EventArgs) Handles Me.Load
+    Private Sub ManageStocksControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dgvStocks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         LoadProducts()
         dgvStocks.Columns(0).ReadOnly = True
     End Sub
 
-    Private Sub btnSaveChanges_Click(sender As Object, e As EventArgs) Handles btnSaveChanges.Click
+    Private Sub btnSaveChanges_Click(sender As Object, e As EventArgs)
         Try
             adapter.Update(dt)
             RaiseEvent StocksUpdated()
@@ -37,7 +38,7 @@ Public Class ManageStocks
         End Try
     End Sub
 
-    Private Sub btnApplyToCell_Click(sender As Object, e As EventArgs) Handles btnApplyToCell.Click
+    Private Sub btnApplyToCell_Click(sender As Object, e As EventArgs)
         If dgvStocks.CurrentCell Is Nothing Then
             MessageBox.Show("Please select a cell to modify.")
             Return
@@ -56,7 +57,7 @@ Public Class ManageStocks
         Else
             Dim rowIndex As Integer = dgvStocks.CurrentCell.RowIndex
             Dim stockColIndex As Integer = dgvStocks.CurrentCell.ColumnIndex
-            Dim newValue As Integer = CInt(dgvStocks.CurrentCell.Value + nudAddSubtract.Value)
+            Dim newValue = CInt(dgvStocks.CurrentCell.Value + nudAddSubtract.Value)
 
             ' Update DataTable directly
             dt.Rows(rowIndex)("Stock") = newValue
@@ -66,27 +67,27 @@ Public Class ManageStocks
         End If
     End Sub
 
-    Private Sub dgvStocks_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles dgvStocks.CellValueChanged
+    Private Sub dgvStocks_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs)
         dgvStocks.CommitEdit(DataGridViewDataErrorContexts.Commit)
         dgvStocks.EndEdit()
     End Sub
 
-    Private Sub ManageStocks_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        If MsgBox("Do you want to save changes before closing?", MsgBoxStyle.YesNo, "Save unsaved changes") = vbYes Then
-            btnSaveChanges.PerformClick()
-        Else
-            Me.Hide()
-        End If
-    End Sub
+    'Private Sub ManageStocks_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+    '    If MsgBox("Do you want to save changes before closing?", MsgBoxStyle.YesNo, "Save unsaved changes") = vbYes Then
+    '        btnSaveChanges.PerformClick()
+    '    Else
+    '        Me.Hide()
+    '    End If
+    'End Sub
 
-    Private Sub btnAddItem_Click(sender As Object, e As EventArgs) Handles btnAddItem.Click
-        Dim addForm As New AddProductForm()
-        If addForm.ShowDialog() = DialogResult.OK Then
+    Private Sub btnAddItem_Click(sender As Object, e As EventArgs)
+        Dim addForm As New AddProductForm
+        If addForm.ShowDialog = DialogResult.OK Then
             LoadProducts()
         End If
     End Sub
 
-    Private Sub btnRemoveItem_Click(sender As Object, e As EventArgs) Handles btnRemoveItem.Click
+    Private Sub btnRemoveItem_Click(sender As Object, e As EventArgs)
         If dgvStocks.SelectedRows.Count = 0 Then
             MessageBox.Show("Select a product to remove.")
             Return
@@ -102,10 +103,6 @@ Public Class ManageStocks
             End Using
             LoadProducts()
         End If
-    End Sub
-
-    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-        ManageStocks_Closing(sender, New CancelEventArgs())
     End Sub
 
 End Class
