@@ -25,12 +25,16 @@ Partial Class Login
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Login))
         txtbUser = New TextBox()
         txtbPassword = New TextBox()
-        btnLogin = New Button()
         Panel1 = New Panel()
+        pbbtnLogin = New PictureBox()
         PictureBox1 = New PictureBox()
         PictureBox2 = New PictureBox()
         Label1 = New Label()
+        btnClose = New Button()
+        btnMinimize = New Button()
+        Label2 = New Label()
         Panel1.SuspendLayout()
+        CType(pbbtnLogin, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -64,34 +68,28 @@ Partial Class Login
         txtbPassword.Size = New Size(298, 22)
         txtbPassword.TabIndex = 1
         ' 
-        ' btnLogin
-        ' 
-        btnLogin.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        btnLogin.BackColor = Color.LightGray
-        btnLogin.FlatAppearance.BorderSize = 0
-        btnLogin.FlatStyle = FlatStyle.Popup
-        btnLogin.Font = New Font("Segoe UI", 9F)
-        btnLogin.ForeColor = Color.Black
-        btnLogin.Location = New Point(270, 208)
-        btnLogin.Margin = New Padding(0)
-        btnLogin.Name = "btnLogin"
-        btnLogin.Size = New Size(64, 30)
-        btnLogin.TabIndex = 2
-        btnLogin.Text = "Log-in"
-        btnLogin.UseVisualStyleBackColor = False
-        ' 
         ' Panel1
         ' 
         Panel1.BackColor = Color.Transparent
+        Panel1.Controls.Add(pbbtnLogin)
         Panel1.Controls.Add(txtbPassword)
-        Panel1.Controls.Add(btnLogin)
         Panel1.Controls.Add(txtbUser)
         Panel1.Controls.Add(PictureBox1)
         Panel1.Controls.Add(PictureBox2)
-        Panel1.Location = New Point(12, 181)
+        Panel1.Location = New Point(12, 171)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(374, 299)
         Panel1.TabIndex = 4
+        ' 
+        ' pbbtnLogin
+        ' 
+        pbbtnLogin.BackgroundImage = My.Resources.Resources.btnlogin2
+        pbbtnLogin.BackgroundImageLayout = ImageLayout.Zoom
+        pbbtnLogin.Location = New Point(24, 204)
+        pbbtnLogin.Name = "pbbtnLogin"
+        pbbtnLogin.Size = New Size(84, 41)
+        pbbtnLogin.TabIndex = 5
+        pbbtnLogin.TabStop = False
         ' 
         ' PictureBox1
         ' 
@@ -125,6 +123,53 @@ Partial Class Login
         Label1.TabIndex = 5
         Label1.Text = "UkayOk Manager"
         ' 
+        ' btnClose
+        ' 
+        btnClose.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnClose.Cursor = Cursors.Hand
+        btnClose.FlatAppearance.BorderSize = 0
+        btnClose.FlatStyle = FlatStyle.Flat
+        btnClose.Font = New Font("Unispace", 9F, FontStyle.Bold)
+        btnClose.ForeColor = Color.FromArgb(CByte(36), CByte(71), CByte(200))
+        btnClose.Location = New Point(684, 12)
+        btnClose.Name = "btnClose"
+        btnClose.Size = New Size(26, 26)
+        btnClose.TabIndex = 17
+        btnClose.Text = "✖"
+        btnClose.UseMnemonic = False
+        btnClose.UseVisualStyleBackColor = True
+        ' 
+        ' btnMinimize
+        ' 
+        btnMinimize.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnMinimize.Cursor = Cursors.Hand
+        btnMinimize.FlatAppearance.BorderSize = 0
+        btnMinimize.FlatStyle = FlatStyle.Flat
+        btnMinimize.Font = New Font("Unispace", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnMinimize.ForeColor = Color.FromArgb(CByte(83), CByte(117), CByte(124))
+        btnMinimize.ImageAlign = ContentAlignment.BottomCenter
+        btnMinimize.Location = New Point(652, 12)
+        btnMinimize.Name = "btnMinimize"
+        btnMinimize.Size = New Size(26, 26)
+        btnMinimize.TabIndex = 18
+        btnMinimize.Text = "—"
+        btnMinimize.TextAlign = ContentAlignment.BottomCenter
+        btnMinimize.UseMnemonic = False
+        btnMinimize.UseVisualStyleBackColor = True
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.BackColor = Color.Transparent
+        Label2.Font = New Font("Malgun Gothic", 20.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.ForeColor = Color.DimGray
+        Label2.Location = New Point(463, 89)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(225, 111)
+        Label2.TabIndex = 19
+        Label2.Text = "Your Ukay-Ukay" & vbCrLf & "Management" & vbCrLf & "Application"
+        Label2.TextAlign = ContentAlignment.TopRight
+        ' 
         ' Login
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -133,9 +178,13 @@ Partial Class Login
         BackgroundImage = My.Resources.Resources.bglogin
         BackgroundImageLayout = ImageLayout.Center
         ClientSize = New Size(722, 473)
+        Controls.Add(Label2)
+        Controls.Add(btnMinimize)
+        Controls.Add(btnClose)
         Controls.Add(Label1)
         Controls.Add(Panel1)
         DoubleBuffered = True
+        FormBorderStyle = FormBorderStyle.None
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MaximizeBox = False
         Name = "Login"
@@ -143,6 +192,7 @@ Partial Class Login
         Text = "Log-in"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
+        CType(pbbtnLogin, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
@@ -151,10 +201,13 @@ Partial Class Login
 
     Friend WithEvents txtbUser As TextBox
     Friend WithEvents txtbPassword As TextBox
-    Friend WithEvents btnLogin As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents btnClose As Button
+    Friend WithEvents btnMinimize As Button
+    Friend WithEvents Label2 As Label
+    Friend WithEvents pbbtnLogin As PictureBox
 
 End Class

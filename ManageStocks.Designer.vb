@@ -27,6 +27,8 @@ Partial Class ManageStocks
         nudAddSubtract = New NumericUpDown()
         Label1 = New Label()
         btnApplyToCell = New Button()
+        btnAddItem = New Button()
+        btnRemoveItem = New Button()
         CType(dgvStocks, ComponentModel.ISupportInitialize).BeginInit()
         CType(nudAddSubtract, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -65,11 +67,11 @@ Partial Class ManageStocks
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(12, 58)
+        Label1.Location = New Point(8, 58)
         Label1.Name = "Label1"
-        Label1.Size = New Size(78, 15)
+        Label1.Size = New Size(124, 15)
         Label1.TabIndex = 3
-        Label1.Text = "Add/Subtract"
+        Label1.Text = "Add/Subtract to Stock"
         ' 
         ' btnApplyToCell
         ' 
@@ -80,11 +82,31 @@ Partial Class ManageStocks
         btnApplyToCell.Text = "Apply"
         btnApplyToCell.UseVisualStyleBackColor = True
         ' 
+        ' btnAddItem
+        ' 
+        btnAddItem.Location = New Point(12, 342)
+        btnAddItem.Name = "btnAddItem"
+        btnAddItem.Size = New Size(176, 23)
+        btnAddItem.TabIndex = 5
+        btnAddItem.Text = "Add Item"
+        btnAddItem.UseVisualStyleBackColor = True
+        ' 
+        ' btnRemoveItem
+        ' 
+        btnRemoveItem.Location = New Point(12, 371)
+        btnRemoveItem.Name = "btnRemoveItem"
+        btnRemoveItem.Size = New Size(176, 23)
+        btnRemoveItem.TabIndex = 6
+        btnRemoveItem.Text = "Remove Item"
+        btnRemoveItem.UseVisualStyleBackColor = True
+        ' 
         ' ManageStocks
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(800, 450)
+        Controls.Add(btnRemoveItem)
+        Controls.Add(btnAddItem)
         Controls.Add(btnApplyToCell)
         Controls.Add(Label1)
         Controls.Add(nudAddSubtract)
@@ -103,4 +125,6 @@ Partial Class ManageStocks
     Friend WithEvents nudAddSubtract As NumericUpDown
     Friend WithEvents Label1 As Label
     Friend WithEvents btnApplyToCell As Button
+    Friend WithEvents btnAddItem As Button
+    Friend WithEvents btnRemoveItem As Button
 End Class

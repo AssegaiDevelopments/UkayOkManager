@@ -19,7 +19,7 @@ Public Class Dashboard
 
                 While reader.Read()
                     Dim pname As String = reader("ProductName").ToString()
-                    If pname = "T-Shirt" Then
+                    If pname IsNot Nothing Then
                         lblStock.Text = "Remaining stock: " & reader("Stock").ToString()
                     End If
                     Dim stock As Integer = Convert.ToInt32(reader("Stock"))
@@ -32,16 +32,20 @@ Public Class Dashboard
             End Try
         End Using
 
+        Try
+            dgvCart.ColumnCount = 4
+            dgvCart.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            dgvCart.Columns(0).Name = "Item"
+            dgvCart.Columns(1).Name = "Price"
+            dgvCart.Columns(2).Name = "Quantity"
+            dgvCart.Columns(3).Name = "Total"
+            dgvCart.Columns(3).DefaultCellStyle.Format = "N2"
 
-        dgvCart.ColumnCount = 4
-        dgvCart.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvCart.Columns(0).Name = "Item"
-        dgvCart.Columns(1).Name = "Price"
-        dgvCart.Columns(2).Name = "Quantity"
-        dgvCart.Columns(3).Name = "Total"
-        dgvCart.Columns(3).DefaultCellStyle.Format = "N2"
+            cbClothingType.SelectedIndex = 0
+        Catch ex As Exception
+            MessageBox.Show("Error initializing cart: " & ex.Message)
+        End Try
 
-        cbClothingType.SelectedIndex = 0
 
     End Sub
 

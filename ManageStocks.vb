@@ -78,4 +78,29 @@ Public Class ManageStocks
             Me.Hide()
         End If
     End Sub
+
+    Private Sub btnAddItem_Click(sender As Object, e As EventArgs) Handles btnAddItem.Click
+        Dim addForm As New AddProductForm()
+        If addForm.ShowDialog() = DialogResult.OK Then
+            LoadProducts()
+        End If
+    End Sub
+
+    Private Sub btnRemoveItem_Click(sender As Object, e As EventArgs) Handles btnRemoveItem.Click
+        If dgvStocks.SelectedRows.Count = 0 Then
+            MessageBox.Show("Select a product to remove.")
+            Return
+        End If
+
+        Dim productId As Integer = dgvStocks.SelectedRows(0).Cells("ProductID").Value
+        If MessageBox.Show("Delete selected product?", "Confirm", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+            Using con As New SqlConnection(connectAs)
+                Dim cmd As New SqlCommand("DELETE FROM Products WHERE ProductID=@id", con)
+                cmd.Parameters.AddWithValue("@id", productId)
+                con.Open()
+                cmd.ExecuteNonQuery()
+            End Using
+            LoadProducts()
+        End If
+    End Sub
 End Class

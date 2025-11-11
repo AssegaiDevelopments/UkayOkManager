@@ -6,6 +6,10 @@ Imports System.Text
 Imports Microsoft.Data.SqlClient
 
 Public Class Login
+
+    Private mouseDown As Boolean
+    Private lastLocation As Point
+
     Public Function ComputeSha256Hash(rawData As String) As String
         Using sha256Hash As SHA256 = SHA256.Create()
             Dim bytes As Byte() = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData))
@@ -40,7 +44,7 @@ Public Class Login
 
     End Sub
 
-    Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
+    Private Sub btnLogin_Click(sender As Object, e As EventArgs)
         Login()
     End Sub
 
@@ -65,5 +69,43 @@ Public Class Login
     Sub LoginSuccess()
         Dim Dashboard As New Dashboard()
         Dashboard.Show()
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Close()
+    End Sub
+
+    Private Sub btnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
+        Me.WindowState = FormWindowState.Minimized
+    End Sub
+
+    Private Sub Login_MouseDown(sender As Object, e As MouseEventArgs) Handles MyBase.MouseDown
+        mouseDown = True
+        lastLocation = e.Location
+    End Sub
+
+    Private Sub Login_MouseMove(sender As Object, e As MouseEventArgs) Handles MyBase.MouseMove
+        If mouseDown Then
+            Me.Location = New Point((Me.Location.X - lastLocation.X) + e.X, (Me.Location.Y - lastLocation.Y) + e.Y)
+            Me.Update()
+        End If
+    End Sub
+
+    Private Sub Login_MouseUp(sender As Object, e As MouseEventArgs) Handles MyBase.MouseUp
+        mouseDown = False
+    End Sub
+
+    Private Sub pbbtnLogin_Click(sender As Object, e As EventArgs) Handles pbbtnLogin.Click
+        Login()
+    End Sub
+
+    Private Sub pbbtnLogin_MouseHover(sender As Object, e As EventArgs) Handles pbbtnLogin.MouseHover
+        pbbtnLogin.BackgroundImage = My.Resources.btnlogin_h
+        pbbtnLogin.BackgroundImageLayout = ImageLayout.Zoom
+    End Sub
+
+    Private Sub pbbtnLogin_MouseLeave(sender As Object, e As EventArgs) Handles pbbtnLogin.MouseLeave
+        pbbtnLogin.BackgroundImage = My.Resources.btnlogin2
+        pbbtnLogin.BackgroundImageLayout = ImageLayout.Zoom
     End Sub
 End Class

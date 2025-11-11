@@ -22,7 +22,7 @@ Partial Class Dashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Dashboard))
         btnRemoveItemFromCart = New Button()
         btnAddItemToCart = New Button()
@@ -62,6 +62,7 @@ Partial Class Dashboard
         ' btnRemoveItemFromCart
         ' 
         btnRemoveItemFromCart.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnRemoveItemFromCart.BackColor = Color.Transparent
         btnRemoveItemFromCart.Cursor = Cursors.Hand
         btnRemoveItemFromCart.FlatStyle = FlatStyle.Flat
         btnRemoveItemFromCart.ForeColor = Color.FromArgb(CByte(255), CByte(224), CByte(192))
@@ -71,11 +72,12 @@ Partial Class Dashboard
         btnRemoveItemFromCart.TabIndex = 1
         btnRemoveItemFromCart.Text = "Remove Item" & vbCrLf & "-" & ChrW(55357) & ChrW(57042)
         btnRemoveItemFromCart.TextAlign = ContentAlignment.TopCenter
-        btnRemoveItemFromCart.UseVisualStyleBackColor = True
+        btnRemoveItemFromCart.UseVisualStyleBackColor = False
         ' 
         ' btnAddItemToCart
         ' 
         btnAddItemToCart.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnAddItemToCart.BackColor = Color.Transparent
         btnAddItemToCart.Cursor = Cursors.Hand
         btnAddItemToCart.FlatStyle = FlatStyle.Flat
         btnAddItemToCart.ForeColor = Color.FromArgb(CByte(192), CByte(255), CByte(192))
@@ -85,7 +87,7 @@ Partial Class Dashboard
         btnAddItemToCart.TabIndex = 3
         btnAddItemToCart.Text = "Add Item" & vbCrLf & "+" & ChrW(55357) & ChrW(57042)
         btnAddItemToCart.TextAlign = ContentAlignment.TopCenter
-        btnAddItemToCart.UseVisualStyleBackColor = True
+        btnAddItemToCart.UseVisualStyleBackColor = False
         ' 
         ' Label1
         ' 
@@ -131,6 +133,7 @@ Partial Class Dashboard
         ' 
         Label3.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         Label3.AutoSize = True
+        Label3.BackColor = Color.Transparent
         Label3.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
         Label3.Location = New Point(720, 606)
         Label3.Name = "Label3"
@@ -145,14 +148,14 @@ Partial Class Dashboard
         dgvCart.Anchor = AnchorStyles.Right
         dgvCart.BackgroundColor = Color.White
         dgvCart.BorderStyle = BorderStyle.Fixed3D
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = SystemColors.Control
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = Color.MediumTurquoise
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = SystemColors.Control
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle2.SelectionBackColor = Color.MediumTurquoise
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
+        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvCart.EditMode = DataGridViewEditMode.EditProgrammatically
         dgvCart.GridColor = Color.White
@@ -176,6 +179,7 @@ Partial Class Dashboard
         ' 
         Label4.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         Label4.AutoSize = True
+        Label4.BackColor = Color.Transparent
         Label4.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
         Label4.Location = New Point(650, 575)
         Label4.Name = "Label4"
@@ -187,6 +191,7 @@ Partial Class Dashboard
         ' 
         chbxDiscount.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         chbxDiscount.AutoSize = True
+        chbxDiscount.BackColor = Color.Transparent
         chbxDiscount.Cursor = Cursors.Hand
         chbxDiscount.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
         chbxDiscount.Location = New Point(526, 546)
@@ -194,11 +199,12 @@ Partial Class Dashboard
         chbxDiscount.Size = New Size(116, 19)
         chbxDiscount.TabIndex = 12
         chbxDiscount.Text = "Enable Discount?"
-        chbxDiscount.UseVisualStyleBackColor = True
+        chbxDiscount.UseVisualStyleBackColor = False
         ' 
         ' tbDiscount
         ' 
         tbDiscount.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        tbDiscount.BackColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
         tbDiscount.Cursor = Cursors.NoMoveHoriz
         tbDiscount.Enabled = False
         tbDiscount.Location = New Point(526, 570)
@@ -213,9 +219,10 @@ Partial Class Dashboard
         ' 
         lDiscount.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         lDiscount.AutoSize = True
+        lDiscount.BackColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
         lDiscount.Enabled = False
         lDiscount.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        lDiscount.Location = New Point(526, 585)
+        lDiscount.Location = New Point(545, 593)
         lDiscount.Name = "lDiscount"
         lDiscount.Size = New Size(76, 15)
         lDiscount.TabIndex = 14
@@ -261,6 +268,7 @@ Partial Class Dashboard
         ' Button1
         ' 
         Button1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        Button1.BackColor = Color.Transparent
         Button1.Cursor = Cursors.Hand
         Button1.FlatAppearance.BorderSize = 0
         Button1.FlatStyle = FlatStyle.Flat
@@ -272,11 +280,12 @@ Partial Class Dashboard
         Button1.TabIndex = 16
         Button1.Text = "✖"
         Button1.UseMnemonic = False
-        Button1.UseVisualStyleBackColor = True
+        Button1.UseVisualStyleBackColor = False
         ' 
         ' btnMinimize
         ' 
         btnMinimize.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnMinimize.BackColor = Color.Transparent
         btnMinimize.Cursor = Cursors.Hand
         btnMinimize.FlatAppearance.BorderSize = 0
         btnMinimize.FlatStyle = FlatStyle.Flat
@@ -288,11 +297,12 @@ Partial Class Dashboard
         btnMinimize.TabIndex = 17
         btnMinimize.Text = "—"
         btnMinimize.UseMnemonic = False
-        btnMinimize.UseVisualStyleBackColor = True
+        btnMinimize.UseVisualStyleBackColor = False
         ' 
         ' btnClearCart
         ' 
         btnClearCart.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnClearCart.BackColor = Color.Transparent
         btnClearCart.Cursor = Cursors.Hand
         btnClearCart.FlatStyle = FlatStyle.Flat
         btnClearCart.ForeColor = Color.FromArgb(CByte(255), CByte(192), CByte(192))
@@ -302,11 +312,12 @@ Partial Class Dashboard
         btnClearCart.TabIndex = 18
         btnClearCart.Text = "Clear Cart" & vbCrLf & ChrW(55357) & ChrW(57042)
         btnClearCart.TextAlign = ContentAlignment.TopCenter
-        btnClearCart.UseVisualStyleBackColor = True
+        btnClearCart.UseVisualStyleBackColor = False
         ' 
         ' lblStock
         ' 
         lblStock.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        lblStock.BackColor = Color.Transparent
         lblStock.ForeColor = Color.White
         lblStock.Location = New Point(652, 627)
         lblStock.Name = "lblStock"
@@ -319,6 +330,7 @@ Partial Class Dashboard
         ' btnCheckout
         ' 
         btnCheckout.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnCheckout.BackColor = Color.Transparent
         btnCheckout.Cursor = Cursors.Hand
         btnCheckout.FlatStyle = FlatStyle.Flat
         btnCheckout.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
@@ -328,11 +340,12 @@ Partial Class Dashboard
         btnCheckout.Size = New Size(109, 60)
         btnCheckout.TabIndex = 20
         btnCheckout.Text = "Proceed to Checkout →"
-        btnCheckout.UseVisualStyleBackColor = True
+        btnCheckout.UseVisualStyleBackColor = False
         ' 
         ' Label5
         ' 
         Label5.Anchor = AnchorStyles.Bottom
+        Label5.BackColor = Color.Transparent
         Label5.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
         Label5.Location = New Point(-171, 677)
         Label5.Name = "Label5"
@@ -348,6 +361,7 @@ Partial Class Dashboard
         ' btnManageStocks
         ' 
         btnManageStocks.Anchor = AnchorStyles.Left
+        btnManageStocks.BackColor = Color.SeaGreen
         btnManageStocks.Cursor = Cursors.Hand
         btnManageStocks.FlatStyle = FlatStyle.Flat
         btnManageStocks.Font = New Font("Segoe UI", 21.75F)
@@ -357,11 +371,12 @@ Partial Class Dashboard
         btnManageStocks.Size = New Size(254, 169)
         btnManageStocks.TabIndex = 0
         btnManageStocks.Text = "📦" & vbCrLf & "Manage Stocks"
-        btnManageStocks.UseVisualStyleBackColor = True
+        btnManageStocks.UseVisualStyleBackColor = False
         ' 
         ' btnViewTransaction
         ' 
         btnViewTransaction.Anchor = AnchorStyles.Left
+        btnViewTransaction.BackColor = Color.DodgerBlue
         btnViewTransaction.Cursor = Cursors.Hand
         btnViewTransaction.FlatStyle = FlatStyle.Flat
         btnViewTransaction.Font = New Font("Segoe UI", 21.75F)
@@ -371,11 +386,12 @@ Partial Class Dashboard
         btnViewTransaction.Size = New Size(254, 165)
         btnViewTransaction.TabIndex = 26
         btnViewTransaction.Text = "📠" & vbCrLf & "View Transaction Logs"
-        btnViewTransaction.UseVisualStyleBackColor = True
+        btnViewTransaction.UseVisualStyleBackColor = False
         ' 
         ' Label6
         ' 
         Label6.AutoSize = True
+        Label6.BackColor = Color.Transparent
         Label6.Font = New Font("Miriam Libre", 24F, FontStyle.Italic, GraphicsUnit.Point, CByte(0))
         Label6.ForeColor = Color.White
         Label6.Location = New Point(23, 22)
@@ -388,6 +404,7 @@ Partial Class Dashboard
         ' 
         Label7.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Label7.AutoSize = True
+        Label7.BackColor = Color.Transparent
         Label7.Font = New Font("Miriam Libre", 20.2499962F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label7.ForeColor = Color.White
         Label7.Location = New Point(820, 22)
@@ -408,6 +425,7 @@ Partial Class Dashboard
         ' 
         Label8.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         Label8.AutoSize = True
+        Label8.BackColor = Color.Transparent
         Label8.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
         Label8.Location = New Point(835, 588)
         Label8.Name = "Label8"
@@ -421,6 +439,8 @@ Partial Class Dashboard
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(69), CByte(88), CByte(113))
+        BackgroundImage = My.Resources.Resources.bg11
+        BackgroundImageLayout = ImageLayout.Stretch
         ClientSize = New Size(1280, 720)
         Controls.Add(btnViewTransaction)
         Controls.Add(btnManageStocks)
