@@ -108,4 +108,14 @@ Public Class Login
         pbbtnLogin.BackgroundImage = My.Resources.btnlogin2
         pbbtnLogin.BackgroundImageLayout = ImageLayout.Zoom
     End Sub
+
+    Private Sub PictureBox3_MouseHover(sender As Object, e As EventArgs) Handles pbbtnPasswordVisibility.MouseHover
+        txtbPassword.PasswordChar = ""
+        pbbtnPasswordVisibility.BackgroundImage = My.Resources.visibilityOn
+    End Sub
+
+    Private Sub PictureBox3_MouseLeave(sender As Object, e As EventArgs) Handles pbbtnPasswordVisibility.MouseLeave
+        txtbPassword.PasswordChar = "•"
+        pbbtnPasswordVisibility.BackgroundImage = My.Resources.visibilityOff
+    End Sub
 End Class

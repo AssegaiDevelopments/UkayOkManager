@@ -26,6 +26,7 @@ Partial Class Login
         txtbUser = New TextBox()
         txtbPassword = New TextBox()
         Panel1 = New Panel()
+        pbbtnPasswordVisibility = New PictureBox()
         pbbtnLogin = New PictureBox()
         PictureBox1 = New PictureBox()
         PictureBox2 = New PictureBox()
@@ -34,6 +35,7 @@ Partial Class Login
         btnMinimize = New Button()
         Label2 = New Label()
         Panel1.SuspendLayout()
+        CType(pbbtnPasswordVisibility, ComponentModel.ISupportInitialize).BeginInit()
         CType(pbbtnLogin, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
@@ -70,7 +72,9 @@ Partial Class Login
         ' 
         ' Panel1
         ' 
+        Panel1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         Panel1.BackColor = Color.Transparent
+        Panel1.Controls.Add(pbbtnPasswordVisibility)
         Panel1.Controls.Add(pbbtnLogin)
         Panel1.Controls.Add(txtbPassword)
         Panel1.Controls.Add(txtbUser)
@@ -80,6 +84,17 @@ Partial Class Login
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(374, 299)
         Panel1.TabIndex = 4
+        ' 
+        ' pbbtnPasswordVisibility
+        ' 
+        pbbtnPasswordVisibility.BackColor = Color.White
+        pbbtnPasswordVisibility.BackgroundImage = My.Resources.Resources.visibilityOff
+        pbbtnPasswordVisibility.BackgroundImageLayout = ImageLayout.Zoom
+        pbbtnPasswordVisibility.Location = New Point(305, 137)
+        pbbtnPasswordVisibility.Name = "pbbtnPasswordVisibility"
+        pbbtnPasswordVisibility.Size = New Size(32, 25)
+        pbbtnPasswordVisibility.TabIndex = 6
+        pbbtnPasswordVisibility.TabStop = False
         ' 
         ' pbbtnLogin
         ' 
@@ -192,6 +207,7 @@ Partial Class Login
         Text = "Log-in"
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
+        CType(pbbtnPasswordVisibility, ComponentModel.ISupportInitialize).EndInit()
         CType(pbbtnLogin, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
@@ -209,5 +225,6 @@ Partial Class Login
     Friend WithEvents btnMinimize As Button
     Friend WithEvents Label2 As Label
     Friend WithEvents pbbtnLogin As PictureBox
+    Friend WithEvents pbbtnPasswordVisibility As PictureBox
 
 End Class

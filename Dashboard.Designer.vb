@@ -52,6 +52,7 @@ Partial Class Dashboard
         btnAddItemToCart = New Button()
         btnRemoveItemFromCart = New Button()
         pnlSidebar = New Panel()
+        btnCart = New Button()
         PictureBox1 = New PictureBox()
         pnlMain = New Panel()
         pnlTransactions = New Panel()
@@ -125,7 +126,7 @@ Partial Class Dashboard
         btnManageStocks.FlatStyle = FlatStyle.Flat
         btnManageStocks.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnManageStocks.ForeColor = Color.White
-        btnManageStocks.Location = New Point(0, 102)
+        btnManageStocks.Location = New Point(0, 146)
         btnManageStocks.Name = "btnManageStocks"
         btnManageStocks.Size = New Size(145, 61)
         btnManageStocks.TabIndex = 0
@@ -141,7 +142,7 @@ Partial Class Dashboard
         btnViewTransaction.FlatStyle = FlatStyle.Flat
         btnViewTransaction.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnViewTransaction.ForeColor = Color.White
-        btnViewTransaction.Location = New Point(0, 169)
+        btnViewTransaction.Location = New Point(0, 213)
         btnViewTransaction.Name = "btnViewTransaction"
         btnViewTransaction.Size = New Size(145, 61)
         btnViewTransaction.TabIndex = 26
@@ -448,6 +449,7 @@ Partial Class Dashboard
         ' pnlSidebar
         ' 
         pnlSidebar.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
+        pnlSidebar.Controls.Add(btnCart)
         pnlSidebar.Controls.Add(PictureBox1)
         pnlSidebar.Controls.Add(btnManageStocks)
         pnlSidebar.Controls.Add(btnViewTransaction)
@@ -456,6 +458,22 @@ Partial Class Dashboard
         pnlSidebar.Name = "pnlSidebar"
         pnlSidebar.Size = New Size(145, 720)
         pnlSidebar.TabIndex = 47
+        ' 
+        ' btnCart
+        ' 
+        btnCart.Anchor = AnchorStyles.Left
+        btnCart.BackColor = Color.Goldenrod
+        btnCart.Cursor = Cursors.Hand
+        btnCart.FlatAppearance.BorderSize = 0
+        btnCart.FlatStyle = FlatStyle.Flat
+        btnCart.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCart.ForeColor = Color.White
+        btnCart.Location = New Point(0, 79)
+        btnCart.Name = "btnCart"
+        btnCart.Size = New Size(145, 61)
+        btnCart.TabIndex = 28
+        btnCart.Text = ChrW(55357) & ChrW(57042) & vbCrLf & "Cart"
+        btnCart.UseVisualStyleBackColor = False
         ' 
         ' PictureBox1
         ' 
@@ -499,8 +517,8 @@ Partial Class Dashboard
         ' 
         ' Dashboard
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
-        AutoScaleMode = AutoScaleMode.Font
+        AutoScaleDimensions = New SizeF(96.0F, 96.0F)
+        AutoScaleMode = AutoScaleMode.Dpi
         BackColor = Color.White
         BackgroundImage = My.Resources.Resources.bg11
         BackgroundImageLayout = ImageLayout.Stretch
@@ -559,4 +577,5 @@ Partial Class Dashboard
     Friend WithEvents pnlManageStocks As Panel
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents pnlNav As Panel
+    Friend WithEvents btnCart As Button
 End Class

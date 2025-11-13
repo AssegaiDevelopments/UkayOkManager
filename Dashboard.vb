@@ -58,13 +58,17 @@ Public Class Dashboard
 
     End Sub
 
-    Private Sub ShowPanel(ctrl As UserControl)
-        For Each c As Control In pnlMain.Controls
-            c.Visible = False
+    Private Sub ShowPanel(panelToShow As Control)
+        ' Hide everything inside pnlMain first
+        For Each ctrl As Control In pnlMain.Controls
+            ctrl.Visible = False
         Next
-        ctrl.Visible = True
-        ctrl.BringToFront()
+
+        ' Bring the selected panel/UserControl to front and show it
+        panelToShow.Visible = True
+        panelToShow.BringToFront()
     End Sub
+
 
 
     Public Sub RefreshProductInfo()
@@ -386,5 +390,9 @@ Public Class Dashboard
         'Dim viewTransaction As New ViewTransactions
         'viewTransaction.Show()
         ShowPanel(transactionsControl)
+    End Sub
+
+    Private Sub btnCart_Click(sender As Object, e As EventArgs) Handles btnCart.Click
+        ShowPanel(pnlCart)
     End Sub
 End Class
