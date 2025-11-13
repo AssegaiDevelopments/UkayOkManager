@@ -1,4 +1,5 @@
-﻿Imports System.Data.SqlClient
+﻿'Imports System.Data.SqlClient
+Imports Microsoft.Data.SqlClient
 
 Public Class AddProductForm
     Private mouseDown As Boolean
@@ -34,5 +35,9 @@ Public Class AddProductForm
 
     Private Sub Label4_MouseUp(sender As Object, e As MouseEventArgs) Handles Label4.MouseUp
         mouseDown = False
+    End Sub
+
+    Private Sub nudStock_ValueChanged(sender As Object, e As EventArgs) Handles nudStock.ValueChanged
+
     End Sub
 End Class

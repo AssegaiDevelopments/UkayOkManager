@@ -53,11 +53,11 @@ Partial Class ViewTransactionsControl
         ' 
         Label9.AutoSize = True
         Label9.BackColor = Color.Transparent
-        Label9.Font = New Font("Georgia", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label9.ForeColor = Color.Black
+        Label9.Font = New Font("Leelawadee", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label9.ForeColor = Color.White
         Label9.Location = New Point(22, 4)
         Label9.Name = "Label9"
-        Label9.Size = New Size(92, 16)
+        Label9.Size = New Size(86, 15)
         Label9.TabIndex = 17
         Label9.Text = "Detailed View"
         ' 
@@ -233,7 +233,7 @@ Partial Class ViewTransactionsControl
         ' 
         ' pnlDetails
         ' 
-        pnlDetails.BackColor = Color.Bisque
+        pnlDetails.BackColor = Color.SteelBlue
         pnlDetails.Controls.Add(Label9)
         pnlDetails.Controls.Add(Label7)
         pnlDetails.Controls.Add(Label8)
@@ -252,9 +252,11 @@ Partial Class ViewTransactionsControl
         pnlDetails.Controls.Add(lblTransactionDate)
         pnlDetails.Controls.Add(lblTotalAmount)
         pnlDetails.Controls.Add(lblTransactionID)
-        pnlDetails.Location = New Point(9, 97)
+        pnlDetails.Dock = DockStyle.Bottom
+        pnlDetails.ForeColor = Color.White
+        pnlDetails.Location = New Point(0, 122)
         pnlDetails.Name = "pnlDetails"
-        pnlDetails.Size = New Size(863, 449)
+        pnlDetails.Size = New Size(880, 449)
         pnlDetails.TabIndex = 7
         ' 
         ' Label1

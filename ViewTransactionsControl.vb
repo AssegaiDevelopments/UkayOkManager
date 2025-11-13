@@ -1,5 +1,5 @@
-﻿Imports System.Data.SqlClient
-
+﻿Imports Microsoft.Data.SqlClient
+'Imports System.Data.SqlClient
 Public Class ViewTransactionsControl
     Dim adapter As SqlDataAdapter
     Dim dt As New DataTable()
@@ -87,25 +87,6 @@ Public Class ViewTransactionsControl
                 If .Columns.Contains("Remarks") Then .Columns("Remarks").HeaderText = "Remarks"
                 If .Columns.Contains("TransactionType") Then .Columns("TransactionType").HeaderText = "Type"
 
-                ' --- Auto-sizing behavior ---
-                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-                .Columns("Remarks").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-
-                ' --- Visuals ---
-                .AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells)
-                .SelectionMode = DataGridViewSelectionMode.FullRowSelect
-                .ReadOnly = True
-                .AlternatingRowsDefaultCellStyle.BackColor = Color.AliceBlue
-                .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
-                .DefaultCellStyle.Font = New Font("Segoe UI", 9.5)
-                .DefaultCellStyle.ForeColor = Color.Black
-                .DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue
-                .DefaultCellStyle.SelectionForeColor = Color.Black
-
-                ' --- Layout control ---
-                .Dock = DockStyle.Fill
-
-                dgvTransactions.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
             End With
 
         Catch ex As Exception
@@ -114,12 +95,24 @@ Public Class ViewTransactionsControl
     End Sub
 
     Private Sub ViewTransactions_Load(sender As Object, e As EventArgs) Handles Me.Load
+        dgvTransactions.Dock = DockStyle.Fill
+        dgvTransactions.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
+        dgvTransactions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+        dgvTransactions.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvTransactions.ReadOnly = True
+        dgvTransactions.AlternatingRowsDefaultCellStyle.BackColor = Color.AliceBlue
+        dgvTransactions.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        dgvTransactions.DefaultCellStyle.Font = New Font("Segoe UI", 9.5)
+        dgvTransactions.DefaultCellStyle.ForeColor = Color.Black
+        dgvTransactions.DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue
+        dgvTransactions.DefaultCellStyle.SelectionForeColor = Color.Black
+
         LoadTransactions()
+        dgvTransactions.MinimumSize = New Size(600, 300)
         ' Optional: set minimum form size so content isn't too cramped
-        Me.MinimumSize = New Size(900, 600)
+
         pnlDetails.Visible = False
         pnlDetails.Dock = DockStyle.Bottom
-        pnlDetails.Height = 460 'Adjust later if needed
 
     End Sub
 

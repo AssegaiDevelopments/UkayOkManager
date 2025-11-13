@@ -118,4 +118,9 @@ Public Class Login
         txtbPassword.PasswordChar = "•"
         pbbtnPasswordVisibility.BackgroundImage = My.Resources.visibilityOff
     End Sub
+
+    Private Sub Label2_Click_1(sender As Object, e As EventArgs) Handles Label2.Click
+        'TEMPORARY BACKDOOR REMOVE LATER
+        LoginSuccess()
+    End Sub
 End Class

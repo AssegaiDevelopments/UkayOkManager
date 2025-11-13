@@ -1,4 +1,5 @@
-﻿Imports System.Data.SqlClient
+﻿'Imports System.Data.SqlClient
+Imports Microsoft.Data.SqlClient
 
 Public Class Dashboard
 
@@ -69,7 +70,29 @@ Public Class Dashboard
         panelToShow.BringToFront()
     End Sub
 
+    Private Sub RecalculateGrandTotal()
+        grandTotal = 0D
+        For Each row As DataGridViewRow In dgvCart.Rows
+            If Not row.IsNewRow Then
+                Dim cellVal = row.Cells("Total").Value
+                Dim dec As Decimal = 0D
 
+                If cellVal IsNot Nothing Then
+                    If TypeOf cellVal Is Decimal OrElse TypeOf cellVal Is Double OrElse TypeOf cellVal Is Single OrElse TypeOf cellVal Is Integer Then
+                        dec = Convert.ToDecimal(cellVal)
+                    Else
+                        ' If it’s a string (maybe with currency symbol), try to parse safely
+                        Dim s As String = cellVal.ToString().Replace("₱", "").Trim()
+                        Decimal.TryParse(s, Globalization.NumberStyles.Any, Globalization.CultureInfo.CurrentCulture, dec)
+                    End If
+                End If
+
+                grandTotal += dec
+            End If
+        Next
+
+        lGrandTotal.Text = "₱" & grandTotal.ToString("N2")
+    End Sub
 
     Public Sub RefreshProductInfo()
         ' Step 1: Update dictionary
@@ -101,7 +124,7 @@ Public Class Dashboard
     End Sub
 
 
-    Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs)
+    Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs) Handles btnAddItemToCart.Click
         ' Validate price and quantity
         Dim parsedPrice As Decimal
         If Decimal.TryParse(txtbItemPrice.Text, parsedPrice) AndAlso nudQuantity.Value > 0 Then
@@ -163,13 +186,13 @@ Public Class Dashboard
         End If
     End Sub
 
-    Private Sub tbDiscount_Scroll(sender As Object, e As EventArgs)
+    Private Sub tbDiscount_Scroll(sender As Object, e As EventArgs) Handles tbDiscount.Scroll
         lDiscount.Text = tbDiscount.Value & "%"
         discount = tbDiscount.Value
     End Sub
 
     'discount feature
-    Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs)
+    Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs) Handles chbxDiscount.CheckedChanged
         If chbxDiscount.Checked Then
             tbDiscount.Enabled = True
             lDiscount.Enabled = True
@@ -183,7 +206,7 @@ Public Class Dashboard
     End Sub
 
     'Display price and stock based on selected clothing type
-    Private Sub cbClothingType_SelectedIndexChanged(sender As Object, e As EventArgs)
+    Private Sub cbClothingType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbClothingType.SelectedIndexChanged
         Using con As New SqlConnection(connectAs)
             Dim cmd As New SqlCommand("SELECT RegularPrice, Stock FROM Products WHERE ProductName = @name", con)
             cmd.Parameters.AddWithValue("@name", cbClothingType.Text)
@@ -205,7 +228,7 @@ Public Class Dashboard
     End Sub
 
     'Clear cart and reset grand total
-    Private Sub btnClearCart_Click(sender As Object, e As EventArgs)
+    Private Sub btnClearCart_Click(sender As Object, e As EventArgs) Handles btnClearCart.Click
         dgvCart.Rows.Clear()
         grandTotal = 0
         lGrandTotal.Text = "₱0.00"
@@ -218,7 +241,7 @@ Public Class Dashboard
     End Sub
 
     ' Remove selected item from cart and update stock and grand total
-    Private Sub btnRemoveItemFromCart_Click(sender As Object, e As EventArgs)
+    Private Sub btnRemoveItemFromCart_Click(sender As Object, e As EventArgs) Handles btnRemoveItemFromCart.Click
         If dgvCart.SelectedRows.Count > 0 Then
             Dim row = dgvCart.SelectedRows(0)
             Dim itemName = row.Cells("Item").Value.ToString
@@ -242,7 +265,7 @@ Public Class Dashboard
     End Sub
 
     ' Checkout process: save transaction and items to DB, clear cart
-    Private Sub btnCheckout_Click(sender As Object, e As EventArgs)
+    Private Sub btnCheckout_Click(sender As Object, e As EventArgs) Handles btnCheckout.Click
         If dgvCart.Rows.Count = 0 Then
             MsgBox("Your cart is empty!", vbExclamation, "Checkout")
             Exit Sub
@@ -354,29 +377,7 @@ Public Class Dashboard
 
 
     ' Recalculate grand total from dgvCart and update label
-    Private Sub RecalculateGrandTotal()
-        grandTotal = 0D
-        For Each row As DataGridViewRow In dgvCart.Rows
-            If Not row.IsNewRow Then
-                Dim cellVal = row.Cells("Total").Value
-                Dim dec As Decimal = 0D
 
-                If cellVal IsNot Nothing Then
-                    If TypeOf cellVal Is Decimal OrElse TypeOf cellVal Is Double OrElse TypeOf cellVal Is Single OrElse TypeOf cellVal Is Integer Then
-                        dec = Convert.ToDecimal(cellVal)
-                    Else
-                        ' If it’s a string (maybe with currency symbol), try to parse safely
-                        Dim s As String = cellVal.ToString().Replace("₱", "").Trim()
-                        Decimal.TryParse(s, Globalization.NumberStyles.Any, Globalization.CultureInfo.CurrentCulture, dec)
-                    End If
-                End If
-
-                grandTotal += dec
-            End If
-        Next
-
-        lGrandTotal.Text = "₱" & grandTotal.ToString("N2")
-    End Sub
 
     Private Sub btnManageStocks_Click(sender As Object, e As EventArgs) Handles btnManageStocks.Click
         'Dim manageStocks As New ManageStocks
@@ -395,4 +396,5 @@ Public Class Dashboard
     Private Sub btnCart_Click(sender As Object, e As EventArgs) Handles btnCart.Click
         ShowPanel(pnlCart)
     End Sub
+
 End Class

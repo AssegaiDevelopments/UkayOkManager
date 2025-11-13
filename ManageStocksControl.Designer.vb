@@ -33,11 +33,27 @@ Partial Class ManageStocksControl
         TableLayoutPanel1 = New TableLayoutPanel()
         TableLayoutPanel2 = New TableLayoutPanel()
         TableLayoutPanel3 = New TableLayoutPanel()
+        TableLayoutPanel4 = New TableLayoutPanel()
+        Panel1 = New Panel()
+        Label3 = New Label()
+        tbProductName = New TextBox()
+        Panel2 = New Panel()
+        Label4 = New Label()
+        nudStock = New NumericUpDown()
+        Panel3 = New Panel()
+        Label5 = New Label()
+        nudPrice = New NumericUpDown()
         CType(nudAddSubtract, ComponentModel.ISupportInitialize).BeginInit()
         CType(dgvStocks, ComponentModel.ISupportInitialize).BeginInit()
         TableLayoutPanel1.SuspendLayout()
         TableLayoutPanel2.SuspendLayout()
         TableLayoutPanel3.SuspendLayout()
+        TableLayoutPanel4.SuspendLayout()
+        Panel1.SuspendLayout()
+        Panel2.SuspendLayout()
+        CType(nudStock, ComponentModel.ISupportInitialize).BeginInit()
+        Panel3.SuspendLayout()
+        CType(nudPrice, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label2
@@ -67,7 +83,7 @@ Partial Class ManageStocksControl
         ' 
         btnAddItem.Dock = DockStyle.Fill
         btnAddItem.FlatAppearance.BorderSize = 0
-        btnAddItem.Location = New Point(3, 48)
+        btnAddItem.Location = New Point(133, 3)
         btnAddItem.Name = "btnAddItem"
         btnAddItem.Size = New Size(124, 39)
         btnAddItem.TabIndex = 25
@@ -76,12 +92,12 @@ Partial Class ManageStocksControl
         ' 
         ' btnApplyToCell
         ' 
-        btnApplyToCell.Anchor = AnchorStyles.Left
-        btnApplyToCell.Location = New Point(133, 37)
+        btnApplyToCell.Dock = DockStyle.Fill
+        btnApplyToCell.Location = New Point(133, 53)
         btnApplyToCell.Name = "btnApplyToCell"
-        btnApplyToCell.Size = New Size(50, 23)
+        btnApplyToCell.Size = New Size(124, 45)
         btnApplyToCell.TabIndex = 24
-        btnApplyToCell.Text = "Apply"
+        btnApplyToCell.Text = "Apply to selected"
         btnApplyToCell.UseVisualStyleBackColor = True
         ' 
         ' Label1
@@ -90,7 +106,7 @@ Partial Class ManageStocksControl
         Label1.AutoSize = True
         Label1.BackColor = Color.Transparent
         Label1.ForeColor = Color.White
-        Label1.Location = New Point(3, 8)
+        Label1.Location = New Point(3, 17)
         Label1.Name = "Label1"
         Label1.Size = New Size(124, 15)
         Label1.TabIndex = 23
@@ -100,10 +116,10 @@ Partial Class ManageStocksControl
         ' 
         nudAddSubtract.Anchor = AnchorStyles.Left
         nudAddSubtract.Font = New Font("Courier New", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        nudAddSubtract.Location = New Point(133, 5)
+        nudAddSubtract.Location = New Point(133, 14)
         nudAddSubtract.Minimum = New Decimal(New Integer() {100, 0, 0, Integer.MinValue})
         nudAddSubtract.Name = "nudAddSubtract"
-        nudAddSubtract.Size = New Size(120, 21)
+        nudAddSubtract.Size = New Size(85, 21)
         nudAddSubtract.TabIndex = 22
         ' 
         ' btnSaveChanges
@@ -139,10 +155,10 @@ Partial Class ManageStocksControl
         TableLayoutPanel1.ColumnCount = 2
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        TableLayoutPanel1.Controls.Add(btnSaveChanges, 1, 1)
-        TableLayoutPanel1.Controls.Add(btnAddItem, 0, 1)
         TableLayoutPanel1.Controls.Add(btnRemoveItem, 0, 0)
-        TableLayoutPanel1.Location = New Point(3, 218)
+        TableLayoutPanel1.Controls.Add(btnSaveChanges, 1, 1)
+        TableLayoutPanel1.Controls.Add(btnAddItem, 1, 0)
+        TableLayoutPanel1.Location = New Point(3, 328)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 2
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
@@ -159,13 +175,14 @@ Partial Class ManageStocksControl
         TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         TableLayoutPanel2.Controls.Add(TableLayoutPanel3, 0, 0)
         TableLayoutPanel2.Controls.Add(TableLayoutPanel1, 0, 2)
-        TableLayoutPanel2.Location = New Point(31, 205)
+        TableLayoutPanel2.Controls.Add(TableLayoutPanel4, 0, 1)
+        TableLayoutPanel2.Location = New Point(31, 102)
         TableLayoutPanel2.Name = "TableLayoutPanel2"
         TableLayoutPanel2.RowCount = 3
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 33.1189728F))
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 66.88103F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 95F))
-        TableLayoutPanel2.Size = New Size(266, 311)
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 394F))
+        TableLayoutPanel2.Size = New Size(266, 720)
         TableLayoutPanel2.TabIndex = 30
         ' 
         ' TableLayoutPanel3
@@ -175,16 +192,129 @@ Partial Class ManageStocksControl
         TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         TableLayoutPanel3.Controls.Add(btnApplyToCell, 1, 1)
-        TableLayoutPanel3.Controls.Add(nudAddSubtract, 1, 0)
         TableLayoutPanel3.Controls.Add(Label1, 0, 0)
+        TableLayoutPanel3.Controls.Add(nudAddSubtract, 1, 0)
         TableLayoutPanel3.Dock = DockStyle.Fill
         TableLayoutPanel3.Location = New Point(3, 3)
         TableLayoutPanel3.Name = "TableLayoutPanel3"
         TableLayoutPanel3.RowCount = 2
         TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
         TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel3.Size = New Size(260, 65)
+        TableLayoutPanel3.Size = New Size(260, 101)
         TableLayoutPanel3.TabIndex = 25
+        ' 
+        ' TableLayoutPanel4
+        ' 
+        TableLayoutPanel4.ColumnCount = 1
+        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
+        TableLayoutPanel4.Controls.Add(Panel1, 0, 0)
+        TableLayoutPanel4.Controls.Add(Panel2, 0, 1)
+        TableLayoutPanel4.Controls.Add(Panel3, 0, 2)
+        TableLayoutPanel4.Dock = DockStyle.Fill
+        TableLayoutPanel4.Location = New Point(3, 110)
+        TableLayoutPanel4.Name = "TableLayoutPanel4"
+        TableLayoutPanel4.RowCount = 3
+        TableLayoutPanel4.RowStyles.Add(New RowStyle())
+        TableLayoutPanel4.RowStyles.Add(New RowStyle())
+        TableLayoutPanel4.RowStyles.Add(New RowStyle())
+        TableLayoutPanel4.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
+        TableLayoutPanel4.Size = New Size(260, 212)
+        TableLayoutPanel4.TabIndex = 30
+        ' 
+        ' Panel1
+        ' 
+        Panel1.Controls.Add(Label3)
+        Panel1.Controls.Add(tbProductName)
+        Panel1.Dock = DockStyle.Fill
+        Panel1.Location = New Point(3, 3)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(254, 54)
+        Panel1.TabIndex = 0
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.BackColor = Color.Transparent
+        Label3.ForeColor = Color.White
+        Label3.Location = New Point(-3, 8)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(84, 15)
+        Label3.TabIndex = 7
+        Label3.Text = "Product Name"
+        Label3.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' tbProductName
+        ' 
+        tbProductName.Cursor = Cursors.IBeam
+        tbProductName.Location = New Point(0, 26)
+        tbProductName.MaxLength = 256
+        tbProductName.Name = "tbProductName"
+        tbProductName.Size = New Size(248, 23)
+        tbProductName.TabIndex = 6
+        ' 
+        ' Panel2
+        ' 
+        Panel2.Controls.Add(Label4)
+        Panel2.Controls.Add(nudStock)
+        Panel2.Dock = DockStyle.Fill
+        Panel2.Location = New Point(3, 63)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(254, 54)
+        Panel2.TabIndex = 1
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.BackColor = Color.Transparent
+        Label4.ForeColor = Color.White
+        Label4.Location = New Point(3, 2)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(36, 15)
+        Label4.TabIndex = 8
+        Label4.Text = "Stock"
+        Label4.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' nudStock
+        ' 
+        nudStock.Cursor = Cursors.IBeam
+        nudStock.Location = New Point(3, 20)
+        nudStock.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        nudStock.Name = "nudStock"
+        nudStock.Size = New Size(121, 23)
+        nudStock.TabIndex = 7
+        ' 
+        ' Panel3
+        ' 
+        Panel3.Controls.Add(Label5)
+        Panel3.Controls.Add(nudPrice)
+        Panel3.Dock = DockStyle.Fill
+        Panel3.Location = New Point(3, 123)
+        Panel3.Name = "Panel3"
+        Panel3.Size = New Size(254, 86)
+        Panel3.TabIndex = 2
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.BackColor = Color.Transparent
+        Label5.ForeColor = Color.White
+        Label5.Location = New Point(3, 8)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(33, 15)
+        Label5.TabIndex = 9
+        Label5.Text = "Price"
+        Label5.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' nudPrice
+        ' 
+        nudPrice.Cursor = Cursors.IBeam
+        nudPrice.DecimalPlaces = 2
+        nudPrice.Location = New Point(3, 26)
+        nudPrice.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        nudPrice.Name = "nudPrice"
+        nudPrice.Size = New Size(121, 23)
+        nudPrice.TabIndex = 8
+        nudPrice.ThousandsSeparator = True
         ' 
         ' ManageStocksControl
         ' 
@@ -204,6 +334,15 @@ Partial Class ManageStocksControl
         TableLayoutPanel2.PerformLayout()
         TableLayoutPanel3.ResumeLayout(False)
         TableLayoutPanel3.PerformLayout()
+        TableLayoutPanel4.ResumeLayout(False)
+        Panel1.ResumeLayout(False)
+        Panel1.PerformLayout()
+        Panel2.ResumeLayout(False)
+        Panel2.PerformLayout()
+        CType(nudStock, ComponentModel.ISupportInitialize).EndInit()
+        Panel3.ResumeLayout(False)
+        Panel3.PerformLayout()
+        CType(nudPrice, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -219,5 +358,15 @@ Partial Class ManageStocksControl
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
     Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
+    Friend WithEvents TableLayoutPanel4 As TableLayoutPanel
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Label3 As Label
+    Friend WithEvents tbProductName As TextBox
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents Label4 As Label
+    Friend WithEvents nudStock As NumericUpDown
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents Label5 As Label
+    Friend WithEvents nudPrice As NumericUpDown
 
 End Class

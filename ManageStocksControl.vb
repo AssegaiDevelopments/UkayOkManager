@@ -1,7 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.Data.Common
-Imports System.Data.SqlClient
-'Imports Microsoft.Data.SqlClient
+'Imports System.Data.SqlClient
+Imports Microsoft.Data.SqlClient
 
 Public Class ManageStocksControl
     Inherits UserControl
@@ -81,10 +81,15 @@ Public Class ManageStocksControl
     'End Sub
 
     Private Sub btnAddItem_Click(sender As Object, e As EventArgs) Handles btnAddItem.Click
-        Dim addForm As New AddProductForm
-        If addForm.ShowDialog = DialogResult.OK Then
-            LoadProducts()
-        End If
+        Using con As New SqlConnection(connectAs)
+            Dim cmd As New SqlCommand("INSERT INTO Products (ProductName, Stock, RegularPrice) VALUES (@name, @stock, @price)", con)
+            cmd.Parameters.AddWithValue("@name", tbProductName.Text)
+            cmd.Parameters.AddWithValue("@stock", nudStock.Value)
+            cmd.Parameters.AddWithValue("@price", nudPrice.Value)
+            con.Open()
+            cmd.ExecuteNonQuery()
+        End Using
+        LoadProducts()
     End Sub
 
     Private Sub btnRemoveItem_Click(sender As Object, e As EventArgs) Handles btnRemoveItem.Click
@@ -105,4 +110,10 @@ Public Class ManageStocksControl
         End If
     End Sub
 
+    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
+
+    End Sub
+
+    Private Sub dgvStocks_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgvStocks.CellMouseClick
+    End Sub
 End Class
