@@ -233,6 +233,7 @@ Partial Class ViewTransactionsControl
         ' 
         ' pnlDetails
         ' 
+        pnlDetails.AutoSize = True
         pnlDetails.BackColor = Color.SteelBlue
         pnlDetails.Controls.Add(Label9)
         pnlDetails.Controls.Add(Label7)
@@ -254,20 +255,20 @@ Partial Class ViewTransactionsControl
         pnlDetails.Controls.Add(lblTransactionID)
         pnlDetails.Dock = DockStyle.Bottom
         pnlDetails.ForeColor = Color.White
-        pnlDetails.Location = New Point(0, 122)
+        pnlDetails.Location = New Point(0, 129)
         pnlDetails.Name = "pnlDetails"
-        pnlDetails.Size = New Size(880, 449)
+        pnlDetails.Size = New Size(880, 442)
         pnlDetails.TabIndex = 7
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
         Label1.BackColor = Color.Transparent
-        Label1.Font = New Font("Miriam Libre", 15.75F, FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Microsoft Sans Serif", 15.75F, FontStyle.Italic, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
         Label1.Location = New Point(20, 25)
         Label1.Name = "Label1"
-        Label1.Size = New Size(221, 28)
+        Label1.Size = New Size(209, 25)
         Label1.TabIndex = 6
         Label1.Text = "Transactions History"
         ' 
@@ -301,6 +302,7 @@ Partial Class ViewTransactionsControl
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
+        AutoSize = True
         BackColor = Color.Transparent
         BackgroundImageLayout = ImageLayout.Stretch
         Controls.Add(pnlDetails)

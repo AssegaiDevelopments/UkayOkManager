@@ -100,6 +100,7 @@ Partial Class Login
         ' 
         pbbtnLogin.BackgroundImage = My.Resources.Resources.btnlogin2
         pbbtnLogin.BackgroundImageLayout = ImageLayout.Zoom
+        pbbtnLogin.Cursor = Cursors.Hand
         pbbtnLogin.Location = New Point(24, 204)
         pbbtnLogin.Name = "pbbtnLogin"
         pbbtnLogin.Size = New Size(84, 41)

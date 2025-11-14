@@ -110,10 +110,7 @@ Public Class ManageStocksControl
         End If
     End Sub
 
-    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
-
-    End Sub
-
-    Private Sub dgvStocks_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgvStocks.CellMouseClick
+    Private Sub dgvStocks_CellValueChanged_1(sender As Object, e As DataGridViewCellEventArgs) Handles dgvStocks.CellValueChanged
+        dgvStocks.GridColor = Color.Yellow
     End Sub
 End Class

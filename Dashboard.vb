@@ -105,21 +105,29 @@ Public Class Dashboard
                     tempStock(reader("ProductName").ToString()) = Convert.ToInt32(reader("Stock"))
                 End While
             End Using
-
-
-            ' Step 2: Reset combobox
-            Dim cmd2 As New SqlCommand("SELECT ProductName FROM Products WHERE ProductID = 1", con)
-            Dim result = cmd2.ExecuteScalar()
-            If result IsNot Nothing Then
-                cbClothingType.Text = result.ToString()
-            End If
+            '' Step 2: Reset combobox
+            'Dim cmd2 As New SqlCommand("SELECT ProductName FROM Products WHERE ProductID = 1", con)
+            'Dim result = cmd2.ExecuteScalar()
+            'If result IsNot Nothing Then
+            '    cbClothingType.Text = result.ToString()
+            'End If
         End Using
 
         ' Step 3: Update stock label
         If tempStock.ContainsKey(cbClothingType.Text) Then
-            lblStock.Text = "Remaining stock: " & tempStock(cbClothingType.Text).ToString()
+            If tempStock(cbClothingType.Text) >= 5 Then
+                lblStock.Text = "Remaining stock: " & tempStock(cbClothingType.Text).ToString()
+                lblStock.ForeColor = Color.White
+            ElseIf tempStock(cbClothingType.Text) < 5 Then
+                lblStock.Text = "Remaining stock: " & tempStock(cbClothingType.Text).ToString()
+                lblStock.ForeColor = Color.Orange
+            ElseIf tempStock(cbClothingType.Text) = 0 Then
+                lblStock.Text = "Not available"
+                lblStock.ForeColor = Color.Red
+            End If
         Else
-            lblStock.Text = "N/A"
+            lblStock.Text = "Not available"
+            lblStock.ForeColor = Color.Red
         End If
     End Sub
 
@@ -133,7 +141,7 @@ Public Class Dashboard
             clothingType = cbClothingType.Text
             quantity = CInt(nudQuantity.Value)
 
-            If Not chbxDiscount.Checked Then
+            If Not chbxDiscount.Checked Or nudDiscount.Value = 0 Or discount = 0 Then
                 itemTotal = quantity * price
             Else
                 itemTotal = quantity * price * (1 - discount * 0.01D)
@@ -186,23 +194,23 @@ Public Class Dashboard
         End If
     End Sub
 
-    Private Sub tbDiscount_Scroll(sender As Object, e As EventArgs) Handles tbDiscount.Scroll
-        lDiscount.Text = tbDiscount.Value & "%"
-        discount = tbDiscount.Value
-    End Sub
-
     'discount feature
     Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs) Handles chbxDiscount.CheckedChanged
         If chbxDiscount.Checked Then
-            tbDiscount.Enabled = True
+            nudDiscount.Enabled = True
             lDiscount.Enabled = True
         Else
-            tbDiscount.Enabled = False
-            tbDiscount.Value = 0
-            lDiscount.Text = "0%"
+            nudDiscount.Enabled = False
+            nudDiscount.Value = 0
+            lDiscount.Text = "Discount: 0%"
             lDiscount.Enabled = False
 
         End If
+    End Sub
+
+    Private Sub nudDiscount_ValueChanged(sender As Object, e As EventArgs) Handles nudDiscount.ValueChanged
+        discount = CInt(nudDiscount.Value)
+        lDiscount.Text = "Discount: " & discount.ToString & "%"
     End Sub
 
     'Display price and stock based on selected clothing type
@@ -215,6 +223,7 @@ Public Class Dashboard
             If reader.Read Then
                 txtbItemPrice.Text = reader("RegularPrice").ToString
                 lblStock.Text = "Remaining stock: " & reader("Stock").ToString
+                RefreshProductInfo()
                 'lblStockAvailable.Text = "Available: " & reader("Stock").ToString()
             End If
             reader.Close()
@@ -372,6 +381,7 @@ Public Class Dashboard
         grandTotal = 0
         lGrandTotal.Text = "₱0.00"
         RefreshProductInfo()
+        cbClothingType.SelectedIndex = 0
     End Sub
 
 
@@ -396,5 +406,7 @@ Public Class Dashboard
     Private Sub btnCart_Click(sender As Object, e As EventArgs) Handles btnCart.Click
         ShowPanel(pnlCart)
     End Sub
+
+
 
 End Class
