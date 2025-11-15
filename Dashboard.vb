@@ -1,16 +1,28 @@
 ﻿'Imports System.Data.SqlClient
 Imports Microsoft.Data.SqlClient
+Imports Windows.Win32.System
 
 Public Class Dashboard
+    ' Enable double buffering to reduce flickering
+    Protected Overrides ReadOnly Property CreateParams As CreateParams
+        Get
+            Dim cp As CreateParams = MyBase.CreateParams
+            cp.ExStyle = cp.ExStyle Or &H2000000   ' WS_EX_COMPOSITED
+            Return cp
+        End Get
+    End Property
 
-    Dim clothingType As String
+
+    Dim clothingType, pname As String
     Dim quantity, discount As Integer
     Dim itemTotal, price, grandTotal As Decimal
     Dim tempStock As New Dictionary(Of String, Integer)
-
+    Dim unselectedColor As Color = Color.FromArgb(23, 77, 113)
+    Dim selectedColor As Color = Color.SeaGreen
     Private stocksControl As New ManageStocksControl()
     Private transactionsControl As New ViewTransactionsControl()
     'Private cartControl As New CartControl()
+
 
 
     Public Sub Dashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -28,7 +40,7 @@ Public Class Dashboard
                 Dim reader As SqlDataReader = cmd.ExecuteReader()
 
                 While reader.Read()
-                    Dim pname As String = reader("ProductName").ToString()
+                    pname = reader("ProductName").ToString()
                     If pname IsNot Nothing Then
                         lblStock.Text = "Remaining stock: " & reader("Stock").ToString()
                     End If
@@ -52,14 +64,37 @@ Public Class Dashboard
             dgvCart.Columns(3).DefaultCellStyle.Format = "N2"
 
             cbClothingType.SelectedIndex = 0
+        Catch ex As IndexOutOfRangeException
+            MessageBox.Show("Error: No products available to select. Please add products using the Manage Stocks menu")
         Catch ex As Exception
             MessageBox.Show("Error initializing cart: " & ex.Message)
+
         End Try
 
 
     End Sub
-
+    'Minimize application
+    Private Sub btnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
+        Me.WindowState = FormWindowState.Minimized
+    End Sub
+    'Exit application
+    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
+        Login.Close()
+        Close()
+    End Sub
+    'Change visible panel in pnlMain and update sidebar button colors
     Private Sub ShowPanel(panelToShow As Control)
+        pnlMain.SuspendLayout()
+
+        ' Update sidebar button colors; use tag to match panel names
+        For Each btn As Button In flpSidebar.Controls.OfType(Of Button)()
+            If btn.Tag IsNot Nothing AndAlso btn.Tag.ToString() = panelToShow.Name Then
+                btn.BackColor = selectedColor
+            Else
+                btn.BackColor = unselectedColor
+            End If
+        Next
+
         ' Hide everything inside pnlMain first
         For Each ctrl As Control In pnlMain.Controls
             ctrl.Visible = False
@@ -68,8 +103,10 @@ Public Class Dashboard
         ' Bring the selected panel/UserControl to front and show it
         panelToShow.Visible = True
         panelToShow.BringToFront()
-    End Sub
 
+        pnlMain.ResumeLayout(True)
+    End Sub
+    ' Recalculate grand total from dgvCart and update label
     Private Sub RecalculateGrandTotal()
         grandTotal = 0D
         For Each row As DataGridViewRow In dgvCart.Rows
@@ -93,7 +130,7 @@ Public Class Dashboard
 
         lGrandTotal.Text = "₱" & grandTotal.ToString("N2")
     End Sub
-
+    ' Refresh product info from DB and update stock label
     Public Sub RefreshProductInfo()
         ' Step 1: Update dictionary
         tempStock.Clear()
@@ -105,15 +142,9 @@ Public Class Dashboard
                     tempStock(reader("ProductName").ToString()) = Convert.ToInt32(reader("Stock"))
                 End While
             End Using
-            '' Step 2: Reset combobox
-            'Dim cmd2 As New SqlCommand("SELECT ProductName FROM Products WHERE ProductID = 1", con)
-            'Dim result = cmd2.ExecuteScalar()
-            'If result IsNot Nothing Then
-            '    cbClothingType.Text = result.ToString()
-            'End If
         End Using
 
-        ' Step 3: Update stock label
+        ' Step 2: Update stock label
         If tempStock.ContainsKey(cbClothingType.Text) Then
             If tempStock(cbClothingType.Text) >= 5 Then
                 lblStock.Text = "Remaining stock: " & tempStock(cbClothingType.Text).ToString()
@@ -130,8 +161,30 @@ Public Class Dashboard
             lblStock.ForeColor = Color.Red
         End If
     End Sub
+    ' Refresh combo box and local stock dictionary from DB
+    Sub refreshComboBoxInfo()
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+            Try
+                tempStock.Clear()
+                cbClothingType.Items.Clear()
 
+                Dim cmd As New SqlCommand("SELECT ProductName, Stock FROM Products", con)
+                Dim reader = cmd.ExecuteReader
 
+                While reader.Read
+                    Dim pname = reader("ProductName").ToString
+                    Dim stock = Convert.ToInt32(reader("Stock"))
+                    tempStock(pname) = stock
+                    cbClothingType.Items.Add(pname)
+                End While
+                reader.Close()
+            Catch ex As Exception
+                MessageBox.Show("Error loading products: " & ex.Message)
+            End Try
+        End Using
+    End Sub
+    'add item to cart/dgv table
     Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs) Handles btnAddItemToCart.Click
         ' Validate price and quantity
         Dim parsedPrice As Decimal
@@ -193,7 +246,6 @@ Public Class Dashboard
             MsgBox("Price value not valid!")
         End If
     End Sub
-
     'discount feature
     Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs) Handles chbxDiscount.CheckedChanged
         If chbxDiscount.Checked Then
@@ -207,7 +259,7 @@ Public Class Dashboard
 
         End If
     End Sub
-
+    'discount value changed
     Private Sub nudDiscount_ValueChanged(sender As Object, e As EventArgs) Handles nudDiscount.ValueChanged
         discount = CInt(nudDiscount.Value)
         lDiscount.Text = "Discount: " & discount.ToString & "%"
@@ -229,13 +281,6 @@ Public Class Dashboard
             reader.Close()
         End Using
     End Sub
-
-    'Exit application
-    Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
-        Login.Close()
-        Close()
-    End Sub
-
     'Clear cart and reset grand total
     Private Sub btnClearCart_Click(sender As Object, e As EventArgs) Handles btnClearCart.Click
         dgvCart.Rows.Clear()
@@ -243,12 +288,6 @@ Public Class Dashboard
         lGrandTotal.Text = "₱0.00"
         RefreshProductInfo()
     End Sub
-
-    'Minimize application
-    Private Sub btnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
-        Me.WindowState = FormWindowState.Minimized
-    End Sub
-
     ' Remove selected item from cart and update stock and grand total
     Private Sub btnRemoveItemFromCart_Click(sender As Object, e As EventArgs) Handles btnRemoveItemFromCart.Click
         If dgvCart.SelectedRows.Count > 0 Then
@@ -356,23 +395,7 @@ Public Class Dashboard
             Next
 
             ' Refresh local stock data
-            Try
-                tempStock.Clear()
-                cbClothingType.Items.Clear()
-
-                Dim cmd As New SqlCommand("SELECT ProductName, Stock FROM Products", con)
-                Dim reader = cmd.ExecuteReader
-
-                While reader.Read
-                    Dim pname = reader("ProductName").ToString
-                    Dim stock = Convert.ToInt32(reader("Stock"))
-                    tempStock(pname) = stock
-                    cbClothingType.Items.Add(pname)
-                End While
-                reader.Close()
-            Catch ex As Exception
-                MessageBox.Show("Error loading products: " & ex.Message)
-            End Try
+            refreshComboBoxInfo()
         End Using
 
         MsgBox("Checkout successful! Transaction saved.", vbInformation, "Success")
@@ -384,29 +407,19 @@ Public Class Dashboard
         cbClothingType.SelectedIndex = 0
     End Sub
 
-
-
-    ' Recalculate grand total from dgvCart and update label
-
-
+    'Showpanel() buttons
     Private Sub btnManageStocks_Click(sender As Object, e As EventArgs) Handles btnManageStocks.Click
-        'Dim manageStocks As New ManageStocks
-        'AddHandler manageStocks.StocksUpdated, AddressOf RefreshProductInfo
-        'manageStocks.Show  ' Waits here until form is closed
 
         ShowPanel(stocksControl)
     End Sub
 
     Private Sub btnViewTransaction_Click(sender As Object, e As EventArgs) Handles btnViewTransaction.Click
-        'Dim viewTransaction As New ViewTransactions
-        'viewTransaction.Show()
         ShowPanel(transactionsControl)
     End Sub
 
     Private Sub btnCart_Click(sender As Object, e As EventArgs) Handles btnCart.Click
+        refreshComboBoxInfo()
         ShowPanel(pnlCart)
     End Sub
-
-
 
 End Class

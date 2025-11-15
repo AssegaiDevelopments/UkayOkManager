@@ -22,7 +22,7 @@ Partial Class Dashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         pnlNav = New Panel()
         btnMinimize = New Button()
         btnExit = New Button()
@@ -56,6 +56,7 @@ Partial Class Dashboard
         Label1 = New Label()
         dgvCart = New DataGridView()
         pnlSidebar = New Panel()
+        flpSidebar = New FlowLayoutPanel()
         btnCart = New Button()
         PictureBox1 = New PictureBox()
         pnlMain = New Panel()
@@ -72,6 +73,7 @@ Partial Class Dashboard
         Panel2.SuspendLayout()
         CType(dgvCart, ComponentModel.ISupportInitialize).BeginInit()
         pnlSidebar.SuspendLayout()
+        flpSidebar.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         pnlMain.SuspendLayout()
         SuspendLayout()
@@ -128,33 +130,39 @@ Partial Class Dashboard
         ' btnManageStocks
         ' 
         btnManageStocks.Anchor = AnchorStyles.Left
-        btnManageStocks.BackColor = Color.SeaGreen
+        btnManageStocks.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
         btnManageStocks.Cursor = Cursors.Hand
         btnManageStocks.FlatAppearance.BorderSize = 0
         btnManageStocks.FlatStyle = FlatStyle.Flat
-        btnManageStocks.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnManageStocks.Font = New Font("Segoe UI Emoji", 9.75F)
         btnManageStocks.ForeColor = Color.White
-        btnManageStocks.Location = New Point(0, 146)
+        btnManageStocks.Location = New Point(0, 84)
+        btnManageStocks.Margin = New Padding(0)
         btnManageStocks.Name = "btnManageStocks"
-        btnManageStocks.Size = New Size(145, 61)
+        btnManageStocks.Size = New Size(145, 42)
         btnManageStocks.TabIndex = 0
-        btnManageStocks.Text = "📦" & vbCrLf & "Manage Stocks"
+        btnManageStocks.Tag = "ManageStocksControl"
+        btnManageStocks.Text = "📦 Manage Stocks"
+        btnManageStocks.TextAlign = ContentAlignment.MiddleLeft
         btnManageStocks.UseVisualStyleBackColor = False
         ' 
         ' btnViewTransaction
         ' 
         btnViewTransaction.Anchor = AnchorStyles.Left
-        btnViewTransaction.BackColor = Color.DodgerBlue
+        btnViewTransaction.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
         btnViewTransaction.Cursor = Cursors.Hand
         btnViewTransaction.FlatAppearance.BorderSize = 0
         btnViewTransaction.FlatStyle = FlatStyle.Flat
-        btnViewTransaction.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnViewTransaction.Font = New Font("Segoe UI Emoji", 9.75F)
         btnViewTransaction.ForeColor = Color.White
-        btnViewTransaction.Location = New Point(0, 213)
+        btnViewTransaction.Location = New Point(0, 42)
+        btnViewTransaction.Margin = New Padding(0)
         btnViewTransaction.Name = "btnViewTransaction"
-        btnViewTransaction.Size = New Size(145, 61)
+        btnViewTransaction.Size = New Size(145, 42)
         btnViewTransaction.TabIndex = 26
-        btnViewTransaction.Text = "📠" & vbCrLf & "View Transaction Logs"
+        btnViewTransaction.Tag = "ViewTransactionsControl"
+        btnViewTransaction.Text = "📠 Transaction Logs"
+        btnViewTransaction.TextAlign = ContentAlignment.MiddleLeft
         btnViewTransaction.UseVisualStyleBackColor = False
         ' 
         ' pnlCart
@@ -483,14 +491,14 @@ Partial Class Dashboard
         dgvCart.Anchor = AnchorStyles.None
         dgvCart.BackgroundColor = Color.White
         dgvCart.BorderStyle = BorderStyle.Fixed3D
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = SystemColors.Control
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = Color.MediumTurquoise
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = SystemColors.Control
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle2.SelectionBackColor = Color.MediumTurquoise
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
+        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvCart.EditMode = DataGridViewEditMode.EditProgrammatically
         dgvCart.GridColor = Color.White
@@ -502,31 +510,43 @@ Partial Class Dashboard
         ' 
         ' pnlSidebar
         ' 
-        pnlSidebar.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
-        pnlSidebar.Controls.Add(btnCart)
+        pnlSidebar.BackColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
+        pnlSidebar.Controls.Add(flpSidebar)
         pnlSidebar.Controls.Add(PictureBox1)
-        pnlSidebar.Controls.Add(btnManageStocks)
-        pnlSidebar.Controls.Add(btnViewTransaction)
         pnlSidebar.Dock = DockStyle.Left
         pnlSidebar.Location = New Point(0, 0)
         pnlSidebar.Name = "pnlSidebar"
         pnlSidebar.Size = New Size(145, 720)
         pnlSidebar.TabIndex = 47
         ' 
+        ' flpSidebar
+        ' 
+        flpSidebar.Controls.Add(btnCart)
+        flpSidebar.Controls.Add(btnViewTransaction)
+        flpSidebar.Controls.Add(btnManageStocks)
+        flpSidebar.Dock = DockStyle.Bottom
+        flpSidebar.Location = New Point(0, 68)
+        flpSidebar.Name = "flpSidebar"
+        flpSidebar.Size = New Size(145, 652)
+        flpSidebar.TabIndex = 29
+        ' 
         ' btnCart
         ' 
         btnCart.Anchor = AnchorStyles.Left
-        btnCart.BackColor = Color.Goldenrod
+        btnCart.BackColor = Color.SeaGreen
         btnCart.Cursor = Cursors.Hand
         btnCart.FlatAppearance.BorderSize = 0
         btnCart.FlatStyle = FlatStyle.Flat
-        btnCart.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCart.Font = New Font("Segoe UI Emoji", 9.75F)
         btnCart.ForeColor = Color.White
-        btnCart.Location = New Point(0, 79)
+        btnCart.Location = New Point(0, 0)
+        btnCart.Margin = New Padding(0)
         btnCart.Name = "btnCart"
-        btnCart.Size = New Size(145, 61)
+        btnCart.Size = New Size(145, 42)
         btnCart.TabIndex = 28
-        btnCart.Text = ChrW(55357) & ChrW(57042) & vbCrLf & "Cart"
+        btnCart.Tag = "pnlCart"
+        btnCart.Text = ChrW(55357) & ChrW(57042) & " Cart"
+        btnCart.TextAlign = ContentAlignment.MiddleLeft
         btnCart.UseVisualStyleBackColor = False
         ' 
         ' PictureBox1
@@ -601,6 +621,7 @@ Partial Class Dashboard
         Panel2.PerformLayout()
         CType(dgvCart, ComponentModel.ISupportInitialize).EndInit()
         pnlSidebar.ResumeLayout(False)
+        flpSidebar.ResumeLayout(False)
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         pnlMain.ResumeLayout(False)
         ResumeLayout(False)
@@ -643,4 +664,5 @@ Partial Class Dashboard
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
+    Friend WithEvents flpSidebar As FlowLayoutPanel
 End Class

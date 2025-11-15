@@ -68,6 +68,7 @@ Public Class ManageStocksControl
     End Sub
 
     Private Sub dgvStocks_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs)
+        dgvStocks.GridColor = Color.Yellow
         dgvStocks.CommitEdit(DataGridViewDataErrorContexts.Commit)
         dgvStocks.EndEdit()
     End Sub
@@ -110,7 +111,8 @@ Public Class ManageStocksControl
         End If
     End Sub
 
-    Private Sub dgvStocks_CellValueChanged_1(sender As Object, e As DataGridViewCellEventArgs) Handles dgvStocks.CellValueChanged
-        dgvStocks.GridColor = Color.Yellow
+
+    Private Sub dgvStocks_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvStocks.CellClick
+
     End Sub
 End Class
