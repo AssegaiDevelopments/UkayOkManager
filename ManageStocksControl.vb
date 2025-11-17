@@ -111,8 +111,4 @@ Public Class ManageStocksControl
         End If
     End Sub
 
-
-    Private Sub dgvStocks_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvStocks.CellClick
-
-    End Sub
 End Class

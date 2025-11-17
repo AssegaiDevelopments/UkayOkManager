@@ -24,7 +24,7 @@ Public Class CartControl
                 End While
                 reader.Close()
             Catch ex As Exception
-                MessageBox.Show("Error loading products: " & ex.Message)
+                MessageBox.Show(ex.Message)
             End Try
         End Using
 
@@ -380,5 +380,4 @@ Public Class CartControl
         RefreshProductInfo()
         cbClothingType.SelectedIndex = 0
     End Sub
-
 End Class

@@ -23,6 +23,7 @@ Public Class Dashboard
     Private stocksControl As New ManageStocksControl()
     Private transactionsControl As New ViewTransactionsControl()
     Private cartControl As New CartControl()
+    Private expensesControl As New ExpensesControl()
 
     Private Sub ShowPanel(panelToShow As Control)
         pnlMain.SuspendLayout()
@@ -54,10 +55,12 @@ Public Class Dashboard
         pnlMain.Controls.Add(stocksControl)
         pnlMain.Controls.Add(transactionsControl)
         pnlMain.Controls.Add(cartControl)
+        pnlMain.Controls.Add(expensesControl)
 
         stocksControl.Dock = DockStyle.Fill
         transactionsControl.Dock = DockStyle.Fill
         cartControl.Dock = DockStyle.Fill
+        expensesControl.Dock = DockStyle.Fill
         btnCart.PerformClick()
     End Sub
     'Minimize application
@@ -85,4 +88,8 @@ Public Class Dashboard
         cartControl.InitializeCart()
     End Sub
 
+    Private Sub btnExpenses_Click(sender As Object, e As EventArgs) Handles btnExpenses.Click
+        ShowPanel(expensesControl)
+        expensesControl.InitializeExpenses()
+    End Sub
 End Class

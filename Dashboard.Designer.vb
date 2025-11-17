@@ -32,10 +32,12 @@ Partial Class Dashboard
         pnlSidebar = New Panel()
         flpSidebar = New FlowLayoutPanel()
         btnCart = New Button()
+        btnExpenses = New Button()
         PictureBox1 = New PictureBox()
         pnlMain = New Panel()
         pnlTransactions = New Panel()
         pnlManageStocks = New Panel()
+        pnlExpenses = New Panel()
         pnlNav.SuspendLayout()
         pnlSidebar.SuspendLayout()
         flpSidebar.SuspendLayout()
@@ -155,6 +157,7 @@ Partial Class Dashboard
         flpSidebar.Controls.Add(btnCart)
         flpSidebar.Controls.Add(btnViewTransaction)
         flpSidebar.Controls.Add(btnManageStocks)
+        flpSidebar.Controls.Add(btnExpenses)
         flpSidebar.Dock = DockStyle.Bottom
         flpSidebar.Location = New Point(0, 68)
         flpSidebar.Name = "flpSidebar"
@@ -180,6 +183,25 @@ Partial Class Dashboard
         btnCart.TextAlign = ContentAlignment.MiddleLeft
         btnCart.UseVisualStyleBackColor = False
         ' 
+        ' btnExpenses
+        ' 
+        btnExpenses.Anchor = AnchorStyles.Left
+        btnExpenses.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
+        btnExpenses.Cursor = Cursors.Hand
+        btnExpenses.FlatAppearance.BorderSize = 0
+        btnExpenses.FlatStyle = FlatStyle.Flat
+        btnExpenses.Font = New Font("Segoe UI Emoji", 9.75F)
+        btnExpenses.ForeColor = Color.White
+        btnExpenses.Location = New Point(0, 126)
+        btnExpenses.Margin = New Padding(0)
+        btnExpenses.Name = "btnExpenses"
+        btnExpenses.Size = New Size(145, 42)
+        btnExpenses.TabIndex = 29
+        btnExpenses.Tag = "ExpensesControl"
+        btnExpenses.Text = "💵 Expenses"
+        btnExpenses.TextAlign = ContentAlignment.MiddleLeft
+        btnExpenses.UseVisualStyleBackColor = False
+        ' 
         ' PictureBox1
         ' 
         PictureBox1.BackgroundImage = My.Resources.Resources.mainicon
@@ -193,6 +215,7 @@ Partial Class Dashboard
         ' pnlMain
         ' 
         pnlMain.BackColor = Color.Transparent
+        pnlMain.Controls.Add(pnlExpenses)
         pnlMain.Controls.Add(pnlCart)
         pnlMain.Controls.Add(pnlTransactions)
         pnlMain.Controls.Add(pnlManageStocks)
@@ -219,6 +242,14 @@ Partial Class Dashboard
         pnlManageStocks.Name = "pnlManageStocks"
         pnlManageStocks.Size = New Size(1135, 682)
         pnlManageStocks.TabIndex = 0
+        ' 
+        ' pnlExpenses
+        ' 
+        pnlExpenses.Dock = DockStyle.Fill
+        pnlExpenses.Location = New Point(0, 0)
+        pnlExpenses.Name = "pnlExpenses"
+        pnlExpenses.Size = New Size(1135, 682)
+        pnlExpenses.TabIndex = 0
         ' 
         ' Dashboard
         ' 
@@ -257,4 +288,6 @@ Partial Class Dashboard
     Friend WithEvents pnlNav As Panel
     Friend WithEvents btnCart As Button
     Friend WithEvents flpSidebar As FlowLayoutPanel
+    Friend WithEvents btnExpenses As Button
+    Friend WithEvents pnlExpenses As Panel
 End Class
