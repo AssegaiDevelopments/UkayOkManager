@@ -4,14 +4,16 @@ Imports Microsoft.Data.SqlClient
 Imports Windows.Win32.System
 
 Public Class Dashboard
+
+
     ' Enable double buffering to reduce flickering
-    Protected Overrides ReadOnly Property CreateParams As CreateParams
-        Get
-            Dim cp As CreateParams = MyBase.CreateParams
-            cp.ExStyle = cp.ExStyle Or &H2000000   ' WS_EX_COMPOSITED
-            Return cp
-        End Get
-    End Property
+    'Protected Overrides ReadOnly Property CreateParams As CreateParams
+    '    Get
+    '        Dim cp As CreateParams = MyBase.CreateParams
+    '        cp.ExStyle = cp.ExStyle Or &H2000000   ' WS_EX_COMPOSITED
+    '        Return cp
+    '    End Get
+    'End Property
 
     Dim clothingType, pname As String
     Dim quantity, discount As Integer
@@ -24,9 +26,10 @@ Public Class Dashboard
     Private transactionsControl As New ViewTransactionsControl()
     Private cartControl As New CartControl()
     Private expensesControl As New ExpensesControl()
+    Private dashboardControl As New DashboardControl()
 
     Private Sub ShowPanel(panelToShow As Control)
-        pnlMain.SuspendLayout()
+        'pnlMain.SuspendLayout()
 
         ' Update sidebar button colors; use tag to match panel names
         For Each btn As Button In flpSidebar.Controls.OfType(Of Button)()
@@ -46,21 +49,27 @@ Public Class Dashboard
         panelToShow.Visible = True
         panelToShow.BringToFront()
 
-        pnlMain.ResumeLayout(True)
+        'pnlMain.ResumeLayout(False)
     End Sub
 
     'Change visible panel in pnlMain and update sidebar button colors
     Public Sub Dashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         Login.Hide()
+
+        'add UserControls to main panel to switch
         pnlMain.Controls.Add(stocksControl)
         pnlMain.Controls.Add(transactionsControl)
         pnlMain.Controls.Add(cartControl)
         pnlMain.Controls.Add(expensesControl)
+        pnlMain.Controls.Add(dashboardControl)
 
         stocksControl.Dock = DockStyle.Fill
         transactionsControl.Dock = DockStyle.Fill
         cartControl.Dock = DockStyle.Fill
         expensesControl.Dock = DockStyle.Fill
+        dashboardControl.Dock = DockStyle.Fill
+
         btnCart.PerformClick()
     End Sub
     'Minimize application
@@ -75,12 +84,13 @@ Public Class Dashboard
 
     'Showpanel() buttons
     Private Sub btnManageStocks_Click(sender As Object, e As EventArgs) Handles btnManageStocks.Click
-
         ShowPanel(stocksControl)
+        stocksControl.InitializeStocks()
     End Sub
 
     Private Sub btnViewTransaction_Click(sender As Object, e As EventArgs) Handles btnViewTransaction.Click
         ShowPanel(transactionsControl)
+        transactionsControl.InitializeTransactions()
     End Sub
 
     Private Sub btnCart_Click(sender As Object, e As EventArgs) Handles btnCart.Click
@@ -91,5 +101,9 @@ Public Class Dashboard
     Private Sub btnExpenses_Click(sender As Object, e As EventArgs) Handles btnExpenses.Click
         ShowPanel(expensesControl)
         expensesControl.InitializeExpenses()
+    End Sub
+
+    Private Sub btnDashboardControl_Click(sender As Object, e As EventArgs) Handles btnDashboardControl.Click
+        ShowPanel(dashboardControl)
     End Sub
 End Class

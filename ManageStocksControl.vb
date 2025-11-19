@@ -9,6 +9,10 @@ Public Class ManageStocksControl
     Dim adapter As SqlDataAdapter
     Dim dt As New DataTable()
 
+    Public Sub InitializeStocks()
+        LoadProducts()
+    End Sub
+
     'live update stock
     Public Event StocksUpdated()
 
@@ -65,6 +69,7 @@ Public Class ManageStocksControl
             ' Update the grid visually
             dgvStocks.CurrentCell.Value = newValue
         End If
+
     End Sub
 
     Private Sub dgvStocks_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs)

@@ -33,11 +33,13 @@ Partial Class Dashboard
         flpSidebar = New FlowLayoutPanel()
         btnCart = New Button()
         btnExpenses = New Button()
+        btnDashboardControl = New Button()
         PictureBox1 = New PictureBox()
         pnlMain = New Panel()
+        pnlDashboard = New Panel()
+        pnlExpenses = New Panel()
         pnlTransactions = New Panel()
         pnlManageStocks = New Panel()
-        pnlExpenses = New Panel()
         pnlNav.SuspendLayout()
         pnlSidebar.SuspendLayout()
         flpSidebar.SuspendLayout()
@@ -158,6 +160,7 @@ Partial Class Dashboard
         flpSidebar.Controls.Add(btnViewTransaction)
         flpSidebar.Controls.Add(btnManageStocks)
         flpSidebar.Controls.Add(btnExpenses)
+        flpSidebar.Controls.Add(btnDashboardControl)
         flpSidebar.Dock = DockStyle.Bottom
         flpSidebar.Location = New Point(0, 68)
         flpSidebar.Name = "flpSidebar"
@@ -198,9 +201,28 @@ Partial Class Dashboard
         btnExpenses.Size = New Size(145, 42)
         btnExpenses.TabIndex = 29
         btnExpenses.Tag = "ExpensesControl"
-        btnExpenses.Text = "💵 Expenses"
+        btnExpenses.Text = "💱 Expenses"
         btnExpenses.TextAlign = ContentAlignment.MiddleLeft
         btnExpenses.UseVisualStyleBackColor = False
+        ' 
+        ' btnDashboardControl
+        ' 
+        btnDashboardControl.Anchor = AnchorStyles.Left
+        btnDashboardControl.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
+        btnDashboardControl.Cursor = Cursors.Hand
+        btnDashboardControl.FlatAppearance.BorderSize = 0
+        btnDashboardControl.FlatStyle = FlatStyle.Flat
+        btnDashboardControl.Font = New Font("Segoe UI Emoji", 9.75F)
+        btnDashboardControl.ForeColor = Color.White
+        btnDashboardControl.Location = New Point(0, 168)
+        btnDashboardControl.Margin = New Padding(0)
+        btnDashboardControl.Name = "btnDashboardControl"
+        btnDashboardControl.Size = New Size(145, 42)
+        btnDashboardControl.TabIndex = 30
+        btnDashboardControl.Tag = "DashboardControl"
+        btnDashboardControl.Text = "📈 Dashboard"
+        btnDashboardControl.TextAlign = ContentAlignment.MiddleLeft
+        btnDashboardControl.UseVisualStyleBackColor = False
         ' 
         ' PictureBox1
         ' 
@@ -215,6 +237,7 @@ Partial Class Dashboard
         ' pnlMain
         ' 
         pnlMain.BackColor = Color.Transparent
+        pnlMain.Controls.Add(pnlDashboard)
         pnlMain.Controls.Add(pnlExpenses)
         pnlMain.Controls.Add(pnlCart)
         pnlMain.Controls.Add(pnlTransactions)
@@ -224,6 +247,22 @@ Partial Class Dashboard
         pnlMain.Name = "pnlMain"
         pnlMain.Size = New Size(1135, 682)
         pnlMain.TabIndex = 47
+        ' 
+        ' pnlDashboard
+        ' 
+        pnlDashboard.Dock = DockStyle.Fill
+        pnlDashboard.Location = New Point(0, 0)
+        pnlDashboard.Name = "pnlDashboard"
+        pnlDashboard.Size = New Size(1135, 682)
+        pnlDashboard.TabIndex = 0
+        ' 
+        ' pnlExpenses
+        ' 
+        pnlExpenses.Dock = DockStyle.Fill
+        pnlExpenses.Location = New Point(0, 0)
+        pnlExpenses.Name = "pnlExpenses"
+        pnlExpenses.Size = New Size(1135, 682)
+        pnlExpenses.TabIndex = 0
         ' 
         ' pnlTransactions
         ' 
@@ -242,14 +281,6 @@ Partial Class Dashboard
         pnlManageStocks.Name = "pnlManageStocks"
         pnlManageStocks.Size = New Size(1135, 682)
         pnlManageStocks.TabIndex = 0
-        ' 
-        ' pnlExpenses
-        ' 
-        pnlExpenses.Dock = DockStyle.Fill
-        pnlExpenses.Location = New Point(0, 0)
-        pnlExpenses.Name = "pnlExpenses"
-        pnlExpenses.Size = New Size(1135, 682)
-        pnlExpenses.TabIndex = 0
         ' 
         ' Dashboard
         ' 
@@ -290,4 +321,6 @@ Partial Class Dashboard
     Friend WithEvents flpSidebar As FlowLayoutPanel
     Friend WithEvents btnExpenses As Button
     Friend WithEvents pnlExpenses As Panel
+    Friend WithEvents btnDashboardControl As Button
+    Friend WithEvents pnlDashboard As Panel
 End Class

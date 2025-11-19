@@ -1,12 +1,15 @@
 ﻿Imports Microsoft.Data.SqlClient
 Public Class ExpensesControl
     Dim adapter As SqlDataAdapter
+
+    'initialize expenses datagridview
     Public Sub InitializeExpenses()
         dgvExpenses.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvExpenses.DefaultCellStyle.ForeColor = Color.Black
         LoadExpenses()
     End Sub
 
+    'load expenses from database into datagridview
     Private Sub LoadExpenses()
         Try
             Using con As New SqlConnection(connectAs)
@@ -43,6 +46,7 @@ Public Class ExpensesControl
         End Try
     End Sub
 
+    'add expense to database
     Private Sub btnAddExpense_Click(sender As Object, e As EventArgs) Handles btnAddExpense.Click
         If String.IsNullOrWhiteSpace(txtbDescription.Text) Then
             MessageBox.Show("Please enter a description for the expense.")
@@ -73,6 +77,7 @@ Public Class ExpensesControl
         End If
     End Sub
 
+    'remove expense
     Private Sub btnRemoveExpense_Click(sender As Object, e As EventArgs) Handles btnRemoveExpense.Click
         If dgvExpenses.SelectedRows.Count = 0 Then
             MessageBox.Show("Select a product to remove.")

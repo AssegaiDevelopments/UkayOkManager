@@ -7,6 +7,7 @@ Public Class CartControl
     Dim tempStock As New Dictionary(Of String, Integer)
 
     Public Sub InitializeCart()
+        cbClothingType.Items.Clear()
         Using con As New SqlConnection(connectAs)
             Try
                 con.Open()

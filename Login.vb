@@ -7,7 +7,7 @@ Imports Microsoft.Data.SqlClient
 
 Public Class Login
 
-    Private mouseDown As Boolean
+    Private mouseDowned As Boolean
     Private lastLocation As Point
 
     Public Function ComputeSha256Hash(rawData As String) As String
@@ -80,19 +80,19 @@ Public Class Login
     End Sub
 
     Private Sub Login_MouseDown(sender As Object, e As MouseEventArgs) Handles MyBase.MouseDown
-        mouseDown = True
+        mouseDowned = True
         lastLocation = e.Location
     End Sub
 
     Private Sub Login_MouseMove(sender As Object, e As MouseEventArgs) Handles MyBase.MouseMove
-        If mouseDown Then
+        If mouseDowned Then
             Me.Location = New Point((Me.Location.X - lastLocation.X) + e.X, (Me.Location.Y - lastLocation.Y) + e.Y)
             Me.Update()
         End If
     End Sub
 
     Private Sub Login_MouseUp(sender As Object, e As MouseEventArgs) Handles MyBase.MouseUp
-        mouseDown = False
+        mouseDowned = False
     End Sub
 
     Private Sub pbbtnLogin_Click(sender As Object, e As EventArgs) Handles pbbtnLogin.Click

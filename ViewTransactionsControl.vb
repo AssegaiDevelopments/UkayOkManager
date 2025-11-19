@@ -4,6 +4,10 @@ Public Class ViewTransactionsControl
     Dim adapter As SqlDataAdapter
     Dim dt As New DataTable()
 
+    Public Sub InitializeTransactions()
+        LoadTransactions()
+    End Sub
+
     Private Sub ShowTransactionDetails(transactionID As Integer)
         Try
             Using con As New SqlConnection(connectAs)

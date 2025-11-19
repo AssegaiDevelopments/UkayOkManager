@@ -1,5 +1,8 @@
 ﻿Public Class SelectPayment
     Public Property CartTotal As Decimal
+    Public Property AmountReceived As Decimal
+    Public Property ChangeGiven As Decimal
+
     Public Property PaymentConfirmed As Boolean = False
     Public SelectedMethod As String = ""
 
@@ -21,6 +24,12 @@
     End Sub
 
     Private Sub SelectPayment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        pnlCashReceived.Visible = False
+        pnlGCashReceived.Visible = False
+        txtCashReceived.Clear()
+        lblChange.Text = ""
+
+
         lblCartTotal.Text = "₱" & CartTotal.ToString("N2")
         lblCartTotalB.Text = "₱" & CartTotal.ToString("N2")
 
