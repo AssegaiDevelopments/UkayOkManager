@@ -23,40 +23,70 @@ Partial Class Dashboard
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         pnlNav = New Panel()
-        btnMinimize = New Button()
+        FlowLayoutPanel1 = New FlowLayoutPanel()
         btnExit = New Button()
-        SqlCommand1 = New Microsoft.Data.SqlClient.SqlCommand()
-        btnManageStocks = New Button()
+        btnMinimize = New Button()
+        PictureBox1 = New PictureBox()
+        btnCart = New Button()
         btnViewTransaction = New Button()
-        pnlCart = New Panel()
         pnlSidebar = New Panel()
         flpSidebar = New FlowLayoutPanel()
-        btnCart = New Button()
+        btnManageStocks = New Button()
         btnExpenses = New Button()
         btnDashboardControl = New Button()
-        PictureBox1 = New PictureBox()
         pnlMain = New Panel()
         pnlDashboard = New Panel()
         pnlExpenses = New Panel()
+        pnlCart = New Panel()
         pnlTransactions = New Panel()
         pnlManageStocks = New Panel()
+        SqlCommand2 = New Microsoft.Data.SqlClient.SqlCommand()
+        SqlCommand1 = New Microsoft.Data.SqlClient.SqlCommand()
+        BufferedPanel1 = New BufferedPanel()
         pnlNav.SuspendLayout()
+        FlowLayoutPanel1.SuspendLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         pnlSidebar.SuspendLayout()
         flpSidebar.SuspendLayout()
-        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         pnlMain.SuspendLayout()
         SuspendLayout()
         ' 
         ' pnlNav
         ' 
         pnlNav.BackColor = Color.Transparent
-        pnlNav.Controls.Add(btnMinimize)
-        pnlNav.Controls.Add(btnExit)
+        pnlNav.Controls.Add(FlowLayoutPanel1)
         pnlNav.Dock = DockStyle.Top
         pnlNav.Location = New Point(145, 0)
         pnlNav.Name = "pnlNav"
         pnlNav.Size = New Size(1135, 38)
-        pnlNav.TabIndex = 28
+        pnlNav.TabIndex = 48
+        ' 
+        ' FlowLayoutPanel1
+        ' 
+        FlowLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink
+        FlowLayoutPanel1.Controls.Add(btnExit)
+        FlowLayoutPanel1.Controls.Add(btnMinimize)
+        FlowLayoutPanel1.Dock = DockStyle.Right
+        FlowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft
+        FlowLayoutPanel1.Location = New Point(1068, 0)
+        FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        FlowLayoutPanel1.Size = New Size(67, 38)
+        FlowLayoutPanel1.TabIndex = 18
+        ' 
+        ' btnExit
+        ' 
+        btnExit.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnExit.Cursor = Cursors.Hand
+        btnExit.FlatAppearance.BorderSize = 0
+        btnExit.FlatStyle = FlatStyle.Flat
+        btnExit.ForeColor = Color.White
+        btnExit.Location = New Point(38, 3)
+        btnExit.Name = "btnExit"
+        btnExit.Size = New Size(26, 26)
+        btnExit.TabIndex = 16
+        btnExit.Text = "✖"
+        btnExit.UseMnemonic = False
+        btnExit.UseVisualStyleBackColor = True
         ' 
         ' btnMinimize
         ' 
@@ -67,7 +97,7 @@ Partial Class Dashboard
         btnMinimize.FlatStyle = FlatStyle.Flat
         btnMinimize.Font = New Font("Unispace", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnMinimize.ForeColor = Color.White
-        btnMinimize.Location = New Point(1065, 8)
+        btnMinimize.Location = New Point(6, 3)
         btnMinimize.Name = "btnMinimize"
         btnMinimize.Size = New Size(26, 27)
         btnMinimize.TabIndex = 17
@@ -76,44 +106,34 @@ Partial Class Dashboard
         btnMinimize.UseMnemonic = False
         btnMinimize.UseVisualStyleBackColor = False
         ' 
-        ' btnExit
+        ' PictureBox1
         ' 
-        btnExit.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnExit.Cursor = Cursors.Hand
-        btnExit.FlatAppearance.BorderSize = 0
-        btnExit.FlatStyle = FlatStyle.Flat
-        btnExit.ForeColor = Color.White
-        btnExit.Location = New Point(1097, 9)
-        btnExit.Name = "btnExit"
-        btnExit.Size = New Size(26, 26)
-        btnExit.TabIndex = 16
-        btnExit.Text = "✖"
-        btnExit.UseMnemonic = False
-        btnExit.UseVisualStyleBackColor = True
+        PictureBox1.BackgroundImage = My.Resources.Resources.mainicon
+        PictureBox1.BackgroundImageLayout = ImageLayout.Zoom
+        PictureBox1.Location = New Point(23, 12)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(100, 50)
+        PictureBox1.TabIndex = 27
+        PictureBox1.TabStop = False
         ' 
-        ' SqlCommand1
+        ' btnCart
         ' 
-        SqlCommand1.CommandTimeout = 30
-        SqlCommand1.EnableOptimizedParameterBinding = False
-        ' 
-        ' btnManageStocks
-        ' 
-        btnManageStocks.Anchor = AnchorStyles.Left
-        btnManageStocks.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
-        btnManageStocks.Cursor = Cursors.Hand
-        btnManageStocks.FlatAppearance.BorderSize = 0
-        btnManageStocks.FlatStyle = FlatStyle.Flat
-        btnManageStocks.Font = New Font("Segoe UI Emoji", 9.75F)
-        btnManageStocks.ForeColor = Color.White
-        btnManageStocks.Location = New Point(0, 84)
-        btnManageStocks.Margin = New Padding(0)
-        btnManageStocks.Name = "btnManageStocks"
-        btnManageStocks.Size = New Size(145, 42)
-        btnManageStocks.TabIndex = 0
-        btnManageStocks.Tag = "ManageStocksControl"
-        btnManageStocks.Text = "📦 Manage Stocks"
-        btnManageStocks.TextAlign = ContentAlignment.MiddleLeft
-        btnManageStocks.UseVisualStyleBackColor = False
+        btnCart.Anchor = AnchorStyles.Left
+        btnCart.BackColor = Color.SeaGreen
+        btnCart.Cursor = Cursors.Hand
+        btnCart.FlatAppearance.BorderSize = 0
+        btnCart.FlatStyle = FlatStyle.Flat
+        btnCart.Font = New Font("Segoe UI Emoji", 9.75F)
+        btnCart.ForeColor = Color.White
+        btnCart.Location = New Point(0, 0)
+        btnCart.Margin = New Padding(0)
+        btnCart.Name = "btnCart"
+        btnCart.Size = New Size(145, 42)
+        btnCart.TabIndex = 28
+        btnCart.Tag = "CartControl"
+        btnCart.Text = ChrW(55357) & ChrW(57042) & " Cart"
+        btnCart.TextAlign = ContentAlignment.MiddleLeft
+        btnCart.UseVisualStyleBackColor = False
         ' 
         ' btnViewTransaction
         ' 
@@ -134,15 +154,6 @@ Partial Class Dashboard
         btnViewTransaction.TextAlign = ContentAlignment.MiddleLeft
         btnViewTransaction.UseVisualStyleBackColor = False
         ' 
-        ' pnlCart
-        ' 
-        pnlCart.BackColor = Color.Transparent
-        pnlCart.Dock = DockStyle.Fill
-        pnlCart.Location = New Point(0, 0)
-        pnlCart.Name = "pnlCart"
-        pnlCart.Size = New Size(1135, 682)
-        pnlCart.TabIndex = 29
-        ' 
         ' pnlSidebar
         ' 
         pnlSidebar.BackColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
@@ -152,7 +163,7 @@ Partial Class Dashboard
         pnlSidebar.Location = New Point(0, 0)
         pnlSidebar.Name = "pnlSidebar"
         pnlSidebar.Size = New Size(145, 720)
-        pnlSidebar.TabIndex = 47
+        pnlSidebar.TabIndex = 50
         ' 
         ' flpSidebar
         ' 
@@ -167,24 +178,24 @@ Partial Class Dashboard
         flpSidebar.Size = New Size(145, 652)
         flpSidebar.TabIndex = 29
         ' 
-        ' btnCart
+        ' btnManageStocks
         ' 
-        btnCart.Anchor = AnchorStyles.Left
-        btnCart.BackColor = Color.SeaGreen
-        btnCart.Cursor = Cursors.Hand
-        btnCart.FlatAppearance.BorderSize = 0
-        btnCart.FlatStyle = FlatStyle.Flat
-        btnCart.Font = New Font("Segoe UI Emoji", 9.75F)
-        btnCart.ForeColor = Color.White
-        btnCart.Location = New Point(0, 0)
-        btnCart.Margin = New Padding(0)
-        btnCart.Name = "btnCart"
-        btnCart.Size = New Size(145, 42)
-        btnCart.TabIndex = 28
-        btnCart.Tag = "CartControl"
-        btnCart.Text = ChrW(55357) & ChrW(57042) & " Cart"
-        btnCart.TextAlign = ContentAlignment.MiddleLeft
-        btnCart.UseVisualStyleBackColor = False
+        btnManageStocks.Anchor = AnchorStyles.Left
+        btnManageStocks.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
+        btnManageStocks.Cursor = Cursors.Hand
+        btnManageStocks.FlatAppearance.BorderSize = 0
+        btnManageStocks.FlatStyle = FlatStyle.Flat
+        btnManageStocks.Font = New Font("Segoe UI Emoji", 9.75F)
+        btnManageStocks.ForeColor = Color.White
+        btnManageStocks.Location = New Point(0, 84)
+        btnManageStocks.Margin = New Padding(0)
+        btnManageStocks.Name = "btnManageStocks"
+        btnManageStocks.Size = New Size(145, 42)
+        btnManageStocks.TabIndex = 0
+        btnManageStocks.Tag = "ManageStocksControl"
+        btnManageStocks.Text = "📦 Manage Stocks"
+        btnManageStocks.TextAlign = ContentAlignment.MiddleLeft
+        btnManageStocks.UseVisualStyleBackColor = False
         ' 
         ' btnExpenses
         ' 
@@ -224,16 +235,6 @@ Partial Class Dashboard
         btnDashboardControl.TextAlign = ContentAlignment.MiddleLeft
         btnDashboardControl.UseVisualStyleBackColor = False
         ' 
-        ' PictureBox1
-        ' 
-        PictureBox1.BackgroundImage = My.Resources.Resources.mainicon
-        PictureBox1.BackgroundImageLayout = ImageLayout.Zoom
-        PictureBox1.Location = New Point(23, 12)
-        PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(100, 50)
-        PictureBox1.TabIndex = 27
-        PictureBox1.TabStop = False
-        ' 
         ' pnlMain
         ' 
         pnlMain.BackColor = Color.Transparent
@@ -246,7 +247,7 @@ Partial Class Dashboard
         pnlMain.Location = New Point(145, 38)
         pnlMain.Name = "pnlMain"
         pnlMain.Size = New Size(1135, 682)
-        pnlMain.TabIndex = 47
+        pnlMain.TabIndex = 49
         ' 
         ' pnlDashboard
         ' 
@@ -263,6 +264,15 @@ Partial Class Dashboard
         pnlExpenses.Name = "pnlExpenses"
         pnlExpenses.Size = New Size(1135, 682)
         pnlExpenses.TabIndex = 0
+        ' 
+        ' pnlCart
+        ' 
+        pnlCart.BackColor = Color.Transparent
+        pnlCart.Dock = DockStyle.Fill
+        pnlCart.Location = New Point(0, 0)
+        pnlCart.Name = "pnlCart"
+        pnlCart.Size = New Size(1135, 682)
+        pnlCart.TabIndex = 29
         ' 
         ' pnlTransactions
         ' 
@@ -282,6 +292,25 @@ Partial Class Dashboard
         pnlManageStocks.Size = New Size(1135, 682)
         pnlManageStocks.TabIndex = 0
         ' 
+        ' SqlCommand2
+        ' 
+        SqlCommand2.CommandTimeout = 30
+        SqlCommand2.EnableOptimizedParameterBinding = False
+        ' 
+        ' SqlCommand1
+        ' 
+        SqlCommand1.CommandTimeout = 30
+        SqlCommand1.EnableOptimizedParameterBinding = False
+        ' 
+        ' BufferedPanel1
+        ' 
+        BufferedPanel1.BackColor = Color.Transparent
+        BufferedPanel1.Dock = DockStyle.Fill
+        BufferedPanel1.Location = New Point(0, 0)
+        BufferedPanel1.Name = "BufferedPanel1"
+        BufferedPanel1.Size = New Size(1280, 720)
+        BufferedPanel1.TabIndex = 2
+        ' 
         ' Dashboard
         ' 
         AutoScaleDimensions = New SizeF(96F, 96F)
@@ -293,34 +322,40 @@ Partial Class Dashboard
         Controls.Add(pnlMain)
         Controls.Add(pnlNav)
         Controls.Add(pnlSidebar)
+        Controls.Add(BufferedPanel1)
         FormBorderStyle = FormBorderStyle.None
         Name = "Dashboard"
         StartPosition = FormStartPosition.CenterScreen
         Text = "UkayOk Cart"
         WindowState = FormWindowState.Maximized
         pnlNav.ResumeLayout(False)
+        FlowLayoutPanel1.ResumeLayout(False)
+        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         pnlSidebar.ResumeLayout(False)
         flpSidebar.ResumeLayout(False)
-        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         pnlMain.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
-    Friend WithEvents btnExit As Button
+
+    Friend WithEvents pnlNav As Panel
+    Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
     Friend WithEvents btnMinimize As Button
-    Friend WithEvents SqlCommand1 As Microsoft.Data.SqlClient.SqlCommand
-    Friend WithEvents btnManageStocks As Button
+    Friend WithEvents btnExit As Button
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents btnCart As Button
     Friend WithEvents btnViewTransaction As Button
-    Friend WithEvents pnlCart As Panel
     Friend WithEvents pnlSidebar As Panel
+    Friend WithEvents flpSidebar As FlowLayoutPanel
+    Friend WithEvents btnManageStocks As Button
+    Friend WithEvents btnExpenses As Button
+    Friend WithEvents btnDashboardControl As Button
     Friend WithEvents pnlMain As Panel
+    Friend WithEvents pnlDashboard As Panel
+    Friend WithEvents pnlExpenses As Panel
+    Friend WithEvents pnlCart As Panel
     Friend WithEvents pnlTransactions As Panel
     Friend WithEvents pnlManageStocks As Panel
-    Friend WithEvents PictureBox1 As PictureBox
-    Friend WithEvents pnlNav As Panel
-    Friend WithEvents btnCart As Button
-    Friend WithEvents flpSidebar As FlowLayoutPanel
-    Friend WithEvents btnExpenses As Button
-    Friend WithEvents pnlExpenses As Panel
-    Friend WithEvents btnDashboardControl As Button
-    Friend WithEvents pnlDashboard As Panel
+    Friend WithEvents SqlCommand2 As Microsoft.Data.SqlClient.SqlCommand
+    Friend WithEvents SqlCommand1 As Microsoft.Data.SqlClient.SqlCommand
+    Friend WithEvents BufferedPanel1 As BufferedPanel
 End Class

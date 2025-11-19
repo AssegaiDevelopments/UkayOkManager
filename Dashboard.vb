@@ -7,13 +7,13 @@ Public Class Dashboard
 
 
     ' Enable double buffering to reduce flickering
-    'Protected Overrides ReadOnly Property CreateParams As CreateParams
-    '    Get
-    '        Dim cp As CreateParams = MyBase.CreateParams
-    '        cp.ExStyle = cp.ExStyle Or &H2000000   ' WS_EX_COMPOSITED
-    '        Return cp
-    '    End Get
-    'End Property
+    Protected Overrides ReadOnly Property CreateParams As CreateParams
+        Get
+            Dim cp As CreateParams = MyBase.CreateParams
+            cp.ExStyle = cp.ExStyle Or &H2000000   ' WS_EX_COMPOSITED
+            Return cp
+        End Get
+    End Property
 
     Dim clothingType, pname As String
     Dim quantity, discount As Integer
@@ -74,7 +74,7 @@ Public Class Dashboard
     End Sub
     'Minimize application
     Private Sub btnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
-        Me.WindowState = FormWindowState.Minimized
+        WindowState = FormWindowState.Minimized
     End Sub
     'Exit application
     Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
@@ -106,4 +106,5 @@ Public Class Dashboard
     Private Sub btnDashboardControl_Click(sender As Object, e As EventArgs) Handles btnDashboardControl.Click
         ShowPanel(dashboardControl)
     End Sub
+
 End Class

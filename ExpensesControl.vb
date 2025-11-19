@@ -85,7 +85,7 @@ Public Class ExpensesControl
         End If
 
         Dim expenseId As Integer = dgvExpenses.SelectedRows(0).Cells("ExpenseID").Value
-        If MessageBox.Show("Delete selected product?", "Confirm", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+        If MessageBox.Show("Delete selected expense?", "Confirm", MessageBoxButtons.YesNo) = DialogResult.Yes Then
             Using con As New SqlConnection(connectAs)
                 Dim cmd As New SqlCommand("DELETE FROM Expenses WHERE ExpenseID=@id", con)
                 cmd.Parameters.AddWithValue("@id", expenseId)

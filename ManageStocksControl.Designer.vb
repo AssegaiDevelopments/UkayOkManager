@@ -22,69 +22,62 @@ Partial Class ManageStocksControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Label2 = New Label()
-        btnRemoveItem = New Button()
-        btnAddItem = New Button()
+        BufferedPanel1 = New BufferedPanel()
+        GroupBox2 = New GroupBox()
         btnApplyToCell = New Button()
+        TableLayoutPanel3 = New TableLayoutPanel()
         Label1 = New Label()
         nudAddSubtract = New NumericUpDown()
-        btnSaveChanges = New Button()
-        dgvStocks = New DataGridView()
         TableLayoutPanel1 = New TableLayoutPanel()
-        TableLayoutPanel3 = New TableLayoutPanel()
-        tbProductName = New TextBox()
+        btnRemoveItem = New Button()
+        btnSaveChanges = New Button()
+        GroupBox1 = New GroupBox()
+        Label3 = New Label()
+        btnAddItem = New Button()
         Label4 = New Label()
+        tbProductName = New TextBox()
         nudStock = New NumericUpDown()
         Label5 = New Label()
         nudPrice = New NumericUpDown()
-        GroupBox1 = New GroupBox()
-        GroupBox2 = New GroupBox()
-        Label3 = New Label()
-        CType(nudAddSubtract, ComponentModel.ISupportInitialize).BeginInit()
-        CType(dgvStocks, ComponentModel.ISupportInitialize).BeginInit()
-        TableLayoutPanel1.SuspendLayout()
+        dgvStocks = New DataGridView()
+        Label2 = New Label()
+        BufferedPanel1.SuspendLayout()
+        GroupBox2.SuspendLayout()
         TableLayoutPanel3.SuspendLayout()
+        CType(nudAddSubtract, ComponentModel.ISupportInitialize).BeginInit()
+        TableLayoutPanel1.SuspendLayout()
+        GroupBox1.SuspendLayout()
         CType(nudStock, ComponentModel.ISupportInitialize).BeginInit()
         CType(nudPrice, ComponentModel.ISupportInitialize).BeginInit()
-        GroupBox1.SuspendLayout()
-        GroupBox2.SuspendLayout()
+        CType(dgvStocks, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
-        ' Label2
+        ' BufferedPanel1
         ' 
-        Label2.AutoSize = True
-        Label2.BackColor = Color.Transparent
-        Label2.Font = New Font("Malgun Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label2.ForeColor = Color.White
-        Label2.Location = New Point(31, 27)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(91, 50)
-        Label2.TabIndex = 28
-        Label2.Text = "Stock" & vbCrLf & "Manager"
+        BufferedPanel1.BackColor = Color.Transparent
+        BufferedPanel1.Controls.Add(GroupBox2)
+        BufferedPanel1.Controls.Add(GroupBox1)
+        BufferedPanel1.Controls.Add(dgvStocks)
+        BufferedPanel1.Controls.Add(Label2)
+        BufferedPanel1.Dock = DockStyle.Fill
+        BufferedPanel1.Location = New Point(0, 0)
+        BufferedPanel1.Name = "BufferedPanel1"
+        BufferedPanel1.Size = New Size(1135, 682)
+        BufferedPanel1.TabIndex = 0
         ' 
-        ' btnRemoveItem
+        ' GroupBox2
         ' 
-        btnRemoveItem.Dock = DockStyle.Fill
-        btnRemoveItem.FlatAppearance.BorderSize = 0
-        btnRemoveItem.ForeColor = Color.Black
-        btnRemoveItem.Location = New Point(3, 3)
-        btnRemoveItem.Name = "btnRemoveItem"
-        btnRemoveItem.Size = New Size(124, 42)
-        btnRemoveItem.TabIndex = 26
-        btnRemoveItem.Text = "Remove Item"
-        btnRemoveItem.UseVisualStyleBackColor = True
-        ' 
-        ' btnAddItem
-        ' 
-        btnAddItem.Cursor = Cursors.Hand
-        btnAddItem.FlatAppearance.BorderSize = 0
-        btnAddItem.ForeColor = Color.Black
-        btnAddItem.Location = New Point(201, 157)
-        btnAddItem.Name = "btnAddItem"
-        btnAddItem.Size = New Size(124, 39)
-        btnAddItem.TabIndex = 25
-        btnAddItem.Text = "Add Item"
-        btnAddItem.UseVisualStyleBackColor = True
+        GroupBox2.BackColor = Color.Transparent
+        GroupBox2.Controls.Add(btnApplyToCell)
+        GroupBox2.Controls.Add(TableLayoutPanel3)
+        GroupBox2.Controls.Add(TableLayoutPanel1)
+        GroupBox2.ForeColor = Color.White
+        GroupBox2.Location = New Point(25, 356)
+        GroupBox2.Name = "GroupBox2"
+        GroupBox2.Size = New Size(371, 281)
+        GroupBox2.TabIndex = 36
+        GroupBox2.TabStop = False
+        GroupBox2.Text = "Manage Stocks"
         ' 
         ' btnApplyToCell
         ' 
@@ -95,6 +88,22 @@ Partial Class ManageStocksControl
         btnApplyToCell.TabIndex = 24
         btnApplyToCell.Text = "Apply to selected"
         btnApplyToCell.UseVisualStyleBackColor = True
+        ' 
+        ' TableLayoutPanel3
+        ' 
+        TableLayoutPanel3.AutoSize = True
+        TableLayoutPanel3.BackColor = Color.Transparent
+        TableLayoutPanel3.ColumnCount = 2
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel3.Controls.Add(Label1, 0, 0)
+        TableLayoutPanel3.Controls.Add(nudAddSubtract, 1, 0)
+        TableLayoutPanel3.Location = New Point(58, 38)
+        TableLayoutPanel3.Name = "TableLayoutPanel3"
+        TableLayoutPanel3.RowCount = 1
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel3.Size = New Size(260, 45)
+        TableLayoutPanel3.TabIndex = 25
         ' 
         ' Label1
         ' 
@@ -118,33 +127,6 @@ Partial Class ManageStocksControl
         nudAddSubtract.Size = New Size(121, 35)
         nudAddSubtract.TabIndex = 22
         ' 
-        ' btnSaveChanges
-        ' 
-        btnSaveChanges.BackColor = Color.FromArgb(CByte(243), CByte(182), CByte(80))
-        btnSaveChanges.Dock = DockStyle.Fill
-        btnSaveChanges.FlatAppearance.BorderColor = Color.FromArgb(CByte(243), CByte(182), CByte(80))
-        btnSaveChanges.FlatAppearance.BorderSize = 2
-        btnSaveChanges.FlatStyle = FlatStyle.Flat
-        btnSaveChanges.ForeColor = Color.Black
-        btnSaveChanges.Location = New Point(133, 3)
-        btnSaveChanges.Name = "btnSaveChanges"
-        btnSaveChanges.Size = New Size(124, 42)
-        btnSaveChanges.TabIndex = 21
-        btnSaveChanges.Text = "Save Changes"
-        btnSaveChanges.UseVisualStyleBackColor = False
-        ' 
-        ' dgvStocks
-        ' 
-        dgvStocks.BackgroundColor = Color.White
-        dgvStocks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        dgvStocks.Cursor = Cursors.Hand
-        dgvStocks.Dock = DockStyle.Right
-        dgvStocks.GridColor = Color.SpringGreen
-        dgvStocks.Location = New Point(482, 0)
-        dgvStocks.Name = "dgvStocks"
-        dgvStocks.Size = New Size(653, 682)
-        dgvStocks.TabIndex = 20
-        ' 
         ' TableLayoutPanel1
         ' 
         TableLayoutPanel1.BackColor = Color.Transparent
@@ -160,32 +142,74 @@ Partial Class ManageStocksControl
         TableLayoutPanel1.Size = New Size(260, 48)
         TableLayoutPanel1.TabIndex = 29
         ' 
-        ' TableLayoutPanel3
+        ' btnRemoveItem
         ' 
-        TableLayoutPanel3.AutoSize = True
-        TableLayoutPanel3.BackColor = Color.Transparent
-        TableLayoutPanel3.ColumnCount = 2
-        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        TableLayoutPanel3.Controls.Add(Label1, 0, 0)
-        TableLayoutPanel3.Controls.Add(nudAddSubtract, 1, 0)
-        TableLayoutPanel3.Location = New Point(58, 38)
-        TableLayoutPanel3.Name = "TableLayoutPanel3"
-        TableLayoutPanel3.RowCount = 1
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel3.Size = New Size(260, 45)
-        TableLayoutPanel3.TabIndex = 25
+        btnRemoveItem.Dock = DockStyle.Fill
+        btnRemoveItem.FlatAppearance.BorderSize = 0
+        btnRemoveItem.ForeColor = Color.Black
+        btnRemoveItem.Location = New Point(3, 3)
+        btnRemoveItem.Name = "btnRemoveItem"
+        btnRemoveItem.Size = New Size(124, 42)
+        btnRemoveItem.TabIndex = 26
+        btnRemoveItem.Text = "Remove Item"
+        btnRemoveItem.UseVisualStyleBackColor = True
         ' 
-        ' tbProductName
+        ' btnSaveChanges
         ' 
-        tbProductName.Cursor = Cursors.IBeam
-        tbProductName.Font = New Font("Segoe UI", 15.75F)
-        tbProductName.Location = New Point(45, 40)
-        tbProductName.Margin = New Padding(0)
-        tbProductName.MaxLength = 256
-        tbProductName.Name = "tbProductName"
-        tbProductName.Size = New Size(274, 35)
-        tbProductName.TabIndex = 6
+        btnSaveChanges.BackColor = Color.FromArgb(CByte(243), CByte(182), CByte(80))
+        btnSaveChanges.Dock = DockStyle.Fill
+        btnSaveChanges.FlatAppearance.BorderColor = Color.FromArgb(CByte(243), CByte(182), CByte(80))
+        btnSaveChanges.FlatAppearance.BorderSize = 2
+        btnSaveChanges.FlatStyle = FlatStyle.Flat
+        btnSaveChanges.ForeColor = Color.Black
+        btnSaveChanges.Location = New Point(133, 3)
+        btnSaveChanges.Name = "btnSaveChanges"
+        btnSaveChanges.Size = New Size(124, 42)
+        btnSaveChanges.TabIndex = 21
+        btnSaveChanges.Text = "Save Changes"
+        btnSaveChanges.UseVisualStyleBackColor = False
+        ' 
+        ' GroupBox1
+        ' 
+        GroupBox1.BackColor = Color.Transparent
+        GroupBox1.Controls.Add(Label3)
+        GroupBox1.Controls.Add(btnAddItem)
+        GroupBox1.Controls.Add(Label4)
+        GroupBox1.Controls.Add(tbProductName)
+        GroupBox1.Controls.Add(nudStock)
+        GroupBox1.Controls.Add(Label5)
+        GroupBox1.Controls.Add(nudPrice)
+        GroupBox1.ForeColor = Color.White
+        GroupBox1.Location = New Point(25, 110)
+        GroupBox1.Name = "GroupBox1"
+        GroupBox1.Size = New Size(371, 215)
+        GroupBox1.TabIndex = 35
+        GroupBox1.TabStop = False
+        GroupBox1.Text = "Add Product"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.BackColor = Color.Transparent
+        Label3.ForeColor = Color.White
+        Label3.Location = New Point(45, 20)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(66, 15)
+        Label3.TabIndex = 26
+        Label3.Text = "Item Name"
+        Label3.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' btnAddItem
+        ' 
+        btnAddItem.Cursor = Cursors.Hand
+        btnAddItem.FlatAppearance.BorderSize = 0
+        btnAddItem.ForeColor = Color.Black
+        btnAddItem.Location = New Point(201, 157)
+        btnAddItem.Name = "btnAddItem"
+        btnAddItem.Size = New Size(124, 39)
+        btnAddItem.TabIndex = 25
+        btnAddItem.Text = "Add Item"
+        btnAddItem.UseVisualStyleBackColor = True
         ' 
         ' Label4
         ' 
@@ -198,6 +222,17 @@ Partial Class ManageStocksControl
         Label4.TabIndex = 8
         Label4.Text = "Stock"
         Label4.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' tbProductName
+        ' 
+        tbProductName.Cursor = Cursors.IBeam
+        tbProductName.Font = New Font("Segoe UI", 15.75F)
+        tbProductName.Location = New Point(45, 40)
+        tbProductName.Margin = New Padding(0)
+        tbProductName.MaxLength = 256
+        tbProductName.Name = "tbProductName"
+        tbProductName.Size = New Size(274, 35)
+        tbProductName.TabIndex = 6
         ' 
         ' nudStock
         ' 
@@ -233,49 +268,29 @@ Partial Class ManageStocksControl
         nudPrice.TabIndex = 8
         nudPrice.ThousandsSeparator = True
         ' 
-        ' GroupBox1
+        ' dgvStocks
         ' 
-        GroupBox1.BackColor = Color.Transparent
-        GroupBox1.Controls.Add(Label3)
-        GroupBox1.Controls.Add(btnAddItem)
-        GroupBox1.Controls.Add(Label4)
-        GroupBox1.Controls.Add(tbProductName)
-        GroupBox1.Controls.Add(nudStock)
-        GroupBox1.Controls.Add(Label5)
-        GroupBox1.Controls.Add(nudPrice)
-        GroupBox1.ForeColor = Color.White
-        GroupBox1.Location = New Point(41, 110)
-        GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(371, 215)
-        GroupBox1.TabIndex = 31
-        GroupBox1.TabStop = False
-        GroupBox1.Text = "Add Product"
+        dgvStocks.BackgroundColor = Color.White
+        dgvStocks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvStocks.Cursor = Cursors.Hand
+        dgvStocks.Dock = DockStyle.Right
+        dgvStocks.GridColor = Color.SpringGreen
+        dgvStocks.Location = New Point(482, 0)
+        dgvStocks.Name = "dgvStocks"
+        dgvStocks.Size = New Size(653, 682)
+        dgvStocks.TabIndex = 33
         ' 
-        ' GroupBox2
+        ' Label2
         ' 
-        GroupBox2.BackColor = Color.Transparent
-        GroupBox2.Controls.Add(btnApplyToCell)
-        GroupBox2.Controls.Add(TableLayoutPanel3)
-        GroupBox2.Controls.Add(TableLayoutPanel1)
-        GroupBox2.ForeColor = Color.White
-        GroupBox2.Location = New Point(41, 356)
-        GroupBox2.Name = "GroupBox2"
-        GroupBox2.Size = New Size(371, 281)
-        GroupBox2.TabIndex = 32
-        GroupBox2.TabStop = False
-        GroupBox2.Text = "Manage Stocks"
-        ' 
-        ' Label3
-        ' 
-        Label3.AutoSize = True
-        Label3.BackColor = Color.Transparent
-        Label3.ForeColor = Color.White
-        Label3.Location = New Point(45, 20)
-        Label3.Name = "Label3"
-        Label3.Size = New Size(66, 15)
-        Label3.TabIndex = 26
-        Label3.Text = "Item Name"
-        Label3.TextAlign = ContentAlignment.MiddleLeft
+        Label2.AutoSize = True
+        Label2.BackColor = Color.Transparent
+        Label2.Font = New Font("Malgun Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.ForeColor = Color.White
+        Label2.Location = New Point(15, 27)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(91, 50)
+        Label2.TabIndex = 34
+        Label2.Text = "Stock" & vbCrLf & "Manager"
         ' 
         ' ManageStocksControl
         ' 
@@ -283,44 +298,43 @@ Partial Class ManageStocksControl
         AutoScaleMode = AutoScaleMode.Font
         BackgroundImage = My.Resources.Resources.bg11
         BackgroundImageLayout = ImageLayout.Stretch
-        Controls.Add(GroupBox2)
-        Controls.Add(GroupBox1)
-        Controls.Add(Label2)
-        Controls.Add(dgvStocks)
+        Controls.Add(BufferedPanel1)
         Name = "ManageStocksControl"
         Size = New Size(1135, 682)
-        CType(nudAddSubtract, ComponentModel.ISupportInitialize).EndInit()
-        CType(dgvStocks, ComponentModel.ISupportInitialize).EndInit()
-        TableLayoutPanel1.ResumeLayout(False)
-        TableLayoutPanel3.ResumeLayout(False)
-        TableLayoutPanel3.PerformLayout()
-        CType(nudStock, ComponentModel.ISupportInitialize).EndInit()
-        CType(nudPrice, ComponentModel.ISupportInitialize).EndInit()
-        GroupBox1.ResumeLayout(False)
-        GroupBox1.PerformLayout()
+        BufferedPanel1.ResumeLayout(False)
+        BufferedPanel1.PerformLayout()
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
+        TableLayoutPanel3.ResumeLayout(False)
+        TableLayoutPanel3.PerformLayout()
+        CType(nudAddSubtract, ComponentModel.ISupportInitialize).EndInit()
+        TableLayoutPanel1.ResumeLayout(False)
+        GroupBox1.ResumeLayout(False)
+        GroupBox1.PerformLayout()
+        CType(nudStock, ComponentModel.ISupportInitialize).EndInit()
+        CType(nudPrice, ComponentModel.ISupportInitialize).EndInit()
+        CType(dgvStocks, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
-        PerformLayout()
     End Sub
 
-    Friend WithEvents Label2 As Label
-    Friend WithEvents btnRemoveItem As Button
-    Friend WithEvents btnAddItem As Button
+    Friend WithEvents BufferedPanel1 As BufferedPanel
+    Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents btnApplyToCell As Button
+    Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
     Friend WithEvents Label1 As Label
     Friend WithEvents nudAddSubtract As NumericUpDown
-    Friend WithEvents btnSaveChanges As Button
-    Friend WithEvents dgvStocks As DataGridView
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
-    Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
-    Friend WithEvents tbProductName As TextBox
+    Friend WithEvents btnRemoveItem As Button
+    Friend WithEvents btnSaveChanges As Button
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents btnAddItem As Button
     Friend WithEvents Label4 As Label
+    Friend WithEvents tbProductName As TextBox
     Friend WithEvents nudStock As NumericUpDown
     Friend WithEvents Label5 As Label
     Friend WithEvents nudPrice As NumericUpDown
-    Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents Label3 As Label
+    Friend WithEvents dgvStocks As DataGridView
+    Friend WithEvents Label2 As Label
 
 End Class
