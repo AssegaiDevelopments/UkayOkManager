@@ -34,6 +34,7 @@ Partial Class Dashboard
         btnManageStocks = New Button()
         btnExpenses = New Button()
         btnDashboardControl = New Button()
+        btnManageAccounts = New Button()
         pnlMain = New Panel()
         pnlDashboard = New Panel()
         pnlExpenses = New Panel()
@@ -172,6 +173,7 @@ Partial Class Dashboard
         flpSidebar.Controls.Add(btnManageStocks)
         flpSidebar.Controls.Add(btnExpenses)
         flpSidebar.Controls.Add(btnDashboardControl)
+        flpSidebar.Controls.Add(btnManageAccounts)
         flpSidebar.Dock = DockStyle.Bottom
         flpSidebar.Location = New Point(0, 68)
         flpSidebar.Name = "flpSidebar"
@@ -234,6 +236,25 @@ Partial Class Dashboard
         btnDashboardControl.Text = "📈 Dashboard"
         btnDashboardControl.TextAlign = ContentAlignment.MiddleLeft
         btnDashboardControl.UseVisualStyleBackColor = False
+        ' 
+        ' btnManageAccounts
+        ' 
+        btnManageAccounts.Anchor = AnchorStyles.Left
+        btnManageAccounts.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
+        btnManageAccounts.Cursor = Cursors.Hand
+        btnManageAccounts.FlatAppearance.BorderSize = 0
+        btnManageAccounts.FlatStyle = FlatStyle.Flat
+        btnManageAccounts.Font = New Font("Segoe UI Emoji", 9.75F)
+        btnManageAccounts.ForeColor = Color.White
+        btnManageAccounts.Location = New Point(0, 210)
+        btnManageAccounts.Margin = New Padding(0)
+        btnManageAccounts.Name = "btnManageAccounts"
+        btnManageAccounts.Size = New Size(145, 42)
+        btnManageAccounts.TabIndex = 31
+        btnManageAccounts.Tag = "AccountControl"
+        btnManageAccounts.Text = "👤 Manage Accounts"
+        btnManageAccounts.TextAlign = ContentAlignment.MiddleLeft
+        btnManageAccounts.UseVisualStyleBackColor = False
         ' 
         ' pnlMain
         ' 
@@ -358,4 +379,5 @@ Partial Class Dashboard
     Friend WithEvents SqlCommand2 As Microsoft.Data.SqlClient.SqlCommand
     Friend WithEvents SqlCommand1 As Microsoft.Data.SqlClient.SqlCommand
     Friend WithEvents BufferedPanel1 As BufferedPanel
+    Friend WithEvents btnManageAccounts As Button
 End Class

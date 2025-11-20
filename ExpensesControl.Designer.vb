@@ -40,7 +40,6 @@ Partial Class ExpensesControl
         dtpExpensesDueDate = New DateTimePicker()
         btnRemoveExpense = New Button()
         btnMarkAsPaid = New Button()
-        lblMonthlyExpenses = New Label()
         GroupBox2 = New GroupBox()
         TableLayoutPanel1 = New TableLayoutPanel()
         btnExportCSV = New Button()
@@ -62,6 +61,11 @@ Partial Class ExpensesControl
         RoundedPanel1 = New RoundedPanel()
         lblExpensesMode = New Label()
         TableLayoutPanel2 = New TableLayoutPanel()
+        RoundedPanel2 = New RoundedPanel()
+        lbl45 = New Label()
+        lblTotalPaidExpenses = New Label()
+        Label11 = New Label()
+        Label12 = New Label()
         CType(nudExpenseAmount, ComponentModel.ISupportInitialize).BeginInit()
         CType(dgvExpenses, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
@@ -70,6 +74,7 @@ Partial Class ExpensesControl
         GroupBox3.SuspendLayout()
         RoundedPanel1.SuspendLayout()
         TableLayoutPanel2.SuspendLayout()
+        RoundedPanel2.SuspendLayout()
         SuspendLayout()
         ' 
         ' txtbDescription
@@ -133,11 +138,12 @@ Partial Class ExpensesControl
         ' 
         ' lblTotalExpenses
         ' 
+        lblTotalExpenses.Anchor = AnchorStyles.None
         lblTotalExpenses.AutoSize = True
-        lblTotalExpenses.BackColor = Color.White
+        lblTotalExpenses.BackColor = Color.Transparent
         lblTotalExpenses.Font = New Font("Segoe UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblTotalExpenses.ForeColor = Color.IndianRed
-        lblTotalExpenses.Location = New Point(3, 23)
+        lblTotalExpenses.Location = New Point(3, 18)
         lblTotalExpenses.Name = "lblTotalExpenses"
         lblTotalExpenses.Size = New Size(122, 50)
         lblTotalExpenses.TabIndex = 8
@@ -170,7 +176,7 @@ Partial Class ExpensesControl
         GroupBox1.Controls.Add(Label2)
         GroupBox1.Controls.Add(Label1)
         GroupBox1.ForeColor = Color.White
-        GroupBox1.Location = New Point(13, 53)
+        GroupBox1.Location = New Point(13, 209)
         GroupBox1.Name = "GroupBox1"
         GroupBox1.Size = New Size(329, 214)
         GroupBox1.TabIndex = 30
@@ -273,22 +279,11 @@ Partial Class ExpensesControl
         btnMarkAsPaid.Text = "Mark as paid"
         btnMarkAsPaid.UseVisualStyleBackColor = True
         ' 
-        ' lblMonthlyExpenses
-        ' 
-        lblMonthlyExpenses.AutoSize = True
-        lblMonthlyExpenses.BackColor = Color.White
-        lblMonthlyExpenses.ForeColor = Color.Black
-        lblMonthlyExpenses.Location = New Point(20, 158)
-        lblMonthlyExpenses.Name = "lblMonthlyExpenses"
-        lblMonthlyExpenses.Size = New Size(52, 15)
-        lblMonthlyExpenses.TabIndex = 37
-        lblMonthlyExpenses.Text = "Monthly"
-        ' 
         ' GroupBox2
         ' 
         GroupBox2.Controls.Add(TableLayoutPanel1)
         GroupBox2.ForeColor = Color.White
-        GroupBox2.Location = New Point(365, 57)
+        GroupBox2.Location = New Point(365, 213)
         GroupBox2.Name = "GroupBox2"
         GroupBox2.Size = New Size(132, 210)
         GroupBox2.TabIndex = 38
@@ -349,7 +344,7 @@ Partial Class ExpensesControl
         GroupBox3.Controls.Add(dtpTo)
         GroupBox3.Controls.Add(dtpFrom)
         GroupBox3.ForeColor = Color.White
-        GroupBox3.Location = New Point(13, 282)
+        GroupBox3.Location = New Point(13, 56)
         GroupBox3.Name = "GroupBox3"
         GroupBox3.Size = New Size(484, 132)
         GroupBox3.TabIndex = 39
@@ -463,7 +458,7 @@ Partial Class ExpensesControl
         chartDailyExpenses.Dock = DockStyle.Fill
         chartDailyExpenses.Location = New Point(307, 3)
         chartDailyExpenses.Name = "chartDailyExpenses"
-        chartDailyExpenses.Size = New Size(298, 201)
+        chartDailyExpenses.Size = New Size(298, 191)
         chartDailyExpenses.TabIndex = 40
         ' 
         ' chartCategoryExpenses
@@ -471,9 +466,9 @@ Partial Class ExpensesControl
         chartCategoryExpenses.BorderStyle = BorderStyle.FixedSingle
         chartCategoryExpenses.DisplayScale = 1F
         chartCategoryExpenses.Dock = DockStyle.Fill
-        chartCategoryExpenses.Location = New Point(3, 210)
+        chartCategoryExpenses.Location = New Point(3, 200)
         chartCategoryExpenses.Name = "chartCategoryExpenses"
-        chartCategoryExpenses.Size = New Size(298, 201)
+        chartCategoryExpenses.Size = New Size(298, 191)
         chartCategoryExpenses.TabIndex = 41
         ' 
         ' RoundedPanel1
@@ -481,23 +476,25 @@ Partial Class ExpensesControl
         RoundedPanel1.BackColor = Color.White
         RoundedPanel1.Controls.Add(lblExpensesMode)
         RoundedPanel1.Controls.Add(lblTotalExpenses)
-        RoundedPanel1.Controls.Add(lblMonthlyExpenses)
+        RoundedPanel1.Controls.Add(Label12)
         RoundedPanel1.CornerRadius = 20
         RoundedPanel1.Dock = DockStyle.Fill
-        RoundedPanel1.Location = New Point(307, 210)
+        RoundedPanel1.Location = New Point(307, 200)
         RoundedPanel1.Name = "RoundedPanel1"
-        RoundedPanel1.Size = New Size(298, 201)
+        RoundedPanel1.Size = New Size(298, 191)
         RoundedPanel1.TabIndex = 44
         ' 
         ' lblExpensesMode
         ' 
+        lblExpensesMode.Anchor = AnchorStyles.None
         lblExpensesMode.AutoSize = True
+        lblExpensesMode.BackColor = Color.Transparent
         lblExpensesMode.ForeColor = Color.Black
-        lblExpensesMode.Location = New Point(20, 73)
+        lblExpensesMode.Location = New Point(20, 68)
         lblExpensesMode.Name = "lblExpensesMode"
-        lblExpensesMode.Size = New Size(83, 15)
+        lblExpensesMode.Size = New Size(124, 15)
         lblExpensesMode.TabIndex = 9
-        lblExpensesMode.Text = "Total Expenses"
+        lblExpensesMode.Text = "Total Unpaid Expenses"
         ' 
         ' TableLayoutPanel2
         ' 
@@ -505,16 +502,87 @@ Partial Class ExpensesControl
         TableLayoutPanel2.ColumnCount = 2
         TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel2.Controls.Add(RoundedPanel2, 0, 0)
         TableLayoutPanel2.Controls.Add(chartDailyExpenses, 1, 0)
         TableLayoutPanel2.Controls.Add(RoundedPanel1, 1, 1)
         TableLayoutPanel2.Controls.Add(chartCategoryExpenses, 0, 1)
         TableLayoutPanel2.Location = New Point(524, 12)
         TableLayoutPanel2.Name = "TableLayoutPanel2"
-        TableLayoutPanel2.RowCount = 2
+        TableLayoutPanel2.RowCount = 3
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
         TableLayoutPanel2.Size = New Size(608, 414)
         TableLayoutPanel2.TabIndex = 45
+        ' 
+        ' RoundedPanel2
+        ' 
+        RoundedPanel2.BackColor = Color.White
+        RoundedPanel2.Controls.Add(lbl45)
+        RoundedPanel2.Controls.Add(lblTotalPaidExpenses)
+        RoundedPanel2.Controls.Add(Label11)
+        RoundedPanel2.CornerRadius = 20
+        RoundedPanel2.Dock = DockStyle.Fill
+        RoundedPanel2.Location = New Point(3, 3)
+        RoundedPanel2.Name = "RoundedPanel2"
+        RoundedPanel2.Size = New Size(298, 191)
+        RoundedPanel2.TabIndex = 45
+        ' 
+        ' lbl45
+        ' 
+        lbl45.Anchor = AnchorStyles.None
+        lbl45.AutoSize = True
+        lbl45.BackColor = Color.Transparent
+        lbl45.ForeColor = Color.Black
+        lbl45.Location = New Point(95, 122)
+        lbl45.Name = "lbl45"
+        lbl45.Size = New Size(109, 15)
+        lbl45.TabIndex = 9
+        lbl45.Text = "Total Paid Expenses"
+        lbl45.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' lblTotalPaidExpenses
+        ' 
+        lblTotalPaidExpenses.Anchor = AnchorStyles.None
+        lblTotalPaidExpenses.AutoSize = True
+        lblTotalPaidExpenses.BackColor = Color.Transparent
+        lblTotalPaidExpenses.Font = New Font("Segoe UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblTotalPaidExpenses.ForeColor = Color.Green
+        lblTotalPaidExpenses.Location = New Point(88, 70)
+        lblTotalPaidExpenses.Name = "lblTotalPaidExpenses"
+        lblTotalPaidExpenses.RightToLeft = RightToLeft.No
+        lblTotalPaidExpenses.Size = New Size(122, 50)
+        lblTotalPaidExpenses.TabIndex = 8
+        lblTotalPaidExpenses.Text = " ₱0.00" & vbCrLf
+        lblTotalPaidExpenses.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' Label11
+        ' 
+        Label11.Anchor = AnchorStyles.None
+        Label11.AutoSize = True
+        Label11.BackColor = Color.Transparent
+        Label11.Font = New Font("Segoe UI", 72F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label11.ForeColor = Color.WhiteSmoke
+        Label11.Location = New Point(-48, 98)
+        Label11.Name = "Label11"
+        Label11.Size = New Size(179, 128)
+        Label11.TabIndex = 10
+        Label11.Text = "📉"
+        Label11.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' Label12
+        ' 
+        Label12.Anchor = AnchorStyles.None
+        Label12.AutoSize = True
+        Label12.BackColor = Color.Transparent
+        Label12.Font = New Font("Segoe UI", 72F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label12.ForeColor = Color.WhiteSmoke
+        Label12.Location = New Point(125, 74)
+        Label12.Name = "Label12"
+        Label12.Size = New Size(179, 128)
+        Label12.TabIndex = 11
+        Label12.Text = "📊"
+        Label12.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' ExpensesControl
         ' 
@@ -541,6 +609,8 @@ Partial Class ExpensesControl
         RoundedPanel1.ResumeLayout(False)
         RoundedPanel1.PerformLayout()
         TableLayoutPanel2.ResumeLayout(False)
+        RoundedPanel2.ResumeLayout(False)
+        RoundedPanel2.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -562,7 +632,6 @@ Partial Class ExpensesControl
     Friend WithEvents btnRemoveExpense As Button
     Friend WithEvents btnUpdateExpenses As Button
     Friend WithEvents btnMarkAsPaid As Button
-    Friend WithEvents lblMonthlyExpenses As Label
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents btnClearFilters As Button
@@ -584,5 +653,10 @@ Partial Class ExpensesControl
     Friend WithEvents lblExpensesMode As Label
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
+    Friend WithEvents RoundedPanel2 As RoundedPanel
+    Friend WithEvents lbl45 As Label
+    Friend WithEvents lblTotalPaidExpenses As Label
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Label12 As Label
 
 End Class

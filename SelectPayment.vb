@@ -33,15 +33,16 @@
         lblCartTotal.Text = "₱" & CartTotal.ToString("N2")
         lblCartTotalB.Text = "₱" & CartTotal.ToString("N2")
 
-        ' Setup both panels with consistent behavior
-        SetupPanel(pnlCash, Color.FromArgb(192, 41, 41), Color.FromArgb(178, 34, 34), AddressOf pnlCash_Click)
+        ' Setup both panels with consistent behavior; programmatically add handlers/hover effects
+        SetupPanel(pnlCash, Color.MediumSeaGreen, Color.FromArgb(69, 204, 129), AddressOf pnlCash_Click)
         SetupPanel(pnlGCash, Color.PowderBlue, Color.White, AddressOf pnlGCash_Click)
     End Sub
 
     ' --- Panel Click Handlers ---
-    Private Sub pnlCash_Click(sender As Object, e As EventArgs)
+    Private Sub pnlCash_Click(sender As Object, e As EventArgs) Handles pnlCash.Click
         SelectedMethod = "Cash"
         pnlCashReceived.Visible = True
+        pnlCashReceived.BringToFront()
     End Sub
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
@@ -90,8 +91,9 @@
 
 
 
-    Private Sub pnlGCash_Click(sender As Object, e As EventArgs)
+    Private Sub pnlGCash_Click(sender As Object, e As EventArgs) Handles pnlGCash.Click
         pnlGCashReceived.Visible = True
+        pnlGCashReceived.BringToFront()
     End Sub
 
     Private Sub btnBack1_Click(sender As Object, e As EventArgs) Handles btnBack1.Click

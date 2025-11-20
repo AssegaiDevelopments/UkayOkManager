@@ -10,6 +10,38 @@ Public Class ExpensesControl
     Dim x As New List(Of Double)
     Dim y As New List(Of Double)
 
+    Private Function GetExpenseTotal(Optional status As String = Nothing, Optional fromDate As Date? = Nothing) As Decimal
+        Dim total As Decimal = 0D
+
+        Try
+            Using con As New SqlConnection(connectAs)
+                con.Open()
+                Dim query As String = "SELECT SUM(Amount) FROM Expenses WHERE 1=1"
+
+                If Not String.IsNullOrEmpty(status) Then
+                    query &= " AND Status = @status"
+                End If
+
+                If fromDate.HasValue Then
+                    query &= " AND Date >= @fromDate"
+                End If
+
+                Using cmd As New SqlCommand(query, con)
+                    If Not String.IsNullOrEmpty(status) Then cmd.Parameters.AddWithValue("@status", status)
+                    If fromDate.HasValue Then cmd.Parameters.AddWithValue("@fromDate", fromDate.Value.Date)
+
+                    Dim result = cmd.ExecuteScalar()
+                    total = If(IsDBNull(result), 0D, Convert.ToDecimal(result))
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error fetching expense total: " & ex.Message)
+        End Try
+
+        Return total
+    End Function
+
+
     'load expenses control
     Public Sub LoadComboBoxes()
         cbPaymentStatus.Items.Clear()
@@ -60,21 +92,15 @@ Public Class ExpensesControl
                     dgvExpenses.Columns("ExpenseID").Visible = False
                 End If
 
-
                 Dim totalUnpaid As Decimal =
-    dgvExpenses.Rows.Cast(Of DataGridViewRow)().
-    Where(Function(r) r IsNot Nothing AndAlso r.Cells("Status") IsNot Nothing AndAlso Not IsDBNull(r.Cells("Status").Value) AndAlso r.Cells("Status").Value.ToString() = "Unpaid").
-    Select(Function(r) Convert.ToDecimal(If(IsDBNull(r.Cells("Amount").Value), 0D, r.Cells("Amount").Value))).
-    DefaultIfEmpty(0D).
-    Sum()
-
-
-
-
-
+                  dgvExpenses.Rows.Cast(Of DataGridViewRow)().
+                  Where(Function(r) r IsNot Nothing AndAlso r.Cells("Status") IsNot Nothing AndAlso Not IsDBNull(r.Cells("Status").Value) AndAlso r.Cells("Status").Value.ToString() = "Unpaid").
+                  Select(Function(r) Convert.ToDecimal(If(IsDBNull(r.Cells("Amount").Value), 0D, r.Cells("Amount").Value))).
+                  DefaultIfEmpty(0D).
+                  Sum()
 
                 lblTotalExpenses.Text = totalUnpaid.ToString("₱#,##0.00")
-
+                lblTotalPaidExpenses.Text = GetExpenseTotal("Paid").ToString("₱#,##0.00")
             End Using
 
             ' Optional formatting
@@ -159,6 +185,7 @@ Public Class ExpensesControl
             Using con As New SqlConnection(connectAs)
                 con.Open()
 
+                'query with dynamic filters; 1=1 is a dummy condition to simplify appending AND clauses
                 Dim query As String = "SELECT ExpenseID, Date, Description, Amount, AddedBy, DueDate, Status, PaidDate, Category FROM Expenses WHERE 1=1"
                 Dim cmd As New SqlCommand()
 
@@ -224,10 +251,10 @@ Public Class ExpensesControl
             con.Open()
 
             Dim query As String = "
-            SELECT Category, SUM(Amount) AS TotalAmount
-            FROM Expenses
-            GROUP BY Category
-            ORDER BY Category;"
+        SELECT Category, SUM(Amount) AS TotalAmount
+        FROM Expenses
+        GROUP BY Category
+        ORDER BY Category;"
 
             Using cmd As New SqlCommand(query, con)
                 Using reader As SqlDataReader = cmd.ExecuteReader()
@@ -240,25 +267,25 @@ Public Class ExpensesControl
         End Using
 
         ' If nothing to show, clear the chart and exit
+        chartCategoryExpenses.Plot.Clear()
         If categories.Count = 0 Then
-            chartCategoryExpenses.Plot.Clear()
             chartCategoryExpenses.Refresh()
             Return
         End If
 
-        ' Convert categories to numeric X positions (0,1,2,..)
-        Dim xPositions = Enumerable.Range(0, categories.Count).Select(Function(i) CDbl(i)).ToArray()
+        ' Create Pie chart
+        Dim pie = chartCategoryExpenses.Plot.Add.Pie(amounts.ToArray())
 
-        ' Draw bar chart using the project-style API
-        chartCategoryExpenses.Plot.Clear()
-        chartCategoryExpenses.Plot.Add.Bars(xPositions, amounts.ToArray())        ' Add.Bars(xPositions, values)
-        chartCategoryExpenses.Plot.Axes.Bottom.SetTicks(xPositions, categories.ToArray()) ' label ticks with category names
-
+        'pie.SliceLabelDistance = 0.6
+        chartCategoryExpenses.Plot.Legend.IsVisible = True
+        chartCategoryExpenses.Plot.HideAxesAndGrid()
+        ' Set axis limits to -1.5 to 1.5 in both directions (center at 0,0)
+        chartCategoryExpenses.Plot.Axes.SetLimits(-1.5, 1.5, -1.5, 1.5)
+        chartCategoryExpenses.UserInputProcessor.IsEnabled = False
         chartCategoryExpenses.Plot.Title("Expenses by Category")
-        chartCategoryExpenses.Plot.YLabel("₱")
-        chartCategoryExpenses.Plot.Axes.Margins(0, 0)   ' remove padding at edges
         chartCategoryExpenses.Refresh()
     End Sub
+
 
 
 

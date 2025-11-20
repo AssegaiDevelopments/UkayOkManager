@@ -108,4 +108,7 @@ Public Class Dashboard
         dashboardControl.InitializeDashboard()
     End Sub
 
+    Private Sub btnManageAccounts_Click(sender As Object, e As EventArgs) Handles btnManageAccounts.Click
+
+    End Sub
 End Class

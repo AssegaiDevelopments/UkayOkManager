@@ -62,14 +62,15 @@ Partial Class SelectPayment
         ' 
         ' pnlCash
         ' 
-        pnlCash.BackColor = Color.Firebrick
+        pnlCash.BackColor = Color.MediumSeaGreen
         pnlCash.BorderStyle = BorderStyle.FixedSingle
         pnlCash.Controls.Add(PictureBox2)
         pnlCash.Controls.Add(Label1)
         pnlCash.Cursor = Cursors.Hand
-        pnlCash.Location = New Point(1, 0)
+        pnlCash.Dock = DockStyle.Left
+        pnlCash.Location = New Point(0, 0)
         pnlCash.Name = "pnlCash"
-        pnlCash.Size = New Size(269, 323)
+        pnlCash.Size = New Size(270, 310)
         pnlCash.TabIndex = 0
         ' 
         ' PictureBox2
@@ -86,25 +87,25 @@ Partial Class SelectPayment
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Calibri", 18F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Calibri", 18F, FontStyle.Bold)
         Label1.ForeColor = Color.White
         Label1.Location = New Point(10, 282)
         Label1.Name = "Label1"
-        Label1.Size = New Size(60, 29)
+        Label1.Size = New Size(61, 29)
         Label1.TabIndex = 0
         Label1.Text = "Cash"
         ' 
         ' pnlGCash
         ' 
-        pnlGCash.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         pnlGCash.BackColor = Color.AliceBlue
         pnlGCash.BorderStyle = BorderStyle.FixedSingle
         pnlGCash.Controls.Add(PictureBox1)
         pnlGCash.Controls.Add(Label2)
         pnlGCash.Cursor = Cursors.Hand
+        pnlGCash.Dock = DockStyle.Right
         pnlGCash.Location = New Point(265, 0)
         pnlGCash.Name = "pnlGCash"
-        pnlGCash.Size = New Size(255, 323)
+        pnlGCash.Size = New Size(255, 310)
         pnlGCash.TabIndex = 1
         ' 
         ' PictureBox1
@@ -122,11 +123,11 @@ Partial Class SelectPayment
         ' 
         Label2.AutoSize = True
         Label2.BackColor = Color.Transparent
-        Label2.Font = New Font("Calibri", 18F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Calibri", 18F, FontStyle.Bold)
         Label2.ForeColor = Color.DodgerBlue
         Label2.Location = New Point(10, 282)
         Label2.Name = "Label2"
-        Label2.Size = New Size(75, 29)
+        Label2.Size = New Size(76, 29)
         Label2.TabIndex = 0
         Label2.Text = "GCash"
         ' 
@@ -134,11 +135,12 @@ Partial Class SelectPayment
         ' 
         btnCancelPayment.BackColor = Color.LightGray
         btnCancelPayment.Cursor = Cursors.Hand
-        btnCancelPayment.FlatStyle = FlatStyle.Popup
+        btnCancelPayment.Dock = DockStyle.Bottom
+        btnCancelPayment.FlatStyle = FlatStyle.Flat
         btnCancelPayment.ForeColor = Color.Black
-        btnCancelPayment.Location = New Point(0, 315)
+        btnCancelPayment.Location = New Point(0, 310)
         btnCancelPayment.Name = "btnCancelPayment"
-        btnCancelPayment.Size = New Size(522, 34)
+        btnCancelPayment.Size = New Size(520, 34)
         btnCancelPayment.TabIndex = 2
         btnCancelPayment.Text = "Cancel"
         btnCancelPayment.UseVisualStyleBackColor = False
@@ -146,6 +148,7 @@ Partial Class SelectPayment
         ' pnlCashReceived
         ' 
         pnlCashReceived.BackColor = Color.DarkRed
+        pnlCashReceived.BackgroundImage = My.Resources.Resources.bg
         pnlCashReceived.Controls.Add(Label9)
         pnlCashReceived.Controls.Add(lblChange)
         pnlCashReceived.Controls.Add(Label3)
@@ -165,21 +168,23 @@ Partial Class SelectPayment
         ' Label9
         ' 
         Label9.AutoSize = True
-        Label9.Font = New Font("Tahoma", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label9.BackColor = Color.Transparent
+        Label9.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label9.ForeColor = Color.White
-        Label9.Location = New Point(189, 36)
+        Label9.Location = New Point(187, 30)
         Label9.Name = "Label9"
         Label9.RightToLeft = RightToLeft.Yes
-        Label9.Size = New Size(81, 38)
+        Label9.Size = New Size(70, 42)
         Label9.TabIndex = 10
         Label9.Text = "Cash" & vbCrLf & "Payment"
         ' 
         ' lblChange
         ' 
-        lblChange.BackColor = Color.Gold
+        lblChange.BackColor = Color.MediumSeaGreen
+        lblChange.BorderStyle = BorderStyle.FixedSingle
         lblChange.Font = New Font("Courier New", 12F, FontStyle.Bold)
-        lblChange.ForeColor = Color.Black
-        lblChange.Location = New Point(222, 239)
+        lblChange.ForeColor = Color.White
+        lblChange.Location = New Point(128, 229)
         lblChange.Name = "lblChange"
         lblChange.RightToLeft = RightToLeft.Yes
         lblChange.Size = New Size(274, 26)
@@ -190,12 +195,14 @@ Partial Class SelectPayment
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Arial", 12F, FontStyle.Bold)
+        Label3.BackColor = Color.Transparent
+        Label3.Font = New Font("Segoe UI", 12F)
         Label3.ForeColor = Color.White
-        Label3.Location = New Point(217, 217)
+        Label3.Location = New Point(124, 204)
+        Label3.Margin = New Padding(0, 0, 3, 0)
         Label3.Name = "Label3"
         Label3.RightToLeft = RightToLeft.No
-        Label3.Size = New Size(75, 19)
+        Label3.Size = New Size(66, 21)
         Label3.TabIndex = 8
         Label3.Text = "Change:"
         Label3.TextAlign = ContentAlignment.MiddleLeft
@@ -203,9 +210,10 @@ Partial Class SelectPayment
         ' lblCartTotal
         ' 
         lblCartTotal.BackColor = Color.White
+        lblCartTotal.BorderStyle = BorderStyle.FixedSingle
         lblCartTotal.Font = New Font("Courier New", 12F, FontStyle.Bold)
         lblCartTotal.ForeColor = Color.Black
-        lblCartTotal.Location = New Point(221, 133)
+        lblCartTotal.Location = New Point(129, 170)
         lblCartTotal.Name = "lblCartTotal"
         lblCartTotal.RightToLeft = RightToLeft.Yes
         lblCartTotal.Size = New Size(274, 26)
@@ -218,7 +226,7 @@ Partial Class SelectPayment
         PictureBox3.BackColor = Color.Transparent
         PictureBox3.BackgroundImage = My.Resources.Resources.cashicon
         PictureBox3.BackgroundImageLayout = ImageLayout.Zoom
-        PictureBox3.Location = New Point(271, 28)
+        PictureBox3.Location = New Point(257, 20)
         PictureBox3.Name = "PictureBox3"
         PictureBox3.Size = New Size(57, 54)
         PictureBox3.TabIndex = 6
@@ -227,55 +235,69 @@ Partial Class SelectPayment
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Font = New Font("Arial", 12F, FontStyle.Bold)
+        Label5.BackColor = Color.Transparent
+        Label5.Font = New Font("Segoe UI", 12F)
         Label5.ForeColor = Color.White
-        Label5.Location = New Point(217, 164)
+        Label5.Location = New Point(124, 88)
+        Label5.Margin = New Padding(0, 0, 3, 0)
         Label5.Name = "Label5"
         Label5.RightToLeft = RightToLeft.No
-        Label5.Size = New Size(130, 19)
+        Label5.Size = New Size(113, 21)
         Label5.TabIndex = 5
         Label5.Text = "Cash Received:"
         ' 
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Font = New Font("Arial", 12F, FontStyle.Bold)
+        Label4.BackColor = Color.Transparent
+        Label4.Font = New Font("Segoe UI", 12F)
         Label4.ForeColor = Color.White
-        Label4.Location = New Point(221, 114)
+        Label4.Location = New Point(125, 148)
+        Label4.Margin = New Padding(0, 0, 3, 0)
         Label4.Name = "Label4"
         Label4.RightToLeft = RightToLeft.No
-        Label4.Size = New Size(88, 19)
+        Label4.Size = New Size(78, 21)
         Label4.TabIndex = 4
         Label4.Text = "Cart Total:"
         ' 
         ' btnConfirmCash
         ' 
+        btnConfirmCash.BackColor = Color.Transparent
+        btnConfirmCash.BackgroundImage = My.Resources.Resources.ovaltextbox
+        btnConfirmCash.BackgroundImageLayout = ImageLayout.Zoom
         btnConfirmCash.Cursor = Cursors.Hand
+        btnConfirmCash.FlatAppearance.BorderSize = 0
+        btnConfirmCash.FlatAppearance.MouseDownBackColor = Color.Transparent
+        btnConfirmCash.FlatAppearance.MouseOverBackColor = Color.Transparent
         btnConfirmCash.FlatStyle = FlatStyle.Flat
-        btnConfirmCash.ForeColor = Color.Gold
-        btnConfirmCash.Location = New Point(21, 161)
+        btnConfirmCash.ForeColor = Color.Black
+        btnConfirmCash.Location = New Point(201, 270)
         btnConfirmCash.Name = "btnConfirmCash"
-        btnConfirmCash.Size = New Size(152, 82)
+        btnConfirmCash.Size = New Size(138, 66)
         btnConfirmCash.TabIndex = 3
         btnConfirmCash.Text = "Confirm Payment"
-        btnConfirmCash.UseVisualStyleBackColor = True
+        btnConfirmCash.UseVisualStyleBackColor = False
         ' 
         ' btnBack
         ' 
+        btnBack.BackColor = Color.Transparent
         btnBack.Cursor = Cursors.Hand
+        btnBack.FlatAppearance.BorderSize = 0
         btnBack.FlatStyle = FlatStyle.Flat
+        btnBack.Font = New Font("Segoe UI", 8.25F)
         btnBack.ForeColor = Color.White
-        btnBack.Location = New Point(0, 0)
+        btnBack.Location = New Point(5, 12)
         btnBack.Name = "btnBack"
         btnBack.Size = New Size(75, 23)
         btnBack.TabIndex = 2
         btnBack.Text = "Go back"
-        btnBack.UseVisualStyleBackColor = True
+        btnBack.UseVisualStyleBackColor = False
         ' 
         ' txtCashReceived
         ' 
+        txtCashReceived.BorderStyle = BorderStyle.FixedSingle
         txtCashReceived.Font = New Font("Courier New", 12F, FontStyle.Bold)
-        txtCashReceived.Location = New Point(221, 186)
+        txtCashReceived.Location = New Point(128, 113)
         txtCashReceived.Name = "txtCashReceived"
         txtCashReceived.RightToLeft = RightToLeft.Yes
         txtCashReceived.Size = New Size(275, 26)
@@ -386,11 +408,11 @@ Partial Class SelectPayment
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(520, 344)
         Controls.Add(pnlCashReceived)
-        Controls.Add(pnlGCashReceived)
         Controls.Add(pnlCash)
         Controls.Add(pnlGCash)
         Controls.Add(btnCancelPayment)
-        FormBorderStyle = FormBorderStyle.FixedToolWindow
+        Controls.Add(pnlGCashReceived)
+        FormBorderStyle = FormBorderStyle.None
         Name = "SelectPayment"
         StartPosition = FormStartPosition.CenterParent
         Text = "Select Payment Method"
