@@ -2,26 +2,41 @@
 Imports ScottPlot
 
 Public Class DashboardControl
-    Private expensesCtrl As ExpensesControl
+    Private expensesControl As ExpensesControl
+
+
 
     Private Sub DashboardControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializeDashboard()
     End Sub
+    Public Sub InitializeDashboard()
+        ' If an ExpensesControl hasn't been set yet, create one
+        If expensesControl Is Nothing Then
+            expensesControl = New ExpensesControl()
+            ' Add handler so dashboard updates when expenses change
+            AddHandler expensesControl.ExpensesUpdated, AddressOf RefreshDashboard
+        End If
 
+        ' Initialize the expenses view (loads datagrid, charts, totals)
+        expensesControl.InitializeExpenses()
+
+        ' Refresh dashboard metrics and charts
+        RefreshDashboard()
+    End Sub
+    'Refresh dashboard data
     Public Sub RefreshDashboard()
-
         Dim todaySales As Decimal = 0D
         Dim totalItemsSold As Integer = 0
         Dim todayExpenses As Decimal = 0D
+        Dim totalPaid As Decimal = 0D
+        Dim totalUnpaid As Decimal = 0D
         Dim netProfit As Decimal = 0D
 
         Try
+            '  Get sales and items sold
             Using con As New SqlConnection(connectAs)
                 con.Open()
 
-                '----------------------------------------
-                ' 1. QUERY TODAY SALES
-                '----------------------------------------
                 Dim queryTodaySales As String = "
                 SELECT SUM(TotalAmount)
                 FROM Transactions
@@ -32,63 +47,53 @@ Public Class DashboardControl
                     todaySales = If(IsDBNull(obj), 0D, Convert.ToDecimal(obj))
                 End Using
 
-
-                '----------------------------------------
-                ' 2. QUERY TOTAL ITEMS SOLD
-                '----------------------------------------
-                Dim queryTotalItemsSold As String = "
-                SELECT SUM(Quantity)
-                FROM TransactionItems;"
-
+                Dim queryTotalItemsSold As String = "SELECT SUM(Quantity) FROM TransactionItems;"
                 Using cmd As New SqlCommand(queryTotalItemsSold, con)
                     Dim obj = cmd.ExecuteScalar()
                     totalItemsSold = If(IsDBNull(obj), 0, Convert.ToInt32(obj))
                 End Using
-
-
-                '----------------------------------------
-                ' 3. QUERY TODAY EXPENSES
-                '----------------------------------------
-                Dim queryTodayExpenses As String = "
-                SELECT SUM(Amount)
-                FROM Expenses
-                WHERE CAST(Date AS DATE) = CAST(GETDATE() AS DATE);"
-
-                Using cmd As New SqlCommand(queryTodayExpenses, con)
-                    Dim obj = cmd.ExecuteScalar()
-                    todayExpenses = If(IsDBNull(obj), 0D, Convert.ToDecimal(obj))
-                End Using
-
             End Using
 
-            '----------------------------------------
-            ' 4. COMPUTE NET PROFIT
-            '----------------------------------------
+            ' --- Get expenses from ExpensesControl ---
+            ' Make sure expensesControl is not Nothing
+            If expensesControl IsNot Nothing Then
+                todayExpenses = expensesControl.GetExpenseTotal(fromDate:=Today)
+                totalPaid = expensesControl.TotalPaid
+                totalUnpaid = expensesControl.TotalUnpaid
+            End If
+
+            ' --- Compute net profit ---
             netProfit = todaySales - todayExpenses
 
-            '----------------------------------------
-            ' 5. UPDATE LABELS
-            '----------------------------------------
+            ' --- Update labels ---
             lblTotalSalesToday.Text = todaySales.ToString("₱#,##0.00")
             lblTotalItemsSold.Text = totalItemsSold.ToString()
             lblTodayExpenses.Text = todayExpenses.ToString("₱#,##0.00")
+            lblTotalExpensesPaid.Text = totalPaid.ToString("₱#,##0.00")
+            lblTotalExpensesUnpaid.Text = totalUnpaid.ToString("₱#,##0.00")
             lblNetProfit.Text = "₱" & netProfit.ToString("#,##0.00")
 
-            '----------------------------------------
-            ' 6. REFRESH BOTH CHARTS
-            '----------------------------------------
+            ' --- Refresh charts ---
             LoadDailySalesChart()
             LoadCategoryChart()
 
         Catch ex As Exception
             MessageBox.Show("Dashboard refresh failed: " & ex.Message,
-                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
     End Sub
 
+    'set expenses control reference; subscribe to its update event
+    Public Sub SetExpensesControl(ctrl As ExpensesControl)
+        ' Assign the reference
+        expensesControl = ctrl
 
+        ' only add the handler once
+        RemoveHandler expensesControl.ExpensesUpdated, AddressOf RefreshDashboard
+        AddHandler expensesControl.ExpensesUpdated, AddressOf RefreshDashboard
+    End Sub
 
+    'reset dashboard labels and charts
     Private Sub ResetDashboard()
         lblNetProfit.Text = "₱0.00"
         lblNetProfitLastWeek.Text = "₱0.00"
@@ -211,10 +216,7 @@ Public Class DashboardControl
         chartCategory.Refresh()
     End Sub
 
-    Public Sub InitializeDashboard()
-        expensesCtrl = New ExpensesControl()
-        expensesCtrl.InitializeExpenses()
-        AddHandler expensesCtrl.ExpensesUpdated, AddressOf RefreshDashboard
-        RefreshDashboard()
-    End Sub
+
+
+
 End Class

@@ -25,6 +25,9 @@ Partial Class DashboardControl
         chartCategory = New ScottPlot.WinForms.FormsPlot()
         BufferedPanel1 = New BufferedPanel()
         TableLayoutPanel1 = New TableLayoutPanel()
+        RoundedPanel10 = New RoundedPanel()
+        lblUpcomingExpensesWeek = New Label()
+        Label3 = New Label()
         RoundedPanel2 = New RoundedPanel()
         lblNetProfitLastWeek = New Label()
         Label12 = New Label()
@@ -51,11 +54,9 @@ Partial Class DashboardControl
         Label1 = New Label()
         Label13 = New Label()
         chartSales = New ScottPlot.WinForms.FormsPlot()
-        RoundedPanel10 = New RoundedPanel()
-        lblUpcomingExpensesWeek = New Label()
-        Label3 = New Label()
         BufferedPanel1.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
+        RoundedPanel10.SuspendLayout()
         RoundedPanel2.SuspendLayout()
         RoundedPanel9.SuspendLayout()
         RoundedPanel8.SuspendLayout()
@@ -64,7 +65,6 @@ Partial Class DashboardControl
         RoundedPanel5.SuspendLayout()
         RoundedPanel4.SuspendLayout()
         RoundedPanel1.SuspendLayout()
-        RoundedPanel10.SuspendLayout()
         SuspendLayout()
         ' 
         ' chartCategory
@@ -110,6 +110,40 @@ Partial Class DashboardControl
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
         TableLayoutPanel1.Size = New Size(1135, 282)
         TableLayoutPanel1.TabIndex = 4
+        ' 
+        ' RoundedPanel10
+        ' 
+        RoundedPanel10.BackColor = Color.White
+        RoundedPanel10.Controls.Add(lblUpcomingExpensesWeek)
+        RoundedPanel10.Controls.Add(Label3)
+        RoundedPanel10.CornerRadius = 20
+        RoundedPanel10.Dock = DockStyle.Fill
+        RoundedPanel10.Location = New Point(286, 191)
+        RoundedPanel10.Name = "RoundedPanel10"
+        RoundedPanel10.Size = New Size(277, 88)
+        RoundedPanel10.TabIndex = 13
+        ' 
+        ' lblUpcomingExpensesWeek
+        ' 
+        lblUpcomingExpensesWeek.AutoSize = True
+        lblUpcomingExpensesWeek.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblUpcomingExpensesWeek.ForeColor = Color.Firebrick
+        lblUpcomingExpensesWeek.Location = New Point(15, 24)
+        lblUpcomingExpensesWeek.Margin = New Padding(0)
+        lblUpcomingExpensesWeek.Name = "lblUpcomingExpensesWeek"
+        lblUpcomingExpensesWeek.Size = New Size(87, 40)
+        lblUpcomingExpensesWeek.TabIndex = 1
+        lblUpcomingExpensesWeek.Text = "00.00"
+        lblUpcomingExpensesWeek.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(15, 64)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(159, 15)
+        Label3.TabIndex = 0
+        Label3.Text = "Upcoming Expenses (7 Days)"
         ' 
         ' RoundedPanel2
         ' 
@@ -195,7 +229,7 @@ Partial Class DashboardControl
         ' 
         lblTotalExpensesUnpaid.AutoSize = True
         lblTotalExpensesUnpaid.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblTotalExpensesUnpaid.ForeColor = Color.FromArgb(CByte(60), CByte(94), CByte(161))
+        lblTotalExpensesUnpaid.ForeColor = Color.Firebrick
         lblTotalExpensesUnpaid.Location = New Point(15, 24)
         lblTotalExpensesUnpaid.Margin = New Padding(0)
         lblTotalExpensesUnpaid.Name = "lblTotalExpensesUnpaid"
@@ -403,40 +437,6 @@ Partial Class DashboardControl
         chartSales.Size = New Size(424, 311)
         chartSales.TabIndex = 5
         ' 
-        ' RoundedPanel10
-        ' 
-        RoundedPanel10.BackColor = Color.White
-        RoundedPanel10.Controls.Add(lblUpcomingExpensesWeek)
-        RoundedPanel10.Controls.Add(Label3)
-        RoundedPanel10.CornerRadius = 20
-        RoundedPanel10.Dock = DockStyle.Fill
-        RoundedPanel10.Location = New Point(286, 191)
-        RoundedPanel10.Name = "RoundedPanel10"
-        RoundedPanel10.Size = New Size(277, 88)
-        RoundedPanel10.TabIndex = 13
-        ' 
-        ' lblUpcomingExpensesWeek
-        ' 
-        lblUpcomingExpensesWeek.AutoSize = True
-        lblUpcomingExpensesWeek.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblUpcomingExpensesWeek.ForeColor = Color.Firebrick
-        lblUpcomingExpensesWeek.Location = New Point(15, 24)
-        lblUpcomingExpensesWeek.Margin = New Padding(0)
-        lblUpcomingExpensesWeek.Name = "lblUpcomingExpensesWeek"
-        lblUpcomingExpensesWeek.Size = New Size(87, 40)
-        lblUpcomingExpensesWeek.TabIndex = 1
-        lblUpcomingExpensesWeek.Text = "00.00"
-        lblUpcomingExpensesWeek.TextAlign = ContentAlignment.MiddleLeft
-        ' 
-        ' Label3
-        ' 
-        Label3.AutoSize = True
-        Label3.Location = New Point(15, 64)
-        Label3.Name = "Label3"
-        Label3.Size = New Size(159, 15)
-        Label3.TabIndex = 0
-        Label3.Text = "Upcoming Expenses (7 Days)"
-        ' 
         ' DashboardControl
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -450,6 +450,8 @@ Partial Class DashboardControl
         BufferedPanel1.ResumeLayout(False)
         TableLayoutPanel1.ResumeLayout(False)
         TableLayoutPanel1.PerformLayout()
+        RoundedPanel10.ResumeLayout(False)
+        RoundedPanel10.PerformLayout()
         RoundedPanel2.ResumeLayout(False)
         RoundedPanel2.PerformLayout()
         RoundedPanel9.ResumeLayout(False)
@@ -466,8 +468,6 @@ Partial Class DashboardControl
         RoundedPanel4.PerformLayout()
         RoundedPanel1.ResumeLayout(False)
         RoundedPanel1.PerformLayout()
-        RoundedPanel10.ResumeLayout(False)
-        RoundedPanel10.PerformLayout()
         ResumeLayout(False)
     End Sub
     Friend WithEvents RoundedPanel2 As RoundedPanel

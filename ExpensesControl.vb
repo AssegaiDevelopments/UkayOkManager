@@ -1,5 +1,4 @@
 ﻿Imports Microsoft.Data.SqlClient
-Imports Microsoft.VisualBasic.DateAndTime
 Imports ScottPlot
 Public Class ExpensesControl
     Dim adapter As SqlDataAdapter
@@ -7,6 +6,24 @@ Public Class ExpensesControl
     Dim category() As String = {"Utilities", "Rent", "Salaries", "Supplies", "Maintenance", "Miscellaneous"}
     Dim categoryFilter() As String = {"All", "Utilities", "Rent", "Salaries", "Supplies", "Maintenance", "Miscellaneous"}
     Dim paymentFilter() As String = {"All", "Paid", "Unpaid"}
+
+    'Return total paid and unpaid expenses specifically for dashboard access
+    Public ReadOnly Property TotalPaid As Decimal
+        Get
+            Return _totalPaid
+        End Get
+    End Property
+
+    Public ReadOnly Property TotalUnpaid As Decimal
+        Get
+            Return _totalUnpaid
+        End Get
+    End Property
+
+    ' Update _totalPaid and _totalUnpaid in RecalculateTotalsFromTable
+    Private _totalPaid As Decimal
+    Private _totalUnpaid As Decimal
+
 
     Dim x As New List(Of Double)
     Dim y As New List(Of Double)
@@ -103,6 +120,9 @@ Public Class ExpensesControl
             lblTotalUnpaid.Text = totalUnpaid.ToString("₱#,##0.00")
             lblTotalPaid.Text = totalPaid.ToString("₱#,##0.00")
 
+            'put totalpaid and totalunpaid to public so dashboard can access
+            _totalPaid = totalPaid
+            _totalUnpaid = totalUnpaid
         Catch ex As Exception
             MessageBox.Show("Error calculating totals: " & ex.Message)
         End Try
