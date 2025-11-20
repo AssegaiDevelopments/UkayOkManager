@@ -22,6 +22,7 @@ Partial Class SelectPayment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SelectPayment))
         pnlCash = New Panel()
         PictureBox2 = New PictureBox()
         Label1 = New Label()
@@ -147,7 +148,7 @@ Partial Class SelectPayment
         ' 
         ' pnlCashReceived
         ' 
-        pnlCashReceived.BackColor = Color.DarkRed
+        pnlCashReceived.BackColor = Color.White
         pnlCashReceived.BackgroundImage = My.Resources.Resources.bg
         pnlCashReceived.Controls.Add(Label9)
         pnlCashReceived.Controls.Add(lblChange)
@@ -413,6 +414,7 @@ Partial Class SelectPayment
         Controls.Add(btnCancelPayment)
         Controls.Add(pnlGCashReceived)
         FormBorderStyle = FormBorderStyle.None
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "SelectPayment"
         StartPosition = FormStartPosition.CenterParent
         Text = "Select Payment Method"

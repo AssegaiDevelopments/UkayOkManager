@@ -22,6 +22,7 @@ Partial Class Dashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Dashboard))
         pnlNav = New Panel()
         FlowLayoutPanel1 = New FlowLayoutPanel()
         btnExit = New Button()
@@ -251,7 +252,7 @@ Partial Class Dashboard
         btnManageAccounts.Name = "btnManageAccounts"
         btnManageAccounts.Size = New Size(145, 42)
         btnManageAccounts.TabIndex = 31
-        btnManageAccounts.Tag = "AccountControl"
+        btnManageAccounts.Tag = "AccountsControl"
         btnManageAccounts.Text = "👤 Manage Accounts"
         btnManageAccounts.TextAlign = ContentAlignment.MiddleLeft
         btnManageAccounts.UseVisualStyleBackColor = False
@@ -345,6 +346,7 @@ Partial Class Dashboard
         Controls.Add(pnlSidebar)
         Controls.Add(BufferedPanel1)
         FormBorderStyle = FormBorderStyle.None
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "Dashboard"
         StartPosition = FormStartPosition.CenterScreen
         Text = "UkayOk Cart"

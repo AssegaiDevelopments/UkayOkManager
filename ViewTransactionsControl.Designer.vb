@@ -22,8 +22,8 @@ Partial Class ViewTransactionsControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Label9 = New Label()
         Label7 = New Label()
         Label8 = New Label()
@@ -43,14 +43,14 @@ Partial Class ViewTransactionsControl
         lblTotalAmount = New Label()
         lblTransactionID = New Label()
         pnlDetails = New Panel()
+        TableLayoutPanel1 = New TableLayoutPanel()
         Label1 = New Label()
         btnRefresh = New Button()
         dgvTransactions = New DataGridView()
-        TableLayoutPanel1 = New TableLayoutPanel()
         CType(dgvTransactionItems, ComponentModel.ISupportInitialize).BeginInit()
         pnlDetails.SuspendLayout()
-        CType(dgvTransactions, ComponentModel.ISupportInitialize).BeginInit()
         TableLayoutPanel1.SuspendLayout()
+        CType(dgvTransactions, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label9
@@ -59,7 +59,7 @@ Partial Class ViewTransactionsControl
         Label9.BackColor = Color.Transparent
         Label9.Font = New Font("Leelawadee", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label9.ForeColor = Color.White
-        Label9.Location = New Point(22, 4)
+        Label9.Location = New Point(524, 5)
         Label9.Name = "Label9"
         Label9.Size = New Size(86, 15)
         Label9.TabIndex = 17
@@ -146,8 +146,9 @@ Partial Class ViewTransactionsControl
         btnCloseDetails.Cursor = Cursors.Hand
         btnCloseDetails.FlatStyle = FlatStyle.Flat
         btnCloseDetails.Location = New Point(0, 1)
+        btnCloseDetails.Margin = New Padding(3, 3, 3, 6)
         btnCloseDetails.Name = "btnCloseDetails"
-        btnCloseDetails.Size = New Size(21, 23)
+        btnCloseDetails.Size = New Size(30, 30)
         btnCloseDetails.TabIndex = 9
         btnCloseDetails.Text = "x"
         btnCloseDetails.UseVisualStyleBackColor = True
@@ -156,14 +157,14 @@ Partial Class ViewTransactionsControl
         ' 
         dgvTransactionItems.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         dgvTransactionItems.BackgroundColor = Color.White
-        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = SystemColors.Control
-        DataGridViewCellStyle3.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle3.ForeColor = Color.Black
-        DataGridViewCellStyle3.SelectionBackColor = Color.MediumAquamarine
-        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
-        dgvTransactionItems.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = SystemColors.Control
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle1.ForeColor = Color.Black
+        DataGridViewCellStyle1.SelectionBackColor = Color.MediumAquamarine
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvTransactionItems.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvTransactionItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvTransactionItems.Location = New Point(37, 117)
         dgvTransactionItems.Name = "dgvTransactionItems"
@@ -274,54 +275,6 @@ Partial Class ViewTransactionsControl
         pnlDetails.Size = New Size(1135, 414)
         pnlDetails.TabIndex = 7
         ' 
-        ' Label1
-        ' 
-        Label1.AutoSize = True
-        Label1.BackColor = Color.Transparent
-        Label1.Font = New Font("Microsoft Sans Serif", 15.75F, FontStyle.Italic, GraphicsUnit.Point, CByte(0))
-        Label1.ForeColor = Color.White
-        Label1.Location = New Point(20, 25)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(209, 25)
-        Label1.TabIndex = 6
-        Label1.Text = "Transactions History"
-        ' 
-        ' btnRefresh
-        ' 
-        btnRefresh.BackColor = Color.Transparent
-        btnRefresh.Cursor = Cursors.Hand
-        btnRefresh.FlatStyle = FlatStyle.Flat
-        btnRefresh.Font = New Font("Arial", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btnRefresh.ForeColor = Color.White
-        btnRefresh.Location = New Point(235, 15)
-        btnRefresh.Name = "btnRefresh"
-        btnRefresh.Size = New Size(33, 35)
-        btnRefresh.TabIndex = 5
-        btnRefresh.Text = "⟳"
-        btnRefresh.UseVisualStyleBackColor = False
-        ' 
-        ' dgvTransactions
-        ' 
-        dgvTransactions.AllowUserToAddRows = False
-        dgvTransactions.AllowUserToDeleteRows = False
-        dgvTransactions.AllowUserToOrderColumns = True
-        dgvTransactions.BackgroundColor = Color.White
-        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = SystemColors.Control
-        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle4.ForeColor = Color.Black
-        DataGridViewCellStyle4.SelectionBackColor = Color.MediumAquamarine
-        DataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle4.WrapMode = DataGridViewTriState.True
-        dgvTransactions.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
-        dgvTransactions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        dgvTransactions.Location = New Point(37, 56)
-        dgvTransactions.Name = "dgvTransactions"
-        dgvTransactions.ReadOnly = True
-        dgvTransactions.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvTransactions.Size = New Size(1070, 468)
-        dgvTransactions.TabIndex = 4
-        ' 
         ' TableLayoutPanel1
         ' 
         TableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset
@@ -355,6 +308,54 @@ Partial Class ViewTransactionsControl
         TableLayoutPanel1.Size = New Size(857, 89)
         TableLayoutPanel1.TabIndex = 18
         ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.BackColor = Color.Transparent
+        Label1.Font = New Font("Microsoft Sans Serif", 15.75F, FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        Label1.ForeColor = Color.White
+        Label1.Location = New Point(20, 25)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(209, 25)
+        Label1.TabIndex = 6
+        Label1.Text = "Transactions History"
+        ' 
+        ' btnRefresh
+        ' 
+        btnRefresh.BackColor = Color.Transparent
+        btnRefresh.Cursor = Cursors.Hand
+        btnRefresh.FlatStyle = FlatStyle.Flat
+        btnRefresh.Font = New Font("Arial", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnRefresh.ForeColor = Color.White
+        btnRefresh.Location = New Point(235, 15)
+        btnRefresh.Name = "btnRefresh"
+        btnRefresh.Size = New Size(33, 35)
+        btnRefresh.TabIndex = 5
+        btnRefresh.Text = "⟳"
+        btnRefresh.UseVisualStyleBackColor = False
+        ' 
+        ' dgvTransactions
+        ' 
+        dgvTransactions.AllowUserToAddRows = False
+        dgvTransactions.AllowUserToDeleteRows = False
+        dgvTransactions.AllowUserToOrderColumns = True
+        dgvTransactions.BackgroundColor = Color.White
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = SystemColors.Control
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = Color.Black
+        DataGridViewCellStyle2.SelectionBackColor = Color.MediumAquamarine
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
+        dgvTransactions.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        dgvTransactions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvTransactions.Location = New Point(37, 56)
+        dgvTransactions.Name = "dgvTransactions"
+        dgvTransactions.ReadOnly = True
+        dgvTransactions.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvTransactions.Size = New Size(1070, 468)
+        dgvTransactions.TabIndex = 4
+        ' 
         ' ViewTransactionsControl
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -371,9 +372,9 @@ Partial Class ViewTransactionsControl
         CType(dgvTransactionItems, ComponentModel.ISupportInitialize).EndInit()
         pnlDetails.ResumeLayout(False)
         pnlDetails.PerformLayout()
-        CType(dgvTransactions, ComponentModel.ISupportInitialize).EndInit()
         TableLayoutPanel1.ResumeLayout(False)
         TableLayoutPanel1.PerformLayout()
+        CType(dgvTransactions, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub

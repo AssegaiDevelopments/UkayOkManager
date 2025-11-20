@@ -22,15 +22,9 @@ Partial Class ManageStocksControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         BufferedPanel1 = New BufferedPanel()
-        GroupBox2 = New GroupBox()
-        btnApplyToCell = New Button()
-        TableLayoutPanel3 = New TableLayoutPanel()
-        Label1 = New Label()
-        nudAddSubtract = New NumericUpDown()
-        TableLayoutPanel1 = New TableLayoutPanel()
-        btnRemoveItem = New Button()
-        btnSaveChanges = New Button()
+        RoundedPanel1 = New RoundedPanel()
         GroupBox1 = New GroupBox()
         Label3 = New Label()
         btnAddItem = New Button()
@@ -39,24 +33,32 @@ Partial Class ManageStocksControl
         nudStock = New NumericUpDown()
         Label5 = New Label()
         nudPrice = New NumericUpDown()
+        GroupBox2 = New GroupBox()
+        btnApplyToCell = New Button()
+        TableLayoutPanel3 = New TableLayoutPanel()
+        Label1 = New Label()
+        nudAddSubtract = New NumericUpDown()
+        TableLayoutPanel1 = New TableLayoutPanel()
+        btnRemoveItem = New Button()
+        btnSaveChanges = New Button()
         dgvStocks = New DataGridView()
         Label2 = New Label()
         BufferedPanel1.SuspendLayout()
+        RoundedPanel1.SuspendLayout()
+        GroupBox1.SuspendLayout()
+        CType(nudStock, ComponentModel.ISupportInitialize).BeginInit()
+        CType(nudPrice, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox2.SuspendLayout()
         TableLayoutPanel3.SuspendLayout()
         CType(nudAddSubtract, ComponentModel.ISupportInitialize).BeginInit()
         TableLayoutPanel1.SuspendLayout()
-        GroupBox1.SuspendLayout()
-        CType(nudStock, ComponentModel.ISupportInitialize).BeginInit()
-        CType(nudPrice, ComponentModel.ISupportInitialize).BeginInit()
         CType(dgvStocks, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' BufferedPanel1
         ' 
         BufferedPanel1.BackColor = Color.Transparent
-        BufferedPanel1.Controls.Add(GroupBox2)
-        BufferedPanel1.Controls.Add(GroupBox1)
+        BufferedPanel1.Controls.Add(RoundedPanel1)
         BufferedPanel1.Controls.Add(dgvStocks)
         BufferedPanel1.Controls.Add(Label2)
         BufferedPanel1.Dock = DockStyle.Fill
@@ -65,109 +67,16 @@ Partial Class ManageStocksControl
         BufferedPanel1.Size = New Size(1135, 682)
         BufferedPanel1.TabIndex = 0
         ' 
-        ' GroupBox2
+        ' RoundedPanel1
         ' 
-        GroupBox2.BackColor = Color.Transparent
-        GroupBox2.Controls.Add(btnApplyToCell)
-        GroupBox2.Controls.Add(TableLayoutPanel3)
-        GroupBox2.Controls.Add(TableLayoutPanel1)
-        GroupBox2.ForeColor = Color.White
-        GroupBox2.Location = New Point(25, 356)
-        GroupBox2.Name = "GroupBox2"
-        GroupBox2.Size = New Size(371, 281)
-        GroupBox2.TabIndex = 36
-        GroupBox2.TabStop = False
-        GroupBox2.Text = "Manage Stocks"
-        ' 
-        ' btnApplyToCell
-        ' 
-        btnApplyToCell.ForeColor = Color.Black
-        btnApplyToCell.Location = New Point(129, 89)
-        btnApplyToCell.Name = "btnApplyToCell"
-        btnApplyToCell.Size = New Size(112, 50)
-        btnApplyToCell.TabIndex = 24
-        btnApplyToCell.Text = "Apply to selected"
-        btnApplyToCell.UseVisualStyleBackColor = True
-        ' 
-        ' TableLayoutPanel3
-        ' 
-        TableLayoutPanel3.AutoSize = True
-        TableLayoutPanel3.BackColor = Color.Transparent
-        TableLayoutPanel3.ColumnCount = 2
-        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        TableLayoutPanel3.Controls.Add(Label1, 0, 0)
-        TableLayoutPanel3.Controls.Add(nudAddSubtract, 1, 0)
-        TableLayoutPanel3.Location = New Point(58, 38)
-        TableLayoutPanel3.Name = "TableLayoutPanel3"
-        TableLayoutPanel3.RowCount = 1
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel3.Size = New Size(260, 45)
-        TableLayoutPanel3.TabIndex = 25
-        ' 
-        ' Label1
-        ' 
-        Label1.Anchor = AnchorStyles.Left
-        Label1.AutoSize = True
-        Label1.BackColor = Color.Transparent
-        Label1.ForeColor = Color.White
-        Label1.Location = New Point(3, 15)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(124, 15)
-        Label1.TabIndex = 23
-        Label1.Text = "Add/Subtract to Stock"
-        ' 
-        ' nudAddSubtract
-        ' 
-        nudAddSubtract.Anchor = AnchorStyles.Left
-        nudAddSubtract.Font = New Font("Courier New", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        nudAddSubtract.Location = New Point(133, 5)
-        nudAddSubtract.Minimum = New Decimal(New Integer() {100, 0, 0, Integer.MinValue})
-        nudAddSubtract.Name = "nudAddSubtract"
-        nudAddSubtract.Size = New Size(121, 35)
-        nudAddSubtract.TabIndex = 22
-        ' 
-        ' TableLayoutPanel1
-        ' 
-        TableLayoutPanel1.BackColor = Color.Transparent
-        TableLayoutPanel1.ColumnCount = 2
-        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        TableLayoutPanel1.Controls.Add(btnRemoveItem, 0, 0)
-        TableLayoutPanel1.Controls.Add(btnSaveChanges, 1, 0)
-        TableLayoutPanel1.Location = New Point(52, 203)
-        TableLayoutPanel1.Name = "TableLayoutPanel1"
-        TableLayoutPanel1.RowCount = 1
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel1.Size = New Size(260, 48)
-        TableLayoutPanel1.TabIndex = 29
-        ' 
-        ' btnRemoveItem
-        ' 
-        btnRemoveItem.Dock = DockStyle.Fill
-        btnRemoveItem.FlatAppearance.BorderSize = 0
-        btnRemoveItem.ForeColor = Color.Black
-        btnRemoveItem.Location = New Point(3, 3)
-        btnRemoveItem.Name = "btnRemoveItem"
-        btnRemoveItem.Size = New Size(124, 42)
-        btnRemoveItem.TabIndex = 26
-        btnRemoveItem.Text = "Remove Item"
-        btnRemoveItem.UseVisualStyleBackColor = True
-        ' 
-        ' btnSaveChanges
-        ' 
-        btnSaveChanges.BackColor = Color.FromArgb(CByte(243), CByte(182), CByte(80))
-        btnSaveChanges.Dock = DockStyle.Fill
-        btnSaveChanges.FlatAppearance.BorderColor = Color.FromArgb(CByte(243), CByte(182), CByte(80))
-        btnSaveChanges.FlatAppearance.BorderSize = 2
-        btnSaveChanges.FlatStyle = FlatStyle.Flat
-        btnSaveChanges.ForeColor = Color.Black
-        btnSaveChanges.Location = New Point(133, 3)
-        btnSaveChanges.Name = "btnSaveChanges"
-        btnSaveChanges.Size = New Size(124, 42)
-        btnSaveChanges.TabIndex = 21
-        btnSaveChanges.Text = "Save Changes"
-        btnSaveChanges.UseVisualStyleBackColor = False
+        RoundedPanel1.BackColor = Color.White
+        RoundedPanel1.Controls.Add(GroupBox1)
+        RoundedPanel1.Controls.Add(GroupBox2)
+        RoundedPanel1.CornerRadius = 20
+        RoundedPanel1.Location = New Point(25, 80)
+        RoundedPanel1.Name = "RoundedPanel1"
+        RoundedPanel1.Size = New Size(442, 518)
+        RoundedPanel1.TabIndex = 37
         ' 
         ' GroupBox1
         ' 
@@ -179,10 +88,11 @@ Partial Class ManageStocksControl
         GroupBox1.Controls.Add(nudStock)
         GroupBox1.Controls.Add(Label5)
         GroupBox1.Controls.Add(nudPrice)
-        GroupBox1.ForeColor = Color.White
-        GroupBox1.Location = New Point(25, 110)
+        GroupBox1.FlatStyle = FlatStyle.Flat
+        GroupBox1.ForeColor = Color.Black
+        GroupBox1.Location = New Point(34, 20)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(371, 215)
+        GroupBox1.Size = New Size(361, 215)
         GroupBox1.TabIndex = 35
         GroupBox1.TabStop = False
         GroupBox1.Text = "Add Product"
@@ -191,7 +101,7 @@ Partial Class ManageStocksControl
         ' 
         Label3.AutoSize = True
         Label3.BackColor = Color.Transparent
-        Label3.ForeColor = Color.White
+        Label3.ForeColor = Color.Black
         Label3.Location = New Point(45, 20)
         Label3.Name = "Label3"
         Label3.Size = New Size(66, 15)
@@ -215,7 +125,7 @@ Partial Class ManageStocksControl
         ' 
         Label4.AutoSize = True
         Label4.BackColor = Color.Transparent
-        Label4.ForeColor = Color.White
+        Label4.ForeColor = Color.Black
         Label4.Location = New Point(45, 80)
         Label4.Name = "Label4"
         Label4.Size = New Size(36, 15)
@@ -248,7 +158,7 @@ Partial Class ManageStocksControl
         ' 
         Label5.AutoSize = True
         Label5.BackColor = Color.Transparent
-        Label5.ForeColor = Color.White
+        Label5.ForeColor = Color.Black
         Label5.Location = New Point(45, 140)
         Label5.Name = "Label5"
         Label5.Size = New Size(33, 15)
@@ -268,13 +178,129 @@ Partial Class ManageStocksControl
         nudPrice.TabIndex = 8
         nudPrice.ThousandsSeparator = True
         ' 
+        ' GroupBox2
+        ' 
+        GroupBox2.BackColor = Color.Transparent
+        GroupBox2.Controls.Add(btnApplyToCell)
+        GroupBox2.Controls.Add(TableLayoutPanel3)
+        GroupBox2.Controls.Add(TableLayoutPanel1)
+        GroupBox2.ForeColor = Color.Black
+        GroupBox2.Location = New Point(34, 241)
+        GroupBox2.Name = "GroupBox2"
+        GroupBox2.Size = New Size(361, 110)
+        GroupBox2.TabIndex = 36
+        GroupBox2.TabStop = False
+        GroupBox2.Text = "Manage Stocks"
+        ' 
+        ' btnApplyToCell
+        ' 
+        btnApplyToCell.Cursor = Cursors.Hand
+        btnApplyToCell.ForeColor = Color.Black
+        btnApplyToCell.Location = New Point(6, 70)
+        btnApplyToCell.Name = "btnApplyToCell"
+        btnApplyToCell.Size = New Size(121, 32)
+        btnApplyToCell.TabIndex = 24
+        btnApplyToCell.Text = "Apply to selected"
+        btnApplyToCell.UseVisualStyleBackColor = True
+        ' 
+        ' TableLayoutPanel3
+        ' 
+        TableLayoutPanel3.AutoSize = True
+        TableLayoutPanel3.BackColor = Color.Transparent
+        TableLayoutPanel3.ColumnCount = 2
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel3.Controls.Add(Label1, 0, 0)
+        TableLayoutPanel3.Controls.Add(nudAddSubtract, 1, 0)
+        TableLayoutPanel3.Location = New Point(4, 22)
+        TableLayoutPanel3.Name = "TableLayoutPanel3"
+        TableLayoutPanel3.RowCount = 1
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel3.Size = New Size(352, 45)
+        TableLayoutPanel3.TabIndex = 25
+        ' 
+        ' Label1
+        ' 
+        Label1.Anchor = AnchorStyles.Right
+        Label1.AutoSize = True
+        Label1.BackColor = Color.Transparent
+        Label1.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label1.ForeColor = Color.Black
+        Label1.Location = New Point(12, 12)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(161, 21)
+        Label1.TabIndex = 23
+        Label1.Text = "Add/Subtract to Stock"
+        ' 
+        ' nudAddSubtract
+        ' 
+        nudAddSubtract.Anchor = AnchorStyles.Left
+        nudAddSubtract.Font = New Font("Courier New", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        nudAddSubtract.Location = New Point(179, 5)
+        nudAddSubtract.Minimum = New Decimal(New Integer() {100, 0, 0, Integer.MinValue})
+        nudAddSubtract.Name = "nudAddSubtract"
+        nudAddSubtract.Size = New Size(170, 35)
+        nudAddSubtract.TabIndex = 22
+        ' 
+        ' TableLayoutPanel1
+        ' 
+        TableLayoutPanel1.BackColor = Color.Transparent
+        TableLayoutPanel1.ColumnCount = 2
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel1.Controls.Add(btnRemoveItem, 0, 0)
+        TableLayoutPanel1.Controls.Add(btnSaveChanges, 1, 0)
+        TableLayoutPanel1.Location = New Point(130, 69)
+        TableLayoutPanel1.Name = "TableLayoutPanel1"
+        TableLayoutPanel1.RowCount = 1
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel1.Size = New Size(225, 35)
+        TableLayoutPanel1.TabIndex = 29
+        ' 
+        ' btnRemoveItem
+        ' 
+        btnRemoveItem.Cursor = Cursors.Hand
+        btnRemoveItem.Dock = DockStyle.Fill
+        btnRemoveItem.FlatAppearance.BorderSize = 0
+        btnRemoveItem.ForeColor = Color.Black
+        btnRemoveItem.Location = New Point(3, 3)
+        btnRemoveItem.Name = "btnRemoveItem"
+        btnRemoveItem.Size = New Size(106, 29)
+        btnRemoveItem.TabIndex = 26
+        btnRemoveItem.Text = "Remove Item"
+        btnRemoveItem.UseVisualStyleBackColor = True
+        ' 
+        ' btnSaveChanges
+        ' 
+        btnSaveChanges.BackColor = Color.FromArgb(CByte(243), CByte(182), CByte(80))
+        btnSaveChanges.Cursor = Cursors.Hand
+        btnSaveChanges.Dock = DockStyle.Fill
+        btnSaveChanges.FlatAppearance.BorderColor = Color.FromArgb(CByte(243), CByte(182), CByte(80))
+        btnSaveChanges.FlatAppearance.BorderSize = 2
+        btnSaveChanges.FlatStyle = FlatStyle.Flat
+        btnSaveChanges.ForeColor = Color.Black
+        btnSaveChanges.Location = New Point(115, 3)
+        btnSaveChanges.Name = "btnSaveChanges"
+        btnSaveChanges.Size = New Size(107, 29)
+        btnSaveChanges.TabIndex = 21
+        btnSaveChanges.Text = "Save Changes"
+        btnSaveChanges.UseVisualStyleBackColor = False
+        ' 
         ' dgvStocks
         ' 
         dgvStocks.BackgroundColor = Color.White
         dgvStocks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvStocks.Cursor = Cursors.Hand
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = Color.GhostWhite
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = Color.MediumSeaGreen
+        DataGridViewCellStyle2.SelectionForeColor = Color.White
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+        dgvStocks.DefaultCellStyle = DataGridViewCellStyle2
         dgvStocks.Dock = DockStyle.Right
-        dgvStocks.GridColor = Color.SpringGreen
+        dgvStocks.GridColor = Color.LightCyan
         dgvStocks.Location = New Point(482, 0)
         dgvStocks.Name = "dgvStocks"
         dgvStocks.Size = New Size(653, 682)
@@ -303,16 +329,17 @@ Partial Class ManageStocksControl
         Size = New Size(1135, 682)
         BufferedPanel1.ResumeLayout(False)
         BufferedPanel1.PerformLayout()
+        RoundedPanel1.ResumeLayout(False)
+        GroupBox1.ResumeLayout(False)
+        GroupBox1.PerformLayout()
+        CType(nudStock, ComponentModel.ISupportInitialize).EndInit()
+        CType(nudPrice, ComponentModel.ISupportInitialize).EndInit()
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
         TableLayoutPanel3.ResumeLayout(False)
         TableLayoutPanel3.PerformLayout()
         CType(nudAddSubtract, ComponentModel.ISupportInitialize).EndInit()
         TableLayoutPanel1.ResumeLayout(False)
-        GroupBox1.ResumeLayout(False)
-        GroupBox1.PerformLayout()
-        CType(nudStock, ComponentModel.ISupportInitialize).EndInit()
-        CType(nudPrice, ComponentModel.ISupportInitialize).EndInit()
         CType(dgvStocks, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
@@ -336,5 +363,6 @@ Partial Class ManageStocksControl
     Friend WithEvents nudPrice As NumericUpDown
     Friend WithEvents dgvStocks As DataGridView
     Friend WithEvents Label2 As Label
+    Friend WithEvents RoundedPanel1 As RoundedPanel
 
 End Class

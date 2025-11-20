@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.Data.SqlClient
 Imports Microsoft.VisualBasic.DateAndTime
+Imports ScottPlot
 Public Class ExpensesControl
     Dim adapter As SqlDataAdapter
     Dim paymentStatus() As String = {"Paid", "Unpaid"}
@@ -10,7 +11,11 @@ Public Class ExpensesControl
     Dim x As New List(Of Double)
     Dim y As New List(Of Double)
 
-    Private Function GetExpenseTotal(Optional status As String = Nothing, Optional fromDate As Date? = Nothing) As Decimal
+    Public Event ExpensesUpdated()
+
+
+    ' Get total expenses with optional filters
+    Public Function GetExpenseTotal(Optional status As String = Nothing, Optional fromDate As Date? = Nothing) As Decimal
         Dim total As Decimal = 0D
 
         Try
@@ -41,8 +46,6 @@ Public Class ExpensesControl
         Return total
     End Function
 
-
-    'load expenses control
     Public Sub LoadComboBoxes()
         cbPaymentStatus.Items.Clear()
         cbPaymentStatus.Items.AddRange(paymentStatus)
@@ -60,16 +63,51 @@ Public Class ExpensesControl
         cbFilterStatus.Items.AddRange(paymentFilter)
         cbFilterStatus.SelectedIndex = 0
     End Sub
+    Private Sub ExpensesControl_Load(sender As Object, e As EventArgs) Handles Me.Load
+        InitializeExpenses()
+    End Sub
+
     'initialize expenses datagridview
     Public Sub InitializeExpenses()
         dgvExpenses.AllowUserToAddRows = False
         dgvExpenses.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvExpenses.DefaultCellStyle.ForeColor = Color.Black
+        dgvExpenses.DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+        chartCategoryExpenses.Plot.Title()
+        chartDailyExpenses.Plot.DataBackground.Color = Colors.White
         LoadComboBoxes()
         LoadExpenses()
         LoadDailyExpenseChart()
         LoadCategoryChart()
+        RecalculateTotalsFromTable()
     End Sub
+
+    Private Sub RecalculateTotalsFromTable()
+        Try
+            Dim table As DataTable = TryCast(dgvExpenses.DataSource, DataTable)
+            If table Is Nothing OrElse table.Rows.Count = 0 Then
+                lblTotalUnpaid.Text = "₱0.00"
+                lblTotalPaid.Text = "₱0.00"
+                Return
+            End If
+
+            ' total unpaid
+            Dim totalUnpaid As Decimal = table.AsEnumerable().
+            Where(Function(r) Not r.IsNull("Status") AndAlso String.Equals(Convert.ToString(r("Status")), "Unpaid", StringComparison.OrdinalIgnoreCase)).
+            Sum(Function(r) If(r.IsNull("Amount"), 0D, Convert.ToDecimal(r("Amount"))))
+
+            ' total paid
+            Dim totalPaid As Decimal = table.AsEnumerable().
+            Where(Function(r) Not r.IsNull("Status") AndAlso String.Equals(Convert.ToString(r("Status")), "Paid", StringComparison.OrdinalIgnoreCase)).
+            Sum(Function(r) If(r.IsNull("Amount"), 0D, Convert.ToDecimal(r("Amount"))))
+
+            lblTotalUnpaid.Text = totalUnpaid.ToString("₱#,##0.00")
+            lblTotalPaid.Text = totalPaid.ToString("₱#,##0.00")
+
+        Catch ex As Exception
+            MessageBox.Show("Error calculating totals: " & ex.Message)
+        End Try
+    End Sub
+
 
     'load expenses from database into datagridview
     Private Sub LoadExpenses()
@@ -80,50 +118,35 @@ Public Class ExpensesControl
                 Dim query As String = "
                 SELECT ExpenseID, Date, Description, Amount, AddedBy, DueDate, Status, PaidDate, Category
                 FROM Expenses
-                ORDER BY Date DESC
-                "
-                Dim adapter As New SqlDataAdapter(query, con)
+                ORDER BY Date DESC"
+                Dim adapterLocal As New SqlDataAdapter(query, con)
                 Dim table As New DataTable()
-                table.Clear()
-                adapter.Fill(table)
+                adapterLocal.Fill(table)
 
                 dgvExpenses.DataSource = table
+
                 If dgvExpenses.Columns.Contains("ExpenseID") Then
                     dgvExpenses.Columns("ExpenseID").Visible = False
                 End If
-
-                Dim totalUnpaid As Decimal =
-                  dgvExpenses.Rows.Cast(Of DataGridViewRow)().
-                  Where(Function(r) r IsNot Nothing AndAlso r.Cells("Status") IsNot Nothing AndAlso Not IsDBNull(r.Cells("Status").Value) AndAlso r.Cells("Status").Value.ToString() = "Unpaid").
-                  Select(Function(r) Convert.ToDecimal(If(IsDBNull(r.Cells("Amount").Value), 0D, r.Cells("Amount").Value))).
-                  DefaultIfEmpty(0D).
-                  Sum()
-
-                lblTotalExpenses.Text = totalUnpaid.ToString("₱#,##0.00")
-                lblTotalPaidExpenses.Text = GetExpenseTotal("Paid").ToString("₱#,##0.00")
             End Using
 
-            ' Optional formatting
+            ' Visual formatting
             With dgvExpenses
                 .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-
-                If .Columns.Contains("Amount") Then
-                    .Columns("Amount").DefaultCellStyle.Format = "₱#,##0.00"
-                End If
-                If .Columns.Contains("Date") Then
-                    .Columns("Date").DefaultCellStyle.Format = "yyyy-MM-dd"
-                End If
-
+                If .Columns.Contains("Amount") Then .Columns("Amount").DefaultCellStyle.Format = "₱#,##0.00"
+                If .Columns.Contains("Date") Then .Columns("Date").DefaultCellStyle.Format = "yyyy-MM-dd"
                 .ReadOnly = True
                 .SelectionMode = DataGridViewSelectionMode.FullRowSelect
             End With
 
-
+            ' Safely compute totals from the bound DataTable
+            RecalculateTotalsFromTable()
 
         Catch ex As Exception
             MessageBox.Show("Error loading expenses: " & ex.Message)
         End Try
     End Sub
+
 
     'add expense to database
     Private Sub btnAddExpense_Click(sender As Object, e As EventArgs) Handles btnAddExpense.Click
@@ -154,7 +177,7 @@ Public Class ExpensesControl
 
             ' Refresh the DataGridView
             LoadExpenses()
-
+            RaiseEvent ExpensesUpdated()
             ' Optional: Clear inputs
             txtbDescription.Clear()
             nudExpenseAmount.Value = 0
@@ -176,33 +199,31 @@ Public Class ExpensesControl
                 con.Open()
                 cmd.ExecuteNonQuery()
             End Using
+            RaiseEvent ExpensesUpdated()
             LoadExpenses()
         End If
     End Sub
-
+    'apply filters to expenses
     Private Sub ApplyFilters()
         Try
             Using con As New SqlConnection(connectAs)
                 con.Open()
 
-                'query with dynamic filters; 1=1 is a dummy condition to simplify appending AND clauses
                 Dim query As String = "SELECT ExpenseID, Date, Description, Amount, AddedBy, DueDate, Status, PaidDate, Category FROM Expenses WHERE 1=1"
                 Dim cmd As New SqlCommand()
+                cmd.Connection = con
 
-                'FILTER: date range
                 If chkUseDateFilter.Checked Then
                     query &= " AND Date BETWEEN @from AND @to"
                     cmd.Parameters.AddWithValue("@from", dtpFrom.Value.Date)
                     cmd.Parameters.AddWithValue("@to", dtpTo.Value.Date)
                 End If
 
-                'FILTER: category
                 If cbFilterCategory.SelectedIndex > 0 Then
                     query &= " AND Category = @category"
                     cmd.Parameters.AddWithValue("@category", cbFilterCategory.Text)
                 End If
 
-                'FILTER: payment status
                 If cbFilterStatus.SelectedIndex > 0 Then
                     query &= " AND Status = @status"
                     cmd.Parameters.AddWithValue("@status", cbFilterStatus.Text)
@@ -210,21 +231,17 @@ Public Class ExpensesControl
 
                 query &= " ORDER BY Date DESC"
                 cmd.CommandText = query
-                cmd.Connection = con
 
                 Dim table As New DataTable()
-                Dim adapter As New SqlDataAdapter(cmd)
-                adapter.Fill(table)
+                Dim adapterLocal As New SqlDataAdapter(cmd)
+                adapterLocal.Fill(table)
 
                 dgvExpenses.DataSource = table
 
-                'update total based on filtered results
-                Dim totalUnpaid As Decimal =
-                 dgvExpenses.Rows.Cast(Of DataGridViewRow)().
-                 Where(Function(r) r.Cells("Status").Value.ToString() = "Unpaid").
-                 Sum(Function(r) Convert.ToDecimal(If(IsDBNull(r.Cells("Amount").Value), 0D, r.Cells("Amount").Value)))
-
-                lblTotalExpenses.Text = totalUnpaid.ToString("₱#,##0.00")
+                ' Recompute totals safely for the filtered results
+                RecalculateTotalsFromTable()
+                lblPaidMode.Text = "Total Paid Expenses (Filtered)"
+                lblUnpaidMode.Text = "Total Unpaid Expenses (Filtered)"
             End Using
 
         Catch ex As Exception
@@ -232,15 +249,18 @@ Public Class ExpensesControl
         End Try
     End Sub
 
+    'reset filters to default
     Private Sub ResetFilters()
         chkUseDateFilter.Checked = False
         dtpFrom.Value = DateTime.Now
         dtpTo.Value = DateTime.Now
         cbFilterCategory.SelectedIndex = 0
         cbFilterStatus.SelectedIndex = 0
+        lblPaidMode.Text = "Total Paid Expenses"
+        lblUnpaidMode.Text = "Total Unpaid Expenses"
         LoadExpenses()
     End Sub
-
+    'load category expense chart
     Private Sub LoadCategoryChart()
         ' Prepare containers for query results
         Dim categories As New List(Of String)
@@ -285,10 +305,7 @@ Public Class ExpensesControl
         chartCategoryExpenses.Plot.Title("Expenses by Category")
         chartCategoryExpenses.Refresh()
     End Sub
-
-
-
-
+    'load daily expense chart for last 30 days
     Private Sub LoadDailyExpenseChart()
         ' containers
         Dim x As New List(Of Double)
@@ -333,11 +350,7 @@ Public Class ExpensesControl
         chartDailyExpenses.Refresh()
     End Sub
 
-
-
-
-
-
+    'marks selected expense as paid
     Private Sub btnMarkAsPaid_Click(sender As Object, e As EventArgs) Handles btnMarkAsPaid.Click
         If dgvExpenses.SelectedRows.Count = 0 Then
             MessageBox.Show("Please select an expense to mark as paid.")
@@ -346,9 +359,9 @@ Public Class ExpensesControl
 
         Dim row = dgvExpenses.SelectedRows(0)
         Dim expenseId As Integer = Convert.ToInt32(row.Cells("ExpenseID").Value)
-        Dim currentStatus As String = row.Cells("Status").Value.ToString()
+        Dim currentStatus As String = If(row.Cells("Status").Value Is Nothing OrElse IsDBNull(row.Cells("Status").Value), "", row.Cells("Status").Value.ToString())
 
-        If currentStatus = "Paid" Then
+        If String.Equals(currentStatus, "Paid", StringComparison.OrdinalIgnoreCase) Then
             MessageBox.Show("This expense is already marked as paid.")
             Return
         End If
@@ -363,21 +376,22 @@ Public Class ExpensesControl
             SET Status = 'Paid',
                 PaidDate = GETDATE()
             WHERE ExpenseID = @id;", con)
-
                 cmd.Parameters.AddWithValue("@id", expenseId)
-
                 con.Open()
                 cmd.ExecuteNonQuery()
             End Using
         End Using
 
+        ' Reload and refresh charts/totals
         LoadExpenses()
         LoadDailyExpenseChart()
         LoadCategoryChart()
+        RaiseEvent ExpensesUpdated()
 
         MessageBox.Show("Expense marked as paid.")
     End Sub
 
+    'Update selected expense
     Private Sub btnUpdateExpenses_Click(sender As Object, e As EventArgs) Handles btnUpdateExpenses.Click
         If dgvExpenses.SelectedRows.Count = 0 Then
             MessageBox.Show("Select an expense to update.")
@@ -428,18 +442,12 @@ Public Class ExpensesControl
         LoadExpenses()
         LoadDailyExpenseChart()
         LoadCategoryChart()
-
+        RaiseEvent ExpensesUpdated()
         MessageBox.Show("Expense updated successfully.")
     End Sub
 
-    Private Sub btnClearFilters_Click(sender As Object, e As EventArgs) Handles btnClearFilters.Click
-        ResetFilters()
-    End Sub
 
-    Private Sub btnApplyFilters_Click(sender As Object, e As EventArgs) Handles btnApplyFilters.Click
-        ApplyFilters()
-    End Sub
-
+    'Handles selection change in datagridview to populate fields; used with update button
     Private Sub dgvExpenses_SelectionChanged(sender As Object, e As EventArgs) Handles dgvExpenses.SelectionChanged
         If dgvExpenses.SelectedRows.Count = 0 Then Return
         Dim row = dgvExpenses.SelectedRows(0)
@@ -461,6 +469,7 @@ Public Class ExpensesControl
         cbPaymentStatus.SelectedItem = row.Cells("Status").Value.ToString()
     End Sub
 
+    ' Export expenses to CSV (Document Comma Separated Values) file
     Private Sub btnExportCSV_Click(sender As Object, e As EventArgs) Handles btnExportCSV.Click
         ' Prompt user for save location
         Using sfd As New SaveFileDialog()
@@ -539,5 +548,14 @@ Public Class ExpensesControl
             End Try
         End Using
     End Sub
+
+    Private Sub btnClearFilters_Click(sender As Object, e As EventArgs) Handles btnClearFilters.Click
+        ResetFilters()
+    End Sub
+
+    Private Sub btnApplyFilters_Click(sender As Object, e As EventArgs) Handles btnApplyFilters.Click
+        ApplyFilters()
+    End Sub
+
 
 End Class

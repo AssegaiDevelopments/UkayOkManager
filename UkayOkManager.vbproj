@@ -7,7 +7,12 @@
     <MyType>WindowsForms</MyType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <ApplicationIcon>resources\mainIcon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="resources\mainIcon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <Import Include="System.Data" />

@@ -37,6 +37,7 @@ Public Class ManageStocksControl
         Try
             adapter.Update(dt)
             RaiseEvent StocksUpdated()
+            dgvStocks.GridColor = Color.AliceBlue
             MessageBox.Show("Changes saved successfully!")
         Catch ex As Exception
             MessageBox.Show("Error saving changes: " & ex.Message)

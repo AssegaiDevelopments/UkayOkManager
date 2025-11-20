@@ -4,6 +4,8 @@ Imports System.Windows
 Imports System.Security.Cryptography
 Imports System.Text
 Imports Microsoft.Data.SqlClient
+Imports System.Runtime.CompilerServices
+Imports System.Windows.Forms.PropertyGridInternal
 
 Public Class Login
 
@@ -123,4 +125,5 @@ Public Class Login
         'TEMPORARY BACKDOOR REMOVE LATER
         LoginSuccess()
     End Sub
+
 End Class
