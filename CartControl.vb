@@ -159,7 +159,7 @@ Public Class CartControl
         End Using
     End Sub
     'add item to cart/dgv table
-    Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs)
+    Private Sub btnAddItemToCart_Click(sender As Object, e As EventArgs) Handles btnAddItemToCart.Click
         ' Validate price and quantity
         Dim parsedPrice As Decimal
         If Decimal.TryParse(txtbItemPrice.Text, parsedPrice) AndAlso nudQuantity.Value > 0 Then
@@ -203,7 +203,7 @@ Public Class CartControl
             dgvCart.Rows.Add(clothingType, "₱" & price.ToString("N2"), quantity, itemTotal)
 
             ' Recalculate grand total from the grid (safer than keeping incremental state)
-            RecalculateGrandTotal
+            RecalculateGrandTotal()
             ' Deduct locally
             tempStock(selectedItem) -= quantity
             lblStock.Text = "Remaining stock: " & tempStock(selectedItem).ToString
@@ -221,7 +221,7 @@ Public Class CartControl
         End If
     End Sub
     'discount feature
-    Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs)
+    Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs) Handles chbxDiscount.CheckedChanged
         If chbxDiscount.Checked Then
             nudDiscount.Enabled = True
             lDiscount.Enabled = True
@@ -234,36 +234,36 @@ Public Class CartControl
         End If
     End Sub
     'discount value changed
-    Private Sub nudDiscount_ValueChanged(sender As Object, e As EventArgs)
+    Private Sub nudDiscount_ValueChanged(sender As Object, e As EventArgs) Handles nudDiscount.ValueChanged
         discount = CInt(nudDiscount.Value)
         lDiscount.Text = "Discount: " & discount.ToString & "%"
     End Sub
 
     'Display price and stock based on selected clothing type
-    Private Sub cbClothingType_SelectedIndexChanged(sender As Object, e As EventArgs)
+    Private Sub cbClothingType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbClothingType.SelectedIndexChanged
         Using con As New SqlConnection(connectAs)
             Dim cmd As New SqlCommand("SELECT RegularPrice, Stock FROM Products WHERE ProductName = @name", con)
             cmd.Parameters.AddWithValue("@name", cbClothingType.Text)
-            con.Open
+            con.Open()
             Dim reader = cmd.ExecuteReader
             If reader.Read Then
                 txtbItemPrice.Text = reader("RegularPrice").ToString
                 lblStock.Text = "Remaining stock: " & reader("Stock").ToString
-                RefreshProductInfo
+                RefreshProductInfo()
                 'lblStockAvailable.Text = "Available: " & reader("Stock").ToString()
             End If
-            reader.Close
+            reader.Close()
         End Using
     End Sub
     'Clear cart and reset grand total
-    Private Sub btnClearCart_Click(sender As Object, e As EventArgs)
-        dgvCart.Rows.Clear
+    Private Sub btnClearCart_Click(sender As Object, e As EventArgs) Handles btnClearCart.Click
+        dgvCart.Rows.Clear()
         grandTotal = 0
         lGrandTotal.Text = "₱0.00"
-        RefreshProductInfo
+        RefreshProductInfo()
     End Sub
     ' Remove selected item from cart and update stock and grand total
-    Private Sub btnRemoveItemFromCart_Click(sender As Object, e As EventArgs)
+    Private Sub btnRemoveItemFromCart_Click(sender As Object, e As EventArgs) Handles btnRemoveItemFromCart.Click
         If dgvCart.SelectedRows.Count > 0 Then
             Dim row = dgvCart.SelectedRows(0)
             Dim itemName = row.Cells("Item").Value.ToString
@@ -287,7 +287,7 @@ Public Class CartControl
     End Sub
 
     ' Checkout process: save transaction and items to DB, clear cart
-    Private Sub btnCheckout_Click(sender As Object, e As EventArgs)
+    Private Sub btnCheckout_Click(sender As Object, e As EventArgs) Handles btnCheckout.Click
         If dgvCart.Rows.Count = 0 Then
             MsgBox("Your cart is empty!", vbExclamation, "Checkout")
             Exit Sub
@@ -303,7 +303,7 @@ Public Class CartControl
         Next
 
         Using con As New SqlConnection(connectAs)
-            con.Open
+            con.Open()
 
             ' Insert the transaction first
             Dim cmdTrans As New SqlCommand("
@@ -352,7 +352,7 @@ Public Class CartControl
                 cmdItem.Parameters.AddWithValue("@qty", Convert.ToInt32(row.Cells("Quantity").Value))
                 cmdItem.Parameters.AddWithValue("@price", Convert.ToDecimal(row.Cells("Price").Value.ToString.Replace("₱", "")))
                 cmdItem.Parameters.AddWithValue("@total", Convert.ToDecimal(row.Cells("Total").Value))
-                cmdItem.ExecuteNonQuery
+                cmdItem.ExecuteNonQuery()
 
                 'Update stock after inserting each item
                 Dim cmdUpdateStock As New SqlCommand("
@@ -365,20 +365,20 @@ Public Class CartControl
 
                 cmdUpdateStock.Parameters.AddWithValue("@qty", Convert.ToInt32(row.Cells("Quantity").Value))
                 cmdUpdateStock.Parameters.AddWithValue("@pname", row.Cells("Item").Value.ToString)
-                cmdUpdateStock.ExecuteNonQuery
+                cmdUpdateStock.ExecuteNonQuery()
             Next
 
             ' Refresh local stock data
-            refreshComboBoxInfo
+            refreshComboBoxInfo()
         End Using
 
         MsgBox("Checkout successful! Transaction saved.", vbInformation, "Success")
         RaiseEvent CartCheckoutCompleted()
 
-        dgvCart.Rows.Clear
+        dgvCart.Rows.Clear()
         grandTotal = 0
         lGrandTotal.Text = "₱0.00"
-        RefreshProductInfo
+        RefreshProductInfo()
         cbClothingType.SelectedIndex = 0
     End Sub
 End Class

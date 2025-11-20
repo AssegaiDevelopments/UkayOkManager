@@ -32,7 +32,7 @@ Public Class ManageStocksControl
         dgvStocks.Columns(0).ReadOnly = True
     End Sub
 
-    Private Sub btnSaveChanges_Click(sender As Object, e As EventArgs)
+    Private Sub btnSaveChanges_Click(sender As Object, e As EventArgs) Handles btnSaveChanges.Click
         Try
             adapter.Update(dt)
             RaiseEvent StocksUpdated()
@@ -42,7 +42,7 @@ Public Class ManageStocksControl
         End Try
     End Sub
 
-    Private Sub btnApplyToCell_Click(sender As Object, e As EventArgs)
+    Private Sub btnApplyToCell_Click(sender As Object, e As EventArgs) Handles btnApplyToCell.Click
         If dgvStocks.CurrentCell Is Nothing Then
             MessageBox.Show("Please select a cell to modify.")
             Return
@@ -72,7 +72,7 @@ Public Class ManageStocksControl
 
     End Sub
 
-    Private Sub dgvStocks_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs)
+    Private Sub dgvStocks_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles dgvStocks.CellValueChanged
         dgvStocks.GridColor = Color.Yellow
         dgvStocks.CommitEdit(DataGridViewDataErrorContexts.Commit)
         dgvStocks.EndEdit()
@@ -86,19 +86,19 @@ Public Class ManageStocksControl
     '    End If
     'End Sub
 
-    Private Sub btnAddItem_Click(sender As Object, e As EventArgs)
+    Private Sub btnAddItem_Click(sender As Object, e As EventArgs) Handles btnAddItem.Click
         Using con As New SqlConnection(connectAs)
             Dim cmd As New SqlCommand("INSERT INTO Products (ProductName, Stock, RegularPrice) VALUES (@name, @stock, @price)", con)
             cmd.Parameters.AddWithValue("@name", tbProductName.Text)
             cmd.Parameters.AddWithValue("@stock", nudStock.Value)
             cmd.Parameters.AddWithValue("@price", nudPrice.Value)
-            con.Open
-            cmd.ExecuteNonQuery
+            con.Open()
+            cmd.ExecuteNonQuery()
         End Using
-        LoadProducts
+        LoadProducts()
     End Sub
 
-    Private Sub btnRemoveItem_Click(sender As Object, e As EventArgs)
+    Private Sub btnRemoveItem_Click(sender As Object, e As EventArgs) Handles btnRemoveItem.Click
         If dgvStocks.SelectedRows.Count = 0 Then
             MessageBox.Show("Select a product to remove.")
             Return
@@ -109,10 +109,10 @@ Public Class ManageStocksControl
             Using con As New SqlConnection(connectAs)
                 Dim cmd As New SqlCommand("DELETE FROM Products WHERE ProductID=@id", con)
                 cmd.Parameters.AddWithValue("@id", productId)
-                con.Open
-                cmd.ExecuteNonQuery
+                con.Open()
+                cmd.ExecuteNonQuery()
             End Using
-            LoadProducts
+            LoadProducts()
         End If
     End Sub
 

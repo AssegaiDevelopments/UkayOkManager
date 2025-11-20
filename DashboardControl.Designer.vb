@@ -22,17 +22,20 @@ Partial Class DashboardControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        chartExpenses = New ScottPlot.WinForms.FormsPlot()
+        chartCategory = New ScottPlot.WinForms.FormsPlot()
         BufferedPanel1 = New BufferedPanel()
         RoundedPanel1 = New RoundedPanel()
-        Label2 = New Label()
+        lblTotalSalesToday = New Label()
         Label1 = New Label()
         TableLayoutPanel1 = New TableLayoutPanel()
+        RoundedPanel7 = New RoundedPanel()
+        lblTotalItemsSold = New Label()
+        Label9 = New Label()
         RoundedPanel6 = New RoundedPanel()
-        Label7 = New Label()
+        lblNetProfit = New Label()
         Label8 = New Label()
         RoundedPanel5 = New RoundedPanel()
-        Label5 = New Label()
+        lblTodayExpenses = New Label()
         Label6 = New Label()
         RoundedPanel4 = New RoundedPanel()
         Label3 = New Label()
@@ -41,22 +44,23 @@ Partial Class DashboardControl
         BufferedPanel1.SuspendLayout()
         RoundedPanel1.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
+        RoundedPanel7.SuspendLayout()
         RoundedPanel6.SuspendLayout()
         RoundedPanel5.SuspendLayout()
         RoundedPanel4.SuspendLayout()
         SuspendLayout()
         ' 
-        ' chartExpenses
+        ' chartCategory
         ' 
-        chartExpenses.DisplayScale = 1F
-        chartExpenses.Location = New Point(55, 18)
-        chartExpenses.Name = "chartExpenses"
-        chartExpenses.Size = New Size(462, 317)
-        chartExpenses.TabIndex = 1
+        chartCategory.DisplayScale = 1F
+        chartCategory.Location = New Point(55, 18)
+        chartCategory.Name = "chartCategory"
+        chartCategory.Size = New Size(462, 317)
+        chartCategory.TabIndex = 1
         ' 
         ' BufferedPanel1
         ' 
-        BufferedPanel1.Controls.Add(chartExpenses)
+        BufferedPanel1.Controls.Add(chartCategory)
         BufferedPanel1.Location = New Point(564, 325)
         BufferedPanel1.Name = "BufferedPanel1"
         BufferedPanel1.Size = New Size(568, 354)
@@ -65,27 +69,27 @@ Partial Class DashboardControl
         ' RoundedPanel1
         ' 
         RoundedPanel1.BackColor = Color.White
-        RoundedPanel1.Controls.Add(Label2)
+        RoundedPanel1.Controls.Add(lblTotalSalesToday)
         RoundedPanel1.Controls.Add(Label1)
         RoundedPanel1.CornerRadius = 20
         RoundedPanel1.Dock = DockStyle.Fill
         RoundedPanel1.Location = New Point(3, 3)
         RoundedPanel1.Name = "RoundedPanel1"
-        RoundedPanel1.Size = New Size(277, 94)
+        RoundedPanel1.Size = New Size(277, 99)
         RoundedPanel1.TabIndex = 3
         ' 
-        ' Label2
+        ' lblTotalSalesToday
         ' 
-        Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.ForeColor = Color.FromArgb(CByte(46), CByte(82), CByte(182))
-        Label2.Location = New Point(15, 24)
-        Label2.Margin = New Padding(0)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(87, 40)
-        Label2.TabIndex = 1
-        Label2.Text = "00.00"
-        Label2.TextAlign = ContentAlignment.MiddleLeft
+        lblTotalSalesToday.AutoSize = True
+        lblTotalSalesToday.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblTotalSalesToday.ForeColor = Color.FromArgb(CByte(46), CByte(82), CByte(182))
+        lblTotalSalesToday.Location = New Point(15, 24)
+        lblTotalSalesToday.Margin = New Padding(0)
+        lblTotalSalesToday.Name = "lblTotalSalesToday"
+        lblTotalSalesToday.Size = New Size(87, 40)
+        lblTotalSalesToday.TabIndex = 1
+        lblTotalSalesToday.Text = "00.00"
+        lblTotalSalesToday.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' Label1
         ' 
@@ -103,6 +107,7 @@ Partial Class DashboardControl
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
+        TableLayoutPanel1.Controls.Add(RoundedPanel7, 0, 1)
         TableLayoutPanel1.Controls.Add(RoundedPanel6, 3, 0)
         TableLayoutPanel1.Controls.Add(RoundedPanel5, 2, 0)
         TableLayoutPanel1.Controls.Add(RoundedPanel4, 1, 0)
@@ -111,69 +116,104 @@ Partial Class DashboardControl
         TableLayoutPanel1.GrowStyle = TableLayoutPanelGrowStyle.FixedSize
         TableLayoutPanel1.Location = New Point(0, 0)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
-        TableLayoutPanel1.RowCount = 1
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel1.Size = New Size(1135, 100)
+        TableLayoutPanel1.RowCount = 2
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel1.Size = New Size(1135, 210)
         TableLayoutPanel1.TabIndex = 4
+        ' 
+        ' RoundedPanel7
+        ' 
+        RoundedPanel7.BackColor = Color.White
+        RoundedPanel7.Controls.Add(lblTotalItemsSold)
+        RoundedPanel7.Controls.Add(Label9)
+        RoundedPanel7.CornerRadius = 20
+        RoundedPanel7.Dock = DockStyle.Fill
+        RoundedPanel7.Location = New Point(3, 108)
+        RoundedPanel7.Name = "RoundedPanel7"
+        RoundedPanel7.Size = New Size(277, 99)
+        RoundedPanel7.TabIndex = 7
+        ' 
+        ' lblTotalItemsSold
+        ' 
+        lblTotalItemsSold.AutoSize = True
+        lblTotalItemsSold.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblTotalItemsSold.ForeColor = Color.FromArgb(CByte(46), CByte(82), CByte(182))
+        lblTotalItemsSold.Location = New Point(15, 24)
+        lblTotalItemsSold.Margin = New Padding(0)
+        lblTotalItemsSold.Name = "lblTotalItemsSold"
+        lblTotalItemsSold.Size = New Size(49, 40)
+        lblTotalItemsSold.TabIndex = 1
+        lblTotalItemsSold.Text = "00"
+        lblTotalItemsSold.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' Label9
+        ' 
+        Label9.AutoSize = True
+        Label9.Location = New Point(15, 64)
+        Label9.Name = "Label9"
+        Label9.Size = New Size(90, 15)
+        Label9.TabIndex = 0
+        Label9.Text = "Total Items Sold"
         ' 
         ' RoundedPanel6
         ' 
         RoundedPanel6.BackColor = Color.White
-        RoundedPanel6.Controls.Add(Label7)
+        RoundedPanel6.Controls.Add(lblNetProfit)
         RoundedPanel6.Controls.Add(Label8)
         RoundedPanel6.CornerRadius = 20
         RoundedPanel6.Dock = DockStyle.Fill
         RoundedPanel6.Location = New Point(852, 3)
         RoundedPanel6.Name = "RoundedPanel6"
-        RoundedPanel6.Size = New Size(280, 94)
+        RoundedPanel6.Size = New Size(280, 99)
         RoundedPanel6.TabIndex = 6
         ' 
-        ' Label7
+        ' lblNetProfit
         ' 
-        Label7.AutoSize = True
-        Label7.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label7.ForeColor = Color.FromArgb(CByte(83), CByte(117), CByte(124))
-        Label7.Location = New Point(13, 24)
-        Label7.Margin = New Padding(0)
-        Label7.Name = "Label7"
-        Label7.Size = New Size(87, 40)
-        Label7.TabIndex = 1
-        Label7.Text = "00.00"
-        Label7.TextAlign = ContentAlignment.MiddleLeft
+        lblNetProfit.AutoSize = True
+        lblNetProfit.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblNetProfit.ForeColor = Color.FromArgb(CByte(83), CByte(117), CByte(124))
+        lblNetProfit.Location = New Point(13, 24)
+        lblNetProfit.Margin = New Padding(0)
+        lblNetProfit.Name = "lblNetProfit"
+        lblNetProfit.Size = New Size(87, 40)
+        lblNetProfit.TabIndex = 1
+        lblNetProfit.Text = "00.00"
+        lblNetProfit.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' Label8
         ' 
         Label8.AutoSize = True
         Label8.Location = New Point(15, 64)
         Label8.Name = "Label8"
-        Label8.Size = New Size(161, 15)
+        Label8.Size = New Size(100, 15)
         Label8.TabIndex = 0
-        Label8.Text = "Total Number of Transactions"
+        Label8.Text = "Net Profit (Today)"
         ' 
         ' RoundedPanel5
         ' 
         RoundedPanel5.BackColor = Color.White
-        RoundedPanel5.Controls.Add(Label5)
+        RoundedPanel5.Controls.Add(lblTodayExpenses)
         RoundedPanel5.Controls.Add(Label6)
         RoundedPanel5.CornerRadius = 20
         RoundedPanel5.Dock = DockStyle.Fill
         RoundedPanel5.Location = New Point(569, 3)
         RoundedPanel5.Name = "RoundedPanel5"
-        RoundedPanel5.Size = New Size(277, 94)
+        RoundedPanel5.Size = New Size(277, 99)
         RoundedPanel5.TabIndex = 5
         ' 
-        ' Label5
+        ' lblTodayExpenses
         ' 
-        Label5.AutoSize = True
-        Label5.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label5.ForeColor = Color.FromArgb(CByte(70), CByte(104), CByte(145))
-        Label5.Location = New Point(15, 24)
-        Label5.Margin = New Padding(0)
-        Label5.Name = "Label5"
-        Label5.Size = New Size(87, 40)
-        Label5.TabIndex = 1
-        Label5.Text = "00.00"
-        Label5.TextAlign = ContentAlignment.MiddleLeft
+        lblTodayExpenses.AutoSize = True
+        lblTodayExpenses.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblTodayExpenses.ForeColor = Color.FromArgb(CByte(70), CByte(104), CByte(145))
+        lblTodayExpenses.Location = New Point(15, 24)
+        lblTodayExpenses.Margin = New Padding(0)
+        lblTodayExpenses.Name = "lblTodayExpenses"
+        lblTodayExpenses.Size = New Size(87, 40)
+        lblTodayExpenses.TabIndex = 1
+        lblTodayExpenses.Text = "00.00"
+        lblTodayExpenses.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' Label6
         ' 
@@ -193,7 +233,7 @@ Partial Class DashboardControl
         RoundedPanel4.Dock = DockStyle.Fill
         RoundedPanel4.Location = New Point(286, 3)
         RoundedPanel4.Name = "RoundedPanel4"
-        RoundedPanel4.Size = New Size(277, 94)
+        RoundedPanel4.Size = New Size(277, 99)
         RoundedPanel4.TabIndex = 4
         ' 
         ' Label3
@@ -240,6 +280,8 @@ Partial Class DashboardControl
         RoundedPanel1.ResumeLayout(False)
         RoundedPanel1.PerformLayout()
         TableLayoutPanel1.ResumeLayout(False)
+        RoundedPanel7.ResumeLayout(False)
+        RoundedPanel7.PerformLayout()
         RoundedPanel6.ResumeLayout(False)
         RoundedPanel6.PerformLayout()
         RoundedPanel5.ResumeLayout(False)
@@ -250,21 +292,24 @@ Partial Class DashboardControl
     End Sub
     Friend WithEvents RoundedPanel2 As RoundedPanel
     Friend WithEvents RoundedPanel3 As RoundedPanel
-    Friend WithEvents chartExpenses As ScottPlot.WinForms.FormsPlot
+    Friend WithEvents chartCategory As ScottPlot.WinForms.FormsPlot
     Friend WithEvents BufferedPanel1 As BufferedPanel
     Friend WithEvents RoundedPanel1 As RoundedPanel
     Friend WithEvents Label1 As Label
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
-    Friend WithEvents Label2 As Label
+    Friend WithEvents lblTotalSalesToday As Label
     Friend WithEvents RoundedPanel6 As RoundedPanel
-    Friend WithEvents Label7 As Label
+    Friend WithEvents lblNetProfit As Label
     Friend WithEvents Label8 As Label
     Friend WithEvents RoundedPanel5 As RoundedPanel
-    Friend WithEvents Label5 As Label
+    Friend WithEvents lblTodayExpenses As Label
     Friend WithEvents Label6 As Label
     Friend WithEvents RoundedPanel4 As RoundedPanel
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents chartSales As ScottPlot.WinForms.FormsPlot
+    Friend WithEvents RoundedPanel7 As RoundedPanel
+    Friend WithEvents lblTotalItemsSold As Label
+    Friend WithEvents Label9 As Label
 
 End Class
