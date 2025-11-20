@@ -23,6 +23,7 @@ Public Class ManageStocksControl
         dt.Clear()
         adapter.Fill(dt)
         dgvStocks.DataSource = dt
+        dgvStocks.AllowUserToAddRows = False
 
     End Sub
 

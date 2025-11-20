@@ -22,6 +22,8 @@ Partial Class ViewTransactionsControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Label9 = New Label()
         Label7 = New Label()
         Label8 = New Label()
@@ -44,9 +46,11 @@ Partial Class ViewTransactionsControl
         Label1 = New Label()
         btnRefresh = New Button()
         dgvTransactions = New DataGridView()
+        TableLayoutPanel1 = New TableLayoutPanel()
         CType(dgvTransactionItems, ComponentModel.ISupportInitialize).BeginInit()
         pnlDetails.SuspendLayout()
         CType(dgvTransactions, ComponentModel.ISupportInitialize).BeginInit()
+        TableLayoutPanel1.SuspendLayout()
         SuspendLayout()
         ' 
         ' Label9
@@ -65,7 +69,7 @@ Partial Class ViewTransactionsControl
         ' 
         Label7.AutoSize = True
         Label7.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label7.Location = New Point(643, 73)
+        Label7.Location = New Point(737, 31)
         Label7.Name = "Label7"
         Label7.Size = New Size(88, 17)
         Label7.TabIndex = 16
@@ -73,61 +77,67 @@ Partial Class ViewTransactionsControl
         ' 
         ' Label8
         ' 
+        Label8.Anchor = AnchorStyles.Right
         Label8.AutoSize = True
-        Label8.Font = New Font("Segoe UI", 9.75F, FontStyle.Italic)
-        Label8.Location = New Point(566, 27)
+        Label8.Font = New Font("Segoe UI", 9F)
+        Label8.Location = New Point(504, 66)
         Label8.Name = "Label8"
-        Label8.Size = New Size(44, 17)
+        Label8.Size = New Size(42, 15)
         Label8.TabIndex = 15
         Label8.Text = "Status:"
         ' 
         ' Label5
         ' 
+        Label5.Anchor = AnchorStyles.Right
         Label5.AutoSize = True
-        Label5.Font = New Font("Segoe UI", 9.75F, FontStyle.Italic)
-        Label5.Location = New Point(257, 44)
+        Label5.Font = New Font("Segoe UI", 9F)
+        Label5.Location = New Point(449, 37)
         Label5.Name = "Label5"
-        Label5.Size = New Size(106, 17)
+        Label5.Size = New Size(97, 15)
         Label5.TabIndex = 14
         Label5.Text = "Transaction Type:"
         ' 
         ' Label6
         ' 
+        Label6.Anchor = AnchorStyles.Right
         Label6.AutoSize = True
-        Label6.Font = New Font("Segoe UI", 9.75F, FontStyle.Italic)
-        Label6.Location = New Point(257, 27)
+        Label6.Font = New Font("Segoe UI", 9F)
+        Label6.Location = New Point(512, 8)
         Label6.Name = "Label6"
-        Label6.Size = New Size(37, 17)
+        Label6.Size = New Size(34, 15)
         Label6.TabIndex = 13
         Label6.Text = "Date:"
         ' 
         ' Label2
         ' 
+        Label2.Anchor = AnchorStyles.Right
         Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 9.75F, FontStyle.Italic)
-        Label2.Location = New Point(22, 44)
+        Label2.Font = New Font("Segoe UI", 9F)
+        Label2.Location = New Point(117, 37)
         Label2.Name = "Label2"
-        Label2.Size = New Size(67, 17)
+        Label2.Size = New Size(63, 15)
         Label2.TabIndex = 12
         Label2.Text = "Username:"
         ' 
         ' Label3
         ' 
+        Label3.Anchor = AnchorStyles.Right
         Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI", 9.75F, FontStyle.Italic)
-        Label3.Location = New Point(22, 61)
+        Label3.Font = New Font("Segoe UI", 9F)
+        Label3.Location = New Point(78, 66)
         Label3.Name = "Label3"
-        Label3.Size = New Size(105, 17)
+        Label3.Size = New Size(102, 15)
         Label3.TabIndex = 11
         Label3.Text = "Payment Method:"
         ' 
         ' Label4
         ' 
+        Label4.Anchor = AnchorStyles.Right
         Label4.AutoSize = True
-        Label4.Font = New Font("Segoe UI", 9.75F, FontStyle.Italic, GraphicsUnit.Point, CByte(0))
-        Label4.Location = New Point(22, 27)
+        Label4.Font = New Font("Segoe UI", 9F)
+        Label4.Location = New Point(96, 8)
         Label4.Name = "Label4"
-        Label4.Size = New Size(92, 17)
+        Label4.Size = New Size(84, 15)
         Label4.TabIndex = 10
         Label4.Text = "Transaction ID:"
         ' 
@@ -144,28 +154,41 @@ Partial Class ViewTransactionsControl
         ' 
         ' dgvTransactionItems
         ' 
+        dgvTransactionItems.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         dgvTransactionItems.BackgroundColor = Color.White
+        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = SystemColors.Control
+        DataGridViewCellStyle3.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle3.ForeColor = Color.Black
+        DataGridViewCellStyle3.SelectionBackColor = Color.MediumAquamarine
+        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
+        dgvTransactionItems.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         dgvTransactionItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        dgvTransactionItems.Location = New Point(22, 93)
+        dgvTransactionItems.Location = New Point(37, 117)
         dgvTransactionItems.Name = "dgvTransactionItems"
-        dgvTransactionItems.Size = New Size(810, 346)
+        dgvTransactionItems.ReadOnly = True
+        dgvTransactionItems.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvTransactionItems.Size = New Size(1070, 294)
         dgvTransactionItems.TabIndex = 8
         ' 
         ' lblRemarks
         ' 
+        lblRemarks.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom
         lblRemarks.AutoSize = True
-        lblRemarks.Font = New Font("Segoe UI", 9.75F, FontStyle.Italic)
-        lblRemarks.Location = New Point(566, 44)
+        lblRemarks.Font = New Font("Segoe UI", 9F)
+        lblRemarks.Location = New Point(768, 2)
         lblRemarks.Name = "lblRemarks"
-        lblRemarks.Size = New Size(56, 17)
+        lblRemarks.Size = New Size(52, 27)
         lblRemarks.TabIndex = 7
         lblRemarks.Text = "Remarks"
         ' 
         ' lblStatus
         ' 
+        lblStatus.Anchor = AnchorStyles.Left
         lblStatus.AutoSize = True
         lblStatus.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblStatus.Location = New Point(607, 27)
+        lblStatus.Location = New Point(554, 65)
         lblStatus.Name = "lblStatus"
         lblStatus.Size = New Size(46, 17)
         lblStatus.TabIndex = 6
@@ -173,9 +196,10 @@ Partial Class ViewTransactionsControl
         ' 
         ' lblTransactionType
         ' 
+        lblTransactionType.Anchor = AnchorStyles.Left
         lblTransactionType.AutoSize = True
         lblTransactionType.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        lblTransactionType.Location = New Point(358, 43)
+        lblTransactionType.Location = New Point(554, 36)
         lblTransactionType.Name = "lblTransactionType"
         lblTransactionType.Size = New Size(108, 17)
         lblTransactionType.TabIndex = 5
@@ -183,9 +207,10 @@ Partial Class ViewTransactionsControl
         ' 
         ' lblUsername
         ' 
+        lblUsername.Anchor = AnchorStyles.Left
         lblUsername.AutoSize = True
         lblUsername.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        lblUsername.Location = New Point(85, 45)
+        lblUsername.Location = New Point(188, 36)
         lblUsername.Name = "lblUsername"
         lblUsername.Size = New Size(69, 17)
         lblUsername.TabIndex = 4
@@ -193,9 +218,10 @@ Partial Class ViewTransactionsControl
         ' 
         ' lblPaymentMethod
         ' 
+        lblPaymentMethod.Anchor = AnchorStyles.Left
         lblPaymentMethod.AutoSize = True
         lblPaymentMethod.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        lblPaymentMethod.Location = New Point(124, 61)
+        lblPaymentMethod.Location = New Point(188, 65)
         lblPaymentMethod.Name = "lblPaymentMethod"
         lblPaymentMethod.Size = New Size(110, 17)
         lblPaymentMethod.TabIndex = 3
@@ -203,9 +229,10 @@ Partial Class ViewTransactionsControl
         ' 
         ' lblTransactionDate
         ' 
+        lblTransactionDate.Anchor = AnchorStyles.Left
         lblTransactionDate.AutoSize = True
         lblTransactionDate.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        lblTransactionDate.Location = New Point(293, 28)
+        lblTransactionDate.Location = New Point(554, 7)
         lblTransactionDate.Name = "lblTransactionDate"
         lblTransactionDate.Size = New Size(108, 17)
         lblTransactionDate.TabIndex = 2
@@ -215,7 +242,7 @@ Partial Class ViewTransactionsControl
         ' 
         lblTotalAmount.AutoSize = True
         lblTotalAmount.Font = New Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblTotalAmount.Location = New Point(734, 73)
+        lblTotalAmount.Location = New Point(737, 60)
         lblTotalAmount.Name = "lblTotalAmount"
         lblTotalAmount.Size = New Size(91, 17)
         lblTotalAmount.TabIndex = 1
@@ -223,9 +250,10 @@ Partial Class ViewTransactionsControl
         ' 
         ' lblTransactionID
         ' 
+        lblTransactionID.Anchor = AnchorStyles.Left
         lblTransactionID.AutoSize = True
         lblTransactionID.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        lblTransactionID.Location = New Point(110, 27)
+        lblTransactionID.Location = New Point(188, 7)
         lblTransactionID.Name = "lblTransactionID"
         lblTransactionID.Size = New Size(93, 17)
         lblTransactionID.TabIndex = 0
@@ -235,29 +263,15 @@ Partial Class ViewTransactionsControl
         ' 
         pnlDetails.AutoSize = True
         pnlDetails.BackColor = Color.SteelBlue
+        pnlDetails.Controls.Add(TableLayoutPanel1)
         pnlDetails.Controls.Add(Label9)
-        pnlDetails.Controls.Add(Label7)
-        pnlDetails.Controls.Add(Label8)
-        pnlDetails.Controls.Add(Label5)
-        pnlDetails.Controls.Add(Label6)
-        pnlDetails.Controls.Add(Label2)
-        pnlDetails.Controls.Add(Label3)
-        pnlDetails.Controls.Add(Label4)
         pnlDetails.Controls.Add(btnCloseDetails)
         pnlDetails.Controls.Add(dgvTransactionItems)
-        pnlDetails.Controls.Add(lblRemarks)
-        pnlDetails.Controls.Add(lblStatus)
-        pnlDetails.Controls.Add(lblTransactionType)
-        pnlDetails.Controls.Add(lblUsername)
-        pnlDetails.Controls.Add(lblPaymentMethod)
-        pnlDetails.Controls.Add(lblTransactionDate)
-        pnlDetails.Controls.Add(lblTotalAmount)
-        pnlDetails.Controls.Add(lblTransactionID)
         pnlDetails.Dock = DockStyle.Bottom
         pnlDetails.ForeColor = Color.White
-        pnlDetails.Location = New Point(0, 129)
+        pnlDetails.Location = New Point(0, 268)
         pnlDetails.Name = "pnlDetails"
-        pnlDetails.Size = New Size(880, 442)
+        pnlDetails.Size = New Size(1135, 414)
         pnlDetails.TabIndex = 7
         ' 
         ' Label1
@@ -279,7 +293,7 @@ Partial Class ViewTransactionsControl
         btnRefresh.FlatStyle = FlatStyle.Flat
         btnRefresh.Font = New Font("Arial", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnRefresh.ForeColor = Color.White
-        btnRefresh.Location = New Point(20, 56)
+        btnRefresh.Location = New Point(235, 15)
         btnRefresh.Name = "btnRefresh"
         btnRefresh.Size = New Size(33, 35)
         btnRefresh.TabIndex = 5
@@ -292,11 +306,54 @@ Partial Class ViewTransactionsControl
         dgvTransactions.AllowUserToDeleteRows = False
         dgvTransactions.AllowUserToOrderColumns = True
         dgvTransactions.BackgroundColor = Color.White
+        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = SystemColors.Control
+        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle4.ForeColor = Color.Black
+        DataGridViewCellStyle4.SelectionBackColor = Color.MediumAquamarine
+        DataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = DataGridViewTriState.True
+        dgvTransactions.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         dgvTransactions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        dgvTransactions.Location = New Point(59, 56)
+        dgvTransactions.Location = New Point(37, 56)
         dgvTransactions.Name = "dgvTransactions"
-        dgvTransactions.Size = New Size(784, 468)
+        dgvTransactions.ReadOnly = True
+        dgvTransactions.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvTransactions.Size = New Size(1070, 468)
         dgvTransactions.TabIndex = 4
+        ' 
+        ' TableLayoutPanel1
+        ' 
+        TableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset
+        TableLayoutPanel1.ColumnCount = 5
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 120F))
+        TableLayoutPanel1.Controls.Add(Label4, 0, 0)
+        TableLayoutPanel1.Controls.Add(lblTransactionID, 1, 0)
+        TableLayoutPanel1.Controls.Add(Label2, 0, 1)
+        TableLayoutPanel1.Controls.Add(Label8, 2, 2)
+        TableLayoutPanel1.Controls.Add(lblUsername, 1, 1)
+        TableLayoutPanel1.Controls.Add(Label5, 2, 1)
+        TableLayoutPanel1.Controls.Add(lblStatus, 3, 2)
+        TableLayoutPanel1.Controls.Add(Label3, 0, 2)
+        TableLayoutPanel1.Controls.Add(Label6, 2, 0)
+        TableLayoutPanel1.Controls.Add(lblPaymentMethod, 1, 2)
+        TableLayoutPanel1.Controls.Add(lblTransactionType, 3, 1)
+        TableLayoutPanel1.Controls.Add(lblTransactionDate, 3, 0)
+        TableLayoutPanel1.Controls.Add(lblRemarks, 4, 0)
+        TableLayoutPanel1.Controls.Add(Label7, 4, 1)
+        TableLayoutPanel1.Controls.Add(lblTotalAmount, 4, 2)
+        TableLayoutPanel1.Location = New Point(125, 22)
+        TableLayoutPanel1.Name = "TableLayoutPanel1"
+        TableLayoutPanel1.RowCount = 3
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel1.Size = New Size(857, 89)
+        TableLayoutPanel1.TabIndex = 18
         ' 
         ' ViewTransactionsControl
         ' 
@@ -310,11 +367,13 @@ Partial Class ViewTransactionsControl
         Controls.Add(btnRefresh)
         Controls.Add(dgvTransactions)
         Name = "ViewTransactionsControl"
-        Size = New Size(880, 571)
+        Size = New Size(1135, 682)
         CType(dgvTransactionItems, ComponentModel.ISupportInitialize).EndInit()
         pnlDetails.ResumeLayout(False)
         pnlDetails.PerformLayout()
         CType(dgvTransactions, ComponentModel.ISupportInitialize).EndInit()
+        TableLayoutPanel1.ResumeLayout(False)
+        TableLayoutPanel1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -341,5 +400,6 @@ Partial Class ViewTransactionsControl
     Friend WithEvents Label1 As Label
     Friend WithEvents btnRefresh As Button
     Friend WithEvents dgvTransactions As DataGridView
+    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
 
 End Class

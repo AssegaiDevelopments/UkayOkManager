@@ -7,23 +7,36 @@ Public Class ExpensesControl
     Dim categoryFilter() As String = {"All", "Utilities", "Rent", "Salaries", "Supplies", "Maintenance", "Miscellaneous"}
     Dim paymentFilter() As String = {"All", "Paid", "Unpaid"}
 
+    Dim x As New List(Of Double)
+    Dim y As New List(Of Double)
+
     'load expenses control
     Public Sub LoadComboBoxes()
+        cbPaymentStatus.Items.Clear()
         cbPaymentStatus.Items.AddRange(paymentStatus)
         cbPaymentStatus.SelectedIndex = 1
+
+        cbExpensesCategory.Items.Clear()
         cbExpensesCategory.Items.AddRange(category)
         cbExpensesCategory.SelectedIndex = 0
+
+        cbFilterCategory.Items.Clear()
         cbFilterCategory.Items.AddRange(categoryFilter)
         cbFilterCategory.SelectedIndex = 0
+
+        cbFilterStatus.Items.Clear()
         cbFilterStatus.Items.AddRange(paymentFilter)
         cbFilterStatus.SelectedIndex = 0
     End Sub
     'initialize expenses datagridview
     Public Sub InitializeExpenses()
+        dgvExpenses.AllowUserToAddRows = False
         dgvExpenses.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvExpenses.DefaultCellStyle.ForeColor = Color.Black
         LoadComboBoxes()
         LoadExpenses()
+        LoadDailyExpenseChart()
+        LoadCategoryChart()
     End Sub
 
     'load expenses from database into datagridview
@@ -43,8 +56,25 @@ Public Class ExpensesControl
                 adapter.Fill(table)
 
                 dgvExpenses.DataSource = table
+                If dgvExpenses.Columns.Contains("ExpenseID") Then
+                    dgvExpenses.Columns("ExpenseID").Visible = False
+                End If
 
-                lblTotalExpenses.Text = dgvExpenses.Rows.Cast(Of DataGridViewRow)().Sum(Function(row) Convert.ToDecimal(row.Cells("Amount").Value)).ToString("₱#,##0.00")
+
+                Dim totalUnpaid As Decimal =
+    dgvExpenses.Rows.Cast(Of DataGridViewRow)().
+    Where(Function(r) r IsNot Nothing AndAlso r.Cells("Status") IsNot Nothing AndAlso Not IsDBNull(r.Cells("Status").Value) AndAlso r.Cells("Status").Value.ToString() = "Unpaid").
+    Select(Function(r) Convert.ToDecimal(If(IsDBNull(r.Cells("Amount").Value), 0D, r.Cells("Amount").Value))).
+    DefaultIfEmpty(0D).
+    Sum()
+
+
+
+
+
+
+                lblTotalExpenses.Text = totalUnpaid.ToString("₱#,##0.00")
+
             End Using
 
             ' Optional formatting
@@ -162,7 +192,12 @@ Public Class ExpensesControl
                 dgvExpenses.DataSource = table
 
                 'update total based on filtered results
-                lblTotalExpenses.Text = table.AsEnumerable().Sum(Function(r) Convert.ToDecimal(r("Amount"))).ToString("₱#,##0.00")
+                Dim totalUnpaid As Decimal =
+                 dgvExpenses.Rows.Cast(Of DataGridViewRow)().
+                 Where(Function(r) r.Cells("Status").Value.ToString() = "Unpaid").
+                 Sum(Function(r) Convert.ToDecimal(If(IsDBNull(r.Cells("Amount").Value), 0D, r.Cells("Amount").Value)))
+
+                lblTotalExpenses.Text = totalUnpaid.ToString("₱#,##0.00")
             End Using
 
         Catch ex As Exception
@@ -179,12 +214,195 @@ Public Class ExpensesControl
         LoadExpenses()
     End Sub
 
-    Private Sub btnMarkAsPaid_Click(sender As Object, e As EventArgs) Handles btnMarkAsPaid.Click
+    Private Sub LoadCategoryChart()
+        ' Prepare containers for query results
+        Dim categories As New List(Of String)
+        Dim amounts As New List(Of Double)
 
+        ' Fetch aggregated totals per category
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+
+            Dim query As String = "
+            SELECT Category, SUM(Amount) AS TotalAmount
+            FROM Expenses
+            GROUP BY Category
+            ORDER BY Category;"
+
+            Using cmd As New SqlCommand(query, con)
+                Using reader As SqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        categories.Add(reader("Category").ToString())
+                        amounts.Add(Convert.ToDouble(reader("TotalAmount")))
+                    End While
+                End Using
+            End Using
+        End Using
+
+        ' If nothing to show, clear the chart and exit
+        If categories.Count = 0 Then
+            chartCategoryExpenses.Plot.Clear()
+            chartCategoryExpenses.Refresh()
+            Return
+        End If
+
+        ' Convert categories to numeric X positions (0,1,2,..)
+        Dim xPositions = Enumerable.Range(0, categories.Count).Select(Function(i) CDbl(i)).ToArray()
+
+        ' Draw bar chart using the project-style API
+        chartCategoryExpenses.Plot.Clear()
+        chartCategoryExpenses.Plot.Add.Bars(xPositions, amounts.ToArray())        ' Add.Bars(xPositions, values)
+        chartCategoryExpenses.Plot.Axes.Bottom.SetTicks(xPositions, categories.ToArray()) ' label ticks with category names
+
+        chartCategoryExpenses.Plot.Title("Expenses by Category")
+        chartCategoryExpenses.Plot.YLabel("₱")
+        chartCategoryExpenses.Plot.Axes.Margins(0, 0)   ' remove padding at edges
+        chartCategoryExpenses.Refresh()
+    End Sub
+
+
+
+    Private Sub LoadDailyExpenseChart()
+        ' containers
+        Dim x As New List(Of Double)
+        Dim y As New List(Of Double)
+
+        ' Query daily totals for the last 30 days
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+
+            Dim query As String = "
+            SELECT CAST(Date AS DATE) AS Day,
+                   SUM(Amount) AS Total
+            FROM Expenses
+            WHERE Date >= DATEADD(day, -29, CAST(GETDATE() AS DATE))
+            GROUP BY CAST(Date AS DATE)
+            ORDER BY Day;"
+
+            Using cmd As New SqlCommand(query, con)
+                Using reader As SqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        ' convert date to OADate for ScottPlot date axis
+                        x.Add(reader.GetDateTime(0).ToOADate())
+                        y.Add(Convert.ToDouble(reader("Total")))
+                    End While
+                End Using
+            End Using
+        End Using
+
+        ' Draw the line chart
+        chartDailyExpenses.Plot.Clear()
+        If x.Count = 0 Then
+            chartDailyExpenses.Refresh()
+            Return
+        End If
+
+        chartDailyExpenses.Plot.Add.Scatter(x.ToArray(), y.ToArray())
+        chartDailyExpenses.Plot.Title("Daily Expenses (Last 30 Days)")
+        chartDailyExpenses.Plot.XLabel("Date")
+        chartDailyExpenses.Plot.YLabel("₱")
+        chartDailyExpenses.Plot.Axes.DateTimeTicksBottom() ' format X axis as dates
+        chartDailyExpenses.Plot.Axes.Margins(0, 0)
+        chartDailyExpenses.Refresh()
+    End Sub
+
+
+
+
+
+
+    Private Sub btnMarkAsPaid_Click(sender As Object, e As EventArgs) Handles btnMarkAsPaid.Click
+        If dgvExpenses.SelectedRows.Count = 0 Then
+            MessageBox.Show("Please select an expense to mark as paid.")
+            Return
+        End If
+
+        Dim row = dgvExpenses.SelectedRows(0)
+        Dim expenseId As Integer = Convert.ToInt32(row.Cells("ExpenseID").Value)
+        Dim currentStatus As String = row.Cells("Status").Value.ToString()
+
+        If currentStatus = "Paid" Then
+            MessageBox.Show("This expense is already marked as paid.")
+            Return
+        End If
+
+        If MessageBox.Show("Mark this expense as paid?", "Confirm", MessageBoxButtons.YesNo) = DialogResult.No Then
+            Return
+        End If
+
+        Using con As New SqlConnection(connectAs)
+            Using cmd As New SqlCommand("
+            UPDATE Expenses 
+            SET Status = 'Paid',
+                PaidDate = GETDATE()
+            WHERE ExpenseID = @id;", con)
+
+                cmd.Parameters.AddWithValue("@id", expenseId)
+
+                con.Open()
+                cmd.ExecuteNonQuery()
+            End Using
+        End Using
+
+        LoadExpenses()
+        LoadDailyExpenseChart()
+        LoadCategoryChart()
+
+        MessageBox.Show("Expense marked as paid.")
     End Sub
 
     Private Sub btnUpdateExpenses_Click(sender As Object, e As EventArgs) Handles btnUpdateExpenses.Click
+        If dgvExpenses.SelectedRows.Count = 0 Then
+            MessageBox.Show("Select an expense to update.")
+            Return
+        End If
 
+        Dim row = dgvExpenses.SelectedRows(0)
+        Dim expenseId As Integer = Convert.ToInt32(row.Cells("ExpenseID").Value)
+
+        If String.IsNullOrWhiteSpace(txtbDescription.Text) Then
+            MessageBox.Show("Please enter a description.")
+            Return
+        End If
+
+        If nudExpenseAmount.Value <= 0 Then
+            MessageBox.Show("Amount must be greater than zero.")
+            Return
+        End If
+
+        If dtpExpensesDueDate.Value < DateTime.Now Then
+            MessageBox.Show("Due date cannot be in the past.")
+            Return
+        End If
+
+        Using con As New SqlConnection(connectAs)
+            Using cmd As New SqlCommand("
+            UPDATE Expenses SET
+                Description = @desc,
+                Amount = @amount,
+                DueDate = @due,
+                Status = @status,
+                Category = @cat,
+                PaidDate = CASE WHEN @status = 'Paid' THEN GETDATE() ELSE NULL END
+            WHERE ExpenseID = @id;", con)
+
+                cmd.Parameters.AddWithValue("@desc", txtbDescription.Text)
+                cmd.Parameters.AddWithValue("@amount", nudExpenseAmount.Value)
+                cmd.Parameters.AddWithValue("@due", dtpExpensesDueDate.Value)
+                cmd.Parameters.AddWithValue("@status", cbPaymentStatus.Text.ToString())
+                cmd.Parameters.AddWithValue("@cat", cbExpensesCategory.Text.ToString())
+                cmd.Parameters.AddWithValue("@id", expenseId)
+
+                con.Open()
+                cmd.ExecuteNonQuery()
+            End Using
+        End Using
+
+        LoadExpenses()
+        LoadDailyExpenseChart()
+        LoadCategoryChart()
+
+        MessageBox.Show("Expense updated successfully.")
     End Sub
 
     Private Sub btnClearFilters_Click(sender As Object, e As EventArgs) Handles btnClearFilters.Click
@@ -194,4 +412,105 @@ Public Class ExpensesControl
     Private Sub btnApplyFilters_Click(sender As Object, e As EventArgs) Handles btnApplyFilters.Click
         ApplyFilters()
     End Sub
+
+    Private Sub dgvExpenses_SelectionChanged(sender As Object, e As EventArgs) Handles dgvExpenses.SelectionChanged
+        If dgvExpenses.SelectedRows.Count = 0 Then Return
+        Dim row = dgvExpenses.SelectedRows(0)
+        'Description
+        txtbDescription.Text = row.Cells("Description").Value.ToString()
+        'Amount (handle DBNull)
+        Dim amtObj = row.Cells("Amount").Value
+        nudExpenseAmount.Value = If(IsDBNull(amtObj), 0D, Convert.ToDecimal(amtObj))
+        'Due Date (handle DBNull)
+        Dim dueObj = row.Cells("DueDate").Value
+        If IsDBNull(dueObj) Then
+            dtpExpensesDueDate.Value = DateTime.Now
+        Else
+            dtpExpensesDueDate.Value = Convert.ToDateTime(dueObj)
+        End If
+        'Category
+        cbExpensesCategory.SelectedItem = row.Cells("Category").Value.ToString()
+        'Status
+        cbPaymentStatus.SelectedItem = row.Cells("Status").Value.ToString()
+    End Sub
+
+    Private Sub btnExportCSV_Click(sender As Object, e As EventArgs) Handles btnExportCSV.Click
+        ' Prompt user for save location
+        Using sfd As New SaveFileDialog()
+            sfd.Filter = "CSV files (*.csv)|*.csv"
+            sfd.FileName = "Expenses_" & DateTime.Now.ToString("yyyyMMdd") & ".csv"
+
+            If sfd.ShowDialog() <> DialogResult.OK Then Return
+
+            Try
+                Using writer As New IO.StreamWriter(sfd.FileName)
+                    Dim table As New DataTable()
+
+                    ' 1️ Decide what data to export
+                    If chkExportAll.Checked Then
+                        ' Fetch all expenses from DB
+                        Using con As New SqlConnection(connectAs)
+                            con.Open()
+                            Dim query As String = "
+                            SELECT ExpenseID, Date, Description, Amount, AddedBy, DueDate, Status, PaidDate, Category
+                            FROM Expenses
+                            ORDER BY Date DESC"
+                            Dim adapter As New SqlDataAdapter(query, con)
+                            adapter.Fill(table)
+                        End Using
+                    Else
+                        ' Export only the current DataGridView content
+                        table = CType(dgvExpenses.DataSource, DataTable).Copy()
+                    End If
+
+                    ' 2️ Write header row
+                    Dim headers As New List(Of String)
+                    For Each col As DataColumn In table.Columns
+                        headers.Add(col.ColumnName)
+                    Next
+                    writer.WriteLine(String.Join(",", headers))
+
+                    ' 3️ Write data rows
+                    Dim totalAmount As Decimal = 0D
+                    For Each row As DataRow In table.Rows
+                        Dim cells As New List(Of String)
+                        For Each col As DataColumn In table.Columns
+                            Dim value = row(col)
+                            Dim cellText = If(value Is Nothing OrElse IsDBNull(value), "", value.ToString())
+                            ' Escape quotes and commas
+                            cellText = cellText.Replace("""", """""")
+                            If cellText.Contains(",") Or cellText.Contains("""") Then
+                                cellText = $"""{cellText}"""
+                            End If
+                            cells.Add(cellText)
+                        Next
+                        ' Sum total amount for "Amount" column
+                        If table.Columns.Contains("Amount") Then
+                            totalAmount += If(IsDBNull(row("Amount")), 0D, Convert.ToDecimal(row("Amount")))
+                        End If
+                        writer.WriteLine(String.Join(",", cells))
+                    Next
+
+                    ' 4️ Add totals row
+                    If table.Columns.Contains("Amount") Then
+                        Dim totalRow As New List(Of String)
+                        For Each col As DataColumn In table.Columns
+                            If col.ColumnName = "Amount" Then
+                                totalRow.Add(totalAmount.ToString("₱#,##0.00"))
+                            Else
+                                totalRow.Add("") ' leave other columns empty
+                            End If
+                        Next
+                        writer.WriteLine(String.Join(",", totalRow))
+                    End If
+                End Using
+
+                MessageBox.Show("Expenses exported successfully!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            Catch ex As Exception
+                MessageBox.Show("Error exporting CSV: " & ex.Message)
+            End Try
+        End Using
+    End Sub
+
 End Class

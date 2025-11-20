@@ -105,6 +105,7 @@ Public Class Dashboard
 
     Private Sub btnDashboardControl_Click(sender As Object, e As EventArgs) Handles btnDashboardControl.Click
         ShowPanel(dashboardControl)
+        dashboardControl.InitializeDashboard()
     End Sub
 
 End Class
