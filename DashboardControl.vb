@@ -2,9 +2,16 @@
 Imports ScottPlot
 
 Public Class DashboardControl
+    'set expenses control reference; subscribe to its update event
     Private expensesControl As ExpensesControl
+    Public Sub SetExpensesControl(ctrl As ExpensesControl)
+        ' Assign the reference
+        expensesControl = ctrl
 
-
+        ' only add the handler once
+        RemoveHandler expensesControl.ExpensesUpdated, AddressOf RefreshDashboard
+        AddHandler expensesControl.ExpensesUpdated, AddressOf RefreshDashboard
+    End Sub
 
     Private Sub DashboardControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializeDashboard()
@@ -31,6 +38,7 @@ Public Class DashboardControl
         Dim totalPaid As Decimal = 0D
         Dim totalUnpaid As Decimal = 0D
         Dim netProfit As Decimal = 0D
+        Dim upcomingExpenses As Decimal = 0D
 
         Try
             '  Get sales and items sold
@@ -83,15 +91,6 @@ Public Class DashboardControl
         End Try
     End Sub
 
-    'set expenses control reference; subscribe to its update event
-    Public Sub SetExpensesControl(ctrl As ExpensesControl)
-        ' Assign the reference
-        expensesControl = ctrl
-
-        ' only add the handler once
-        RemoveHandler expensesControl.ExpensesUpdated, AddressOf RefreshDashboard
-        AddHandler expensesControl.ExpensesUpdated, AddressOf RefreshDashboard
-    End Sub
 
     'reset dashboard labels and charts
     Private Sub ResetDashboard()
@@ -111,8 +110,7 @@ Public Class DashboardControl
 
     End Sub
     Private Sub LoadDailySalesChart()
-
-        ' Step 1: Prepare 7-day window (including today)
+        ' 7-day window including today
         Dim last7Days As New List(Of Date)()
         For i = 6 To 0 Step -1
             last7Days.Add(Date.Today.AddDays(-i))
@@ -120,73 +118,81 @@ Public Class DashboardControl
 
         Dim salesLookup As New Dictionary(Of Date, Double)()
 
-        ' Step 2: Query database
-        Using con As New SqlConnection(connectAs)
-            con.Open()
-            Dim query As String = "
-            SELECT 
-                CAST(TransactionDate AS DATE) AS SaleDate,
-                SUM(TotalAmount) AS DailyTotal
+        ' Query sales totals for last 7 days
+        Try
+            Using con As New SqlConnection(connectAs)
+                con.Open()
+                Dim query As String = "
+            SELECT CAST(TransactionDate AS DATE) AS SaleDate,
+                   SUM(TotalAmount) AS DailyTotal
             FROM Transactions
             WHERE TransactionDate >= DATEADD(day, -6, CAST(GETDATE() AS DATE))
             GROUP BY CAST(TransactionDate AS DATE)
             ORDER BY SaleDate;"
 
-            Dim cmd As New SqlCommand(query, con)
-            Dim reader As SqlDataReader = cmd.ExecuteReader()
+                Using cmd As New SqlCommand(query, con)
+                    Using reader As SqlDataReader = cmd.ExecuteReader()
+                        While reader.Read()
+                            Dim saleDate As Date = Convert.ToDateTime(reader("SaleDate"))
+                            Dim total As Double = If(IsDBNull(reader("DailyTotal")), 0, Convert.ToDouble(reader("DailyTotal")))
+                            salesLookup(saleDate) = total
+                        End While
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error loading daily sales chart: " & ex.Message)
+            Return
+        End Try
 
-            While reader.Read()
-                Dim saleDate As Date = Convert.ToDateTime(reader("SaleDate"))
-                Dim total As Double = Convert.ToDouble(reader("DailyTotal"))
-                salesLookup(saleDate) = total
-            End While
-        End Using
-
-
-        ' Step 3: Prepare final plot arrays with missing days = 0
+        ' Prepare arrays for plotting
         Dim x As New List(Of Double)()
         Dim y As New List(Of Double)()
 
         For Each d As Date In last7Days
-            x.Add(d.ToOADate())    ' ScottPlot date format
+            x.Add(d.ToOADate())
             If salesLookup.ContainsKey(d) Then
                 y.Add(salesLookup(d))
             Else
-                y.Add(0)           ' no sales on this day
+                y.Add(0) ' no sales
             End If
         Next
 
+        ' Clear previous plot
+        chartSales.Plot.Clear()
 
-        ' Step 4: Plot
-        chartSales.Plot.Add.Scatter(x.ToArray(), y.ToArray())
+        ' Draw line chart
+        Dim scatter = chartSales.Plot.Add.Scatter(x.ToArray(), y.ToArray())
+        scatter.Color = Colors.SeaGreen
+        scatter.LineWidth = 3
+
+
         chartSales.Plot.Title("Sales (Last 7 Days)")
         chartSales.Plot.XLabel("Date")
         chartSales.Plot.YLabel("₱")
-
-        ' Format X axis as dates
-        chartSales.Plot.Axes.DateTimeTicksBottom()
-
+        chartSales.Plot.Axes.DateTimeTicksBottom() ' format X axis as dates
+        chartSales.Plot.Axes.Margins(0, 0)
         chartSales.Refresh()
     End Sub
 
+
+    ' Requires: Imports ScottPlot
     Private Sub LoadCategoryChart()
+        ' --- 1) Query data from DB ---
         Dim categoryNames As New List(Of String)()
         Dim categoryTotals As New List(Of Double)()
+
         Using con As New SqlConnection(connectAs)
-            'query to get total items sold per category
             con.Open()
+
             Dim query As String = "
-            SELECT 
-                ProductName,
-                COUNT(Quantity) AS TotalSold
+            SELECT ProductName, COUNT(Quantity) AS TotalSold
             FROM TransactionItems
             GROUP BY ProductName
-            ORDER BY ProductName;
-            "
+            ORDER BY ProductName;"
 
             Using cmd As New SqlCommand(query, con)
                 Using reader As SqlDataReader = cmd.ExecuteReader()
-
                     While reader.Read()
                         categoryNames.Add(reader("ProductName").ToString())
                         categoryTotals.Add(Convert.ToDouble(reader("TotalSold")))
@@ -194,27 +200,41 @@ Public Class DashboardControl
                 End Using
             End Using
         End Using
-        Dim xPositions = Enumerable.Range(0, categoryNames.Count).Select(Function(i) CDbl(i)).ToArray()
+
+        ' --- 2) Clear plot if no data ---
+        chartCategory.Plot.Clear()
+        If categoryNames.Count = 0 Then
+            chartCategory.Refresh()
+            Return
+        End If
+
+        ' --- 3) Create bars ---
+        ' ScottPlot 5 bar positions are 0-based integers
         Dim values = categoryTotals.ToArray()
+        chartCategory.Plot.Add.Bars(values)
 
-        '-----------------------------------------
-        ' 3. Draw Bar Chart on the ScottPlot chart
-        '-----------------------------------------
+        ' --- 4) Create tick positions & labels ---
+        Dim tickPositions As Double() = Enumerable.Range(0, categoryNames.Count).Select(Function(i) CDbl(i)).ToArray()
+        Dim tickLabels As String() = categoryNames.ToArray()
 
-        Dim bar = chartCategory.Plot.Add.Bars(xPositions, values)
+        ' Official ScottPlot 5 way to apply manual category ticks:
+        chartCategory.Plot.Axes.Bottom.SetTicks(tickPositions, tickLabels)
 
-        ' Add labels under each bar
-        chartCategory.Plot.Axes.Bottom.SetTicks(xPositions, categoryNames.ToArray())
-
-        ' Optional visuals
-
+        ' --- 5) Style ---
         chartCategory.Plot.Title("Sales by Category")
         chartCategory.Plot.YLabel("Total Items Sold")
         chartCategory.Plot.XLabel("Category")
 
-        chartCategory.Plot.Axes.Margins(0, 0)
+        chartCategory.Plot.Axes.Margins(bottom:=0)
+        chartCategory.Plot.HideGrid()
+        chartCategory.UserInputProcessor.IsEnabled = False
+
         chartCategory.Refresh()
     End Sub
+
+
+
+
 
 
 

@@ -54,6 +54,7 @@ Public Class Dashboard
 
     'Change visible panel in pnlMain and update sidebar button colors
     Public Sub Dashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AddHandler expensesControl.ExpensesUpdated, AddressOf dashboardControl.RefreshDashboard
 
         Login.Hide()
 

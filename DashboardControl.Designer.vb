@@ -23,7 +23,6 @@ Partial Class DashboardControl
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         chartCategory = New ScottPlot.WinForms.FormsPlot()
-        BufferedPanel1 = New BufferedPanel()
         TableLayoutPanel1 = New TableLayoutPanel()
         RoundedPanel10 = New RoundedPanel()
         lblUpcomingExpensesWeek = New Label()
@@ -54,7 +53,6 @@ Partial Class DashboardControl
         Label1 = New Label()
         Label13 = New Label()
         chartSales = New ScottPlot.WinForms.FormsPlot()
-        BufferedPanel1.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         RoundedPanel10.SuspendLayout()
         RoundedPanel2.SuspendLayout()
@@ -70,18 +68,10 @@ Partial Class DashboardControl
         ' chartCategory
         ' 
         chartCategory.DisplayScale = 1F
-        chartCategory.Location = New Point(55, 18)
+        chartCategory.Location = New Point(621, 337)
         chartCategory.Name = "chartCategory"
         chartCategory.Size = New Size(462, 317)
         chartCategory.TabIndex = 1
-        ' 
-        ' BufferedPanel1
-        ' 
-        BufferedPanel1.Controls.Add(chartCategory)
-        BufferedPanel1.Location = New Point(564, 325)
-        BufferedPanel1.Name = "BufferedPanel1"
-        BufferedPanel1.Size = New Size(568, 354)
-        BufferedPanel1.TabIndex = 2
         ' 
         ' TableLayoutPanel1
         ' 
@@ -442,12 +432,11 @@ Partial Class DashboardControl
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
+        Controls.Add(chartCategory)
         Controls.Add(chartSales)
         Controls.Add(TableLayoutPanel1)
-        Controls.Add(BufferedPanel1)
         Name = "DashboardControl"
         Size = New Size(1135, 682)
-        BufferedPanel1.ResumeLayout(False)
         TableLayoutPanel1.ResumeLayout(False)
         TableLayoutPanel1.PerformLayout()
         RoundedPanel10.ResumeLayout(False)
@@ -473,7 +462,6 @@ Partial Class DashboardControl
     Friend WithEvents RoundedPanel2 As RoundedPanel
     Friend WithEvents RoundedPanel3 As RoundedPanel
     Friend WithEvents chartCategory As ScottPlot.WinForms.FormsPlot
-    Friend WithEvents BufferedPanel1 As BufferedPanel
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents RoundedPanel6 As RoundedPanel
     Friend WithEvents lblNetProfit As Label
