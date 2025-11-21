@@ -192,7 +192,7 @@ Public Class AccountsControl
     Private Sub btnSetUserStatus_Click(sender As Object, e As EventArgs) Handles btnSetUserStatus.Click
         If dgvUsers.SelectedRows.Count = 0 Then Return
         Dim id As Integer = dgvUsers.SelectedRows(0).Cells("colUserID").Value
-        If id = currentUserId Then
+        If id = Me.LoggedInUserId Then
             MessageBox.Show("You cannot disable your own account.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
@@ -206,7 +206,7 @@ Public Class AccountsControl
         If dgvUsers.SelectedRows.Count = 0 Then Return
         If cbNewRole.SelectedIndex = -1 Then Return
         Dim id As Integer = dgvUsers.SelectedRows(0).Cells("colUserID").Value
-        If id = currentUserId Then
+        If id = Me.LoggedInUserId Then
             MessageBox.Show("You cannot change roles of the current account.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
@@ -220,7 +220,7 @@ Public Class AccountsControl
         Dim id As Integer = dgvUsers.SelectedRows(0).Cells("colUserID").Value
 
         ' Safeguard: prevent removing yourself
-        If id = currentUserId Then
+        If id = Me.LoggedInUserId Then
             MessageBox.Show("You cannot remove your own account.", "Action Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If

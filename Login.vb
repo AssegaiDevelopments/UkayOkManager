@@ -34,20 +34,27 @@ Public Class Login
             Using cmd As New SqlCommand(query, con)
                 cmd.Parameters.AddWithValue("@username", username)
                 cmd.Parameters.AddWithValue("@password", password)
-                Dim reader As SqlDataReader = cmd.ExecuteReader()
 
-                If reader.HasRows Then
-                    reader.Read()
-                    Dim userId As Integer = Convert.ToInt32(reader("UserID"))
-                    MsgBox("Login successful!", vbInformation, "Login Successful!")
-                    LoginSuccess(userId)  ' pass the ID to the dashboard
-                Else
-                    MsgBox("Invalid username or password.", vbExclamation, "Invalid")
-                End If
+                Using reader As SqlDataReader = cmd.ExecuteReader()
+                    If reader.HasRows Then
+                        reader.Read()
 
+                        ' --- Check account status ---
+                        Dim status As String = reader("IsDisabled").ToString().ToLower()
+                        If status = "disabled" OrElse status = "inactive" Then
+                            MsgBox("Your account has been disabled. Please contact the administrator.", vbExclamation, "Account Disabled")
+                            Exit Sub
+                        End If
+
+                        Dim userId As Integer = Convert.ToInt32(reader("UserID"))
+                        MsgBox("Login successful!", vbInformation, "Login Successful!")
+                        LoginSuccess(userId)  ' pass the ID to the dashboard
+                    Else
+                        MsgBox("Invalid username or password.", vbExclamation, "Invalid")
+                    End If
+                End Using
             End Using
         End Using
-
     End Sub
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs)
@@ -74,7 +81,7 @@ Public Class Login
 
     Sub LoginSuccess(UserID As Integer)
         Dim Dashboard As New Dashboard()
-        Dashboard.LoggedInUserId = UserID
+        Dashboard.InitializeDashboard(UserID)
         Dashboard.Show()
         Me.Hide() ' hide login
     End Sub
@@ -129,7 +136,7 @@ Public Class Login
 
     Private Sub Label2_Click_1(sender As Object, e As EventArgs) Handles Label2.Click
         'TEMPORARY BACKDOOR REMOVE LATER
-        LoginSuccess(1)
+        'LoginSuccess(1)
     End Sub
 
 End Class
