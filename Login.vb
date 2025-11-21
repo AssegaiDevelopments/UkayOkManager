@@ -1,11 +1,12 @@
 ﻿Imports System.Configuration
+Imports System.Runtime.CompilerServices
 Imports System.Runtime.CompilerServices.RuntimeHelpers
-Imports System.Windows
 Imports System.Security.Cryptography
 Imports System.Text
-Imports Microsoft.Data.SqlClient
-Imports System.Runtime.CompilerServices
+Imports System.Windows
 Imports System.Windows.Forms.PropertyGridInternal
+Imports Microsoft.Data.SqlClient
+Imports Microsoft.VisualBasic.ApplicationServices
 
 Public Class Login
 
@@ -36,8 +37,10 @@ Public Class Login
                 Dim reader As SqlDataReader = cmd.ExecuteReader()
 
                 If reader.HasRows Then
+                    reader.Read()
+                    Dim userId As Integer = Convert.ToInt32(reader("UserID"))
                     MsgBox("Login successful!", vbInformation, "Login Successful!")
-                    LoginSuccess()
+                    LoginSuccess(userId)  ' pass the ID to the dashboard
                 Else
                     MsgBox("Invalid username or password.", vbExclamation, "Invalid")
                 End If
@@ -66,12 +69,12 @@ Public Class Login
     End Sub
 
     Private Sub Label2_Click(sender As Object, e As EventArgs)
-        LoginSuccess()
+        LoginSuccess(0)
     End Sub
 
-    Sub LoginSuccess()
+    Sub LoginSuccess(UserID As Integer)
         Dim Dashboard As New Dashboard()
-        'Dashboard.LoggedInUserId = Convert.ToInt32(txtbUser.Tag) ' or store from reader
+        Dashboard.LoggedInUserId = UserID
         Dashboard.Show()
         Me.Hide() ' hide login
     End Sub
@@ -126,7 +129,7 @@ Public Class Login
 
     Private Sub Label2_Click_1(sender As Object, e As EventArgs) Handles Label2.Click
         'TEMPORARY BACKDOOR REMOVE LATER
-        LoginSuccess()
+        LoginSuccess(1)
     End Sub
 
 End Class

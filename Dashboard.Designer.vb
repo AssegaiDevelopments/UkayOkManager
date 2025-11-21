@@ -27,14 +27,15 @@ Partial Class Dashboard
         FlowLayoutPanel1 = New FlowLayoutPanel()
         btnExit = New Button()
         btnMinimize = New Button()
+        btnLogOut = New Button()
         PictureBox1 = New PictureBox()
         btnCart = New Button()
         btnViewTransaction = New Button()
         pnlSidebar = New Panel()
         flpSidebar = New FlowLayoutPanel()
+        btnDashboardControl = New Button()
         btnManageStocks = New Button()
         btnExpenses = New Button()
-        btnDashboardControl = New Button()
         btnManageAccounts = New Button()
         pnlMain = New Panel()
         pnlDashboard = New Panel()
@@ -68,11 +69,12 @@ Partial Class Dashboard
         FlowLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink
         FlowLayoutPanel1.Controls.Add(btnExit)
         FlowLayoutPanel1.Controls.Add(btnMinimize)
+        FlowLayoutPanel1.Controls.Add(btnLogOut)
         FlowLayoutPanel1.Dock = DockStyle.Right
         FlowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft
-        FlowLayoutPanel1.Location = New Point(1068, 0)
+        FlowLayoutPanel1.Location = New Point(1038, 0)
         FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        FlowLayoutPanel1.Size = New Size(67, 38)
+        FlowLayoutPanel1.Size = New Size(97, 38)
         FlowLayoutPanel1.TabIndex = 18
         ' 
         ' btnExit
@@ -80,9 +82,10 @@ Partial Class Dashboard
         btnExit.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnExit.Cursor = Cursors.Hand
         btnExit.FlatAppearance.BorderSize = 0
+        btnExit.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(255), CByte(128), CByte(128))
         btnExit.FlatStyle = FlatStyle.Flat
         btnExit.ForeColor = Color.White
-        btnExit.Location = New Point(38, 3)
+        btnExit.Location = New Point(68, 3)
         btnExit.Name = "btnExit"
         btnExit.Size = New Size(26, 26)
         btnExit.TabIndex = 16
@@ -96,10 +99,11 @@ Partial Class Dashboard
         btnMinimize.BackColor = Color.Transparent
         btnMinimize.Cursor = Cursors.Hand
         btnMinimize.FlatAppearance.BorderSize = 0
+        btnMinimize.FlatAppearance.MouseOverBackColor = Color.LightBlue
         btnMinimize.FlatStyle = FlatStyle.Flat
         btnMinimize.Font = New Font("Unispace", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnMinimize.ForeColor = Color.White
-        btnMinimize.Location = New Point(6, 3)
+        btnMinimize.Location = New Point(36, 3)
         btnMinimize.Name = "btnMinimize"
         btnMinimize.Size = New Size(26, 27)
         btnMinimize.TabIndex = 17
@@ -107,6 +111,26 @@ Partial Class Dashboard
         btnMinimize.TextAlign = ContentAlignment.BottomCenter
         btnMinimize.UseMnemonic = False
         btnMinimize.UseVisualStyleBackColor = False
+        ' 
+        ' btnLogOut
+        ' 
+        btnLogOut.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnLogOut.BackColor = Color.Transparent
+        btnLogOut.Cursor = Cursors.Hand
+        btnLogOut.FlatAppearance.BorderSize = 0
+        btnLogOut.FlatAppearance.MouseOverBackColor = Color.LightBlue
+        btnLogOut.FlatStyle = FlatStyle.Flat
+        btnLogOut.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnLogOut.ForeColor = Color.White
+        btnLogOut.ImageAlign = ContentAlignment.TopCenter
+        btnLogOut.Location = New Point(6, 3)
+        btnLogOut.Name = "btnLogOut"
+        btnLogOut.Size = New Size(24, 35)
+        btnLogOut.TabIndex = 19
+        btnLogOut.Text = "🔑"
+        btnLogOut.TextAlign = ContentAlignment.TopCenter
+        btnLogOut.UseMnemonic = False
+        btnLogOut.UseVisualStyleBackColor = False
         ' 
         ' PictureBox1
         ' 
@@ -181,6 +205,25 @@ Partial Class Dashboard
         flpSidebar.Size = New Size(145, 652)
         flpSidebar.TabIndex = 29
         ' 
+        ' btnDashboardControl
+        ' 
+        btnDashboardControl.Anchor = AnchorStyles.Left
+        btnDashboardControl.BackColor = Color.SeaGreen
+        btnDashboardControl.Cursor = Cursors.Hand
+        btnDashboardControl.FlatAppearance.BorderSize = 0
+        btnDashboardControl.FlatStyle = FlatStyle.Flat
+        btnDashboardControl.Font = New Font("Segoe UI Emoji", 9.75F)
+        btnDashboardControl.ForeColor = Color.White
+        btnDashboardControl.Location = New Point(0, 0)
+        btnDashboardControl.Margin = New Padding(0)
+        btnDashboardControl.Name = "btnDashboardControl"
+        btnDashboardControl.Size = New Size(145, 42)
+        btnDashboardControl.TabIndex = 30
+        btnDashboardControl.Tag = "DashboardControl"
+        btnDashboardControl.Text = "📈 Dashboard"
+        btnDashboardControl.TextAlign = ContentAlignment.MiddleLeft
+        btnDashboardControl.UseVisualStyleBackColor = False
+        ' 
         ' btnManageStocks
         ' 
         btnManageStocks.Anchor = AnchorStyles.Left
@@ -218,25 +261,6 @@ Partial Class Dashboard
         btnExpenses.Text = "💱 Expenses"
         btnExpenses.TextAlign = ContentAlignment.MiddleLeft
         btnExpenses.UseVisualStyleBackColor = False
-        ' 
-        ' btnDashboardControl
-        ' 
-        btnDashboardControl.Anchor = AnchorStyles.Left
-        btnDashboardControl.BackColor = Color.SeaGreen
-        btnDashboardControl.Cursor = Cursors.Hand
-        btnDashboardControl.FlatAppearance.BorderSize = 0
-        btnDashboardControl.FlatStyle = FlatStyle.Flat
-        btnDashboardControl.Font = New Font("Segoe UI Emoji", 9.75F)
-        btnDashboardControl.ForeColor = Color.White
-        btnDashboardControl.Location = New Point(0, 0)
-        btnDashboardControl.Margin = New Padding(0)
-        btnDashboardControl.Name = "btnDashboardControl"
-        btnDashboardControl.Size = New Size(145, 42)
-        btnDashboardControl.TabIndex = 30
-        btnDashboardControl.Tag = "DashboardControl"
-        btnDashboardControl.Text = "📈 Dashboard"
-        btnDashboardControl.TextAlign = ContentAlignment.MiddleLeft
-        btnDashboardControl.UseVisualStyleBackColor = False
         ' 
         ' btnManageAccounts
         ' 
@@ -382,4 +406,5 @@ Partial Class Dashboard
     Friend WithEvents SqlCommand1 As Microsoft.Data.SqlClient.SqlCommand
     Friend WithEvents BufferedPanel1 As BufferedPanel
     Friend WithEvents btnManageAccounts As Button
+    Friend WithEvents btnLogOut As Button
 End Class

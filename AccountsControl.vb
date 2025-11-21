@@ -3,7 +3,51 @@ Imports System.Security.Cryptography
 Imports System.Text
 
 Public Class AccountsControl
+    'start of admin/employee logic
     Dim currentUserId As Integer = 0
+    Private _loggedInUserId As Integer
+    Private _role As String
+
+    Public Property LoggedInUserId As Integer
+        Get
+            Return _loggedInUserId
+        End Get
+        Set(value As Integer)
+            _loggedInUserId = value
+            _role = GetLoggedInUserRole() ' fetch role from DB
+            ApplyRoleRestrictions()
+        End Set
+    End Property
+
+    Private Function GetLoggedInUserRole() As String
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+            Dim query As String = "SELECT Role FROM Users WHERE UserID=@id"
+            Using cmd As New SqlCommand(query, con)
+                cmd.Parameters.AddWithValue("@id", _loggedInUserId)
+                Dim roleObj = cmd.ExecuteScalar()
+                Return If(roleObj IsNot Nothing, roleObj.ToString(), String.Empty)
+            End Using
+        End Using
+    End Function
+
+    Private Sub ApplyRoleRestrictions()
+        If _loggedInUserId = 0 Then Exit Sub
+
+        Dim role As String = GetLoggedInUserRole() ' fetch from DB
+        If role = "Employee" Then
+            ' Disable admin-only controls
+            gbModifyAccount.Enabled = False
+            btnAddUser.Enabled = False
+            btnSetUserStatus.Enabled = False
+            btnUpdateUserRole.Enabled = False
+            txtConfirmPassword.Enabled = False
+            txtPassword.Enabled = False
+            cbNewRole.Enabled = False
+            cbRole.Enabled = False
+        End If
+    End Sub
+    'end of admin/employee logic
 
     ' Hash Password using SHA256
     Private Function HashPassword(password As String) As String
@@ -18,6 +62,7 @@ Public Class AccountsControl
             Return sb.ToString()
         End Using
     End Function
+
 
     Private Sub AccountsControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadUsers()

@@ -15,6 +15,8 @@ Public Class Dashboard
         End Get
     End Property
 
+    Public Property LoggedInUserId As String
+
     Dim clothingType, pname As String
     Dim quantity, discount As Integer
     Dim itemTotal, price, grandTotal As Decimal
@@ -86,6 +88,7 @@ Public Class Dashboard
 
     'Showpanel() buttons
     Private Sub btnManageStocks_Click(sender As Object, e As EventArgs) Handles btnManageStocks.Click
+        stocksControl.LoggedInUserId = Me.LoggedInUserId
         ShowPanel(stocksControl)
         stocksControl.InitializeStocks()
     End Sub
@@ -101,6 +104,7 @@ Public Class Dashboard
     End Sub
 
     Private Sub btnExpenses_Click(sender As Object, e As EventArgs) Handles btnExpenses.Click
+        expensesControl.LoggedInUserId = Me.LoggedInUserId
         ShowPanel(expensesControl)
         expensesControl.InitializeExpenses()
     End Sub
@@ -111,6 +115,17 @@ Public Class Dashboard
     End Sub
 
     Private Sub btnManageAccounts_Click(sender As Object, e As EventArgs) Handles btnManageAccounts.Click
+        accountsControl.LoggedInUserId = Me.LoggedInUserId
         ShowPanel(accountsControl)
+
+    End Sub
+
+    Private Sub btnLogOut_Click(sender As Object, e As EventArgs) Handles btnLogOut.Click
+        LogOut()
+    End Sub
+
+    Private Sub LogOut()
+        Login.Show()
+        Me.Hide()
     End Sub
 End Class

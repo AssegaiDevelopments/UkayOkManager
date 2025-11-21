@@ -41,6 +41,7 @@ Partial Class AccountsControl
         gbModifyAccount = New GroupBox()
         TableLayoutPanel1 = New TableLayoutPanel()
         BufferedPanel = New BufferedPanel()
+        Label5 = New Label()
         CType(dgvUsers, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         gbModifyAccount.SuspendLayout()
@@ -258,12 +259,25 @@ Partial Class AccountsControl
         ' 
         ' BufferedPanel
         ' 
+        BufferedPanel.Controls.Add(Label5)
         BufferedPanel.Controls.Add(TableLayoutPanel1)
         BufferedPanel.Dock = DockStyle.Fill
         BufferedPanel.Location = New Point(0, 0)
         BufferedPanel.Name = "BufferedPanel"
         BufferedPanel.Size = New Size(1135, 682)
         BufferedPanel.TabIndex = 18
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.BackColor = Color.Transparent
+        Label5.Font = New Font("Malgun Gothic", 20.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label5.ForeColor = Color.White
+        Label5.Location = New Point(421, 69)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(295, 37)
+        Label5.TabIndex = 30
+        Label5.Text = " 🔓 Account Manager"
         ' 
         ' AccountsControl
         ' 
@@ -281,6 +295,7 @@ Partial Class AccountsControl
         gbModifyAccount.PerformLayout()
         TableLayoutPanel1.ResumeLayout(False)
         BufferedPanel.ResumeLayout(False)
+        BufferedPanel.PerformLayout()
         ResumeLayout(False)
     End Sub
 
@@ -303,5 +318,6 @@ Partial Class AccountsControl
     Friend WithEvents gbModifyAccount As GroupBox
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents BufferedPanel As BufferedPanel
+    Friend WithEvents Label5 As Label
 
 End Class

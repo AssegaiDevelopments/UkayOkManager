@@ -32,13 +32,27 @@ Public Class DashboardControl
     End Sub
     'Refresh dashboard data
     Public Sub RefreshDashboard()
+        'total sales today
         Dim todaySales As Decimal = 0D
+        'quantity of items sold
         Dim totalItemsSold As Integer = 0
+        'expenses due today
         Dim todayExpenses As Decimal = 0D
+        'total expenses paid
         Dim totalPaid As Decimal = 0D
+        'total expenses unpaid
         Dim totalUnpaid As Decimal = 0D
         Dim netProfit As Decimal = 0D
+
         Dim upcomingExpenses As Decimal = 0D
+        'Expenses for the next 7 days
+        Dim totalNext7Days As Decimal = 0D
+        'Last Week profit
+        Dim netProfitLastWeek As Decimal = 0D
+        'Month Sales
+        Dim today As Date = Date.Today
+        Dim firstDayOfMonth As Date = New Date(today.Year, today.Month, 1)
+        Dim totalSalesMonth As Decimal = 0D
 
         Try
             '  Get sales and items sold
@@ -60,14 +74,28 @@ Public Class DashboardControl
                     Dim obj = cmd.ExecuteScalar()
                     totalItemsSold = If(IsDBNull(obj), 0, Convert.ToInt32(obj))
                 End Using
+                'Query Month Sale
+                Dim queryMonthSales As String = "
+                     SELECT SUM(TotalAmount) 
+                     FROM Transactions 
+                     WHERE CAST(TransactionDate AS DATE) BETWEEN @fromDate AND @toDate"
+                Using cmd As New SqlCommand(queryMonthSales, con)
+                    cmd.Parameters.AddWithValue("@fromDate", firstDayOfMonth)
+                    cmd.Parameters.AddWithValue("@toDate", today)
+                    Dim result = cmd.ExecuteScalar()
+                    totalSalesMonth = If(IsDBNull(result), 0D, Convert.ToDecimal(result))
+                End Using
             End Using
 
             ' --- Get expenses from ExpensesControl ---
             ' Make sure expensesControl is not Nothing
             If expensesControl IsNot Nothing Then
-                todayExpenses = expensesControl.GetExpenseTotal(fromDate:=Today)
+                todayExpenses = expensesControl.GetExpenseTotal(fromDate:=today)
                 totalPaid = expensesControl.TotalPaid
                 totalUnpaid = expensesControl.TotalUnpaid
+                totalNext7Days = expensesControl.GetExpenseTotal(fromDate:=Date.Today, toDate:=Date.Today.AddDays(7))
+
+
             End If
 
             ' --- Compute net profit ---
@@ -79,7 +107,9 @@ Public Class DashboardControl
             lblTodayExpenses.Text = todayExpenses.ToString("₱#,##0.00")
             lblTotalExpensesPaid.Text = totalPaid.ToString("₱#,##0.00")
             lblTotalExpensesUnpaid.Text = totalUnpaid.ToString("₱#,##0.00")
-            lblNetProfit.Text = "₱" & netProfit.ToString("#,##0.00")
+            lblUpcomingExpensesWeek.Text = totalNext7Days.ToString("₱#,##0.00")
+            lblNetProfit.Text = netProfit.ToString("₱#,##0.00")
+            lblTotalSalesMonth.Text = totalSalesMonth.ToString("₱#,##0.00")
 
             ' --- Refresh charts ---
             LoadDailySalesChart()
@@ -186,7 +216,7 @@ Public Class DashboardControl
             con.Open()
 
             Dim query As String = "
-            SELECT ProductName, COUNT(Quantity) AS TotalSold
+            SELECT ProductName, SUM(Quantity) AS TotalSold
             FROM TransactionItems
             GROUP BY ProductName
             ORDER BY ProductName;"

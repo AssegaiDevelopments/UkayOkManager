@@ -504,7 +504,7 @@ Partial Class ExpensesControl
         Label12.AutoSize = True
         Label12.BackColor = Color.Transparent
         Label12.Font = New Font("Segoe UI", 72F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label12.ForeColor = Color.WhiteSmoke
+        Label12.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
         Label12.Location = New Point(130, 81)
         Label12.Name = "Label12"
         Label12.Size = New Size(179, 128)
@@ -515,8 +515,8 @@ Partial Class ExpensesControl
         ' TableLayoutPanel2
         ' 
         TableLayoutPanel2.ColumnCount = 2
-        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50.0F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50.0F))
         TableLayoutPanel2.Controls.Add(RoundedPanel2, 0, 0)
         TableLayoutPanel2.Controls.Add(chartDailyExpenses, 1, 0)
         TableLayoutPanel2.Controls.Add(RoundedPanel1, 1, 1)
@@ -525,9 +525,9 @@ Partial Class ExpensesControl
         TableLayoutPanel2.Location = New Point(506, 0)
         TableLayoutPanel2.Name = "TableLayoutPanel2"
         TableLayoutPanel2.RowCount = 3
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50.0F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50.0F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20.0F))
         TableLayoutPanel2.Size = New Size(629, 443)
         TableLayoutPanel2.TabIndex = 45
         ' 
@@ -576,8 +576,8 @@ Partial Class ExpensesControl
         Label11.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         Label11.AutoSize = True
         Label11.BackColor = Color.Transparent
-        Label11.Font = New Font("Segoe UI", 72F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label11.ForeColor = Color.WhiteSmoke
+        Label11.Font = New Font("Segoe UI", 72.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label11.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
         Label11.Location = New Point(-38, 92)
         Label11.Name = "Label11"
         Label11.Size = New Size(179, 128)

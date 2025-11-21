@@ -25,7 +25,7 @@ Partial Class ManageStocksControl
         Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         BufferedPanel1 = New BufferedPanel()
         RoundedPanel1 = New RoundedPanel()
-        GroupBox1 = New GroupBox()
+        gbAddProduct = New GroupBox()
         Label3 = New Label()
         btnAddItem = New Button()
         Label4 = New Label()
@@ -33,7 +33,7 @@ Partial Class ManageStocksControl
         nudStock = New NumericUpDown()
         Label5 = New Label()
         nudPrice = New NumericUpDown()
-        GroupBox2 = New GroupBox()
+        gbManageStocks = New GroupBox()
         btnApplyToCell = New Button()
         TableLayoutPanel3 = New TableLayoutPanel()
         Label1 = New Label()
@@ -45,10 +45,10 @@ Partial Class ManageStocksControl
         Label2 = New Label()
         BufferedPanel1.SuspendLayout()
         RoundedPanel1.SuspendLayout()
-        GroupBox1.SuspendLayout()
+        gbAddProduct.SuspendLayout()
         CType(nudStock, ComponentModel.ISupportInitialize).BeginInit()
         CType(nudPrice, ComponentModel.ISupportInitialize).BeginInit()
-        GroupBox2.SuspendLayout()
+        gbManageStocks.SuspendLayout()
         TableLayoutPanel3.SuspendLayout()
         CType(nudAddSubtract, ComponentModel.ISupportInitialize).BeginInit()
         TableLayoutPanel1.SuspendLayout()
@@ -70,32 +70,32 @@ Partial Class ManageStocksControl
         ' RoundedPanel1
         ' 
         RoundedPanel1.BackColor = Color.White
-        RoundedPanel1.Controls.Add(GroupBox1)
-        RoundedPanel1.Controls.Add(GroupBox2)
+        RoundedPanel1.Controls.Add(gbAddProduct)
+        RoundedPanel1.Controls.Add(gbManageStocks)
         RoundedPanel1.CornerRadius = 20
         RoundedPanel1.Location = New Point(25, 80)
         RoundedPanel1.Name = "RoundedPanel1"
         RoundedPanel1.Size = New Size(442, 518)
         RoundedPanel1.TabIndex = 37
         ' 
-        ' GroupBox1
+        ' gbAddProduct
         ' 
-        GroupBox1.BackColor = Color.Transparent
-        GroupBox1.Controls.Add(Label3)
-        GroupBox1.Controls.Add(btnAddItem)
-        GroupBox1.Controls.Add(Label4)
-        GroupBox1.Controls.Add(tbProductName)
-        GroupBox1.Controls.Add(nudStock)
-        GroupBox1.Controls.Add(Label5)
-        GroupBox1.Controls.Add(nudPrice)
-        GroupBox1.FlatStyle = FlatStyle.Flat
-        GroupBox1.ForeColor = Color.Black
-        GroupBox1.Location = New Point(34, 20)
-        GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(361, 215)
-        GroupBox1.TabIndex = 35
-        GroupBox1.TabStop = False
-        GroupBox1.Text = "Add Product"
+        gbAddProduct.BackColor = Color.Transparent
+        gbAddProduct.Controls.Add(Label3)
+        gbAddProduct.Controls.Add(btnAddItem)
+        gbAddProduct.Controls.Add(Label4)
+        gbAddProduct.Controls.Add(tbProductName)
+        gbAddProduct.Controls.Add(nudStock)
+        gbAddProduct.Controls.Add(Label5)
+        gbAddProduct.Controls.Add(nudPrice)
+        gbAddProduct.FlatStyle = FlatStyle.Flat
+        gbAddProduct.ForeColor = Color.Black
+        gbAddProduct.Location = New Point(34, 20)
+        gbAddProduct.Name = "gbAddProduct"
+        gbAddProduct.Size = New Size(361, 215)
+        gbAddProduct.TabIndex = 35
+        gbAddProduct.TabStop = False
+        gbAddProduct.Text = "Add Product"
         ' 
         ' Label3
         ' 
@@ -178,19 +178,19 @@ Partial Class ManageStocksControl
         nudPrice.TabIndex = 8
         nudPrice.ThousandsSeparator = True
         ' 
-        ' GroupBox2
+        ' gbManageStocks
         ' 
-        GroupBox2.BackColor = Color.Transparent
-        GroupBox2.Controls.Add(btnApplyToCell)
-        GroupBox2.Controls.Add(TableLayoutPanel3)
-        GroupBox2.Controls.Add(TableLayoutPanel1)
-        GroupBox2.ForeColor = Color.Black
-        GroupBox2.Location = New Point(34, 241)
-        GroupBox2.Name = "GroupBox2"
-        GroupBox2.Size = New Size(361, 110)
-        GroupBox2.TabIndex = 36
-        GroupBox2.TabStop = False
-        GroupBox2.Text = "Manage Stocks"
+        gbManageStocks.BackColor = Color.Transparent
+        gbManageStocks.Controls.Add(btnApplyToCell)
+        gbManageStocks.Controls.Add(TableLayoutPanel3)
+        gbManageStocks.Controls.Add(TableLayoutPanel1)
+        gbManageStocks.ForeColor = Color.Black
+        gbManageStocks.Location = New Point(34, 241)
+        gbManageStocks.Name = "gbManageStocks"
+        gbManageStocks.Size = New Size(361, 110)
+        gbManageStocks.TabIndex = 36
+        gbManageStocks.TabStop = False
+        gbManageStocks.Text = "Manage Stocks"
         ' 
         ' btnApplyToCell
         ' 
@@ -330,12 +330,12 @@ Partial Class ManageStocksControl
         BufferedPanel1.ResumeLayout(False)
         BufferedPanel1.PerformLayout()
         RoundedPanel1.ResumeLayout(False)
-        GroupBox1.ResumeLayout(False)
-        GroupBox1.PerformLayout()
+        gbAddProduct.ResumeLayout(False)
+        gbAddProduct.PerformLayout()
         CType(nudStock, ComponentModel.ISupportInitialize).EndInit()
         CType(nudPrice, ComponentModel.ISupportInitialize).EndInit()
-        GroupBox2.ResumeLayout(False)
-        GroupBox2.PerformLayout()
+        gbManageStocks.ResumeLayout(False)
+        gbManageStocks.PerformLayout()
         TableLayoutPanel3.ResumeLayout(False)
         TableLayoutPanel3.PerformLayout()
         CType(nudAddSubtract, ComponentModel.ISupportInitialize).EndInit()
@@ -345,7 +345,7 @@ Partial Class ManageStocksControl
     End Sub
 
     Friend WithEvents BufferedPanel1 As BufferedPanel
-    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents gbManageStocks As GroupBox
     Friend WithEvents btnApplyToCell As Button
     Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
     Friend WithEvents Label1 As Label
@@ -353,7 +353,7 @@ Partial Class ManageStocksControl
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents btnRemoveItem As Button
     Friend WithEvents btnSaveChanges As Button
-    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents gbAddProduct As GroupBox
     Friend WithEvents Label3 As Label
     Friend WithEvents btnAddItem As Button
     Friend WithEvents Label4 As Label

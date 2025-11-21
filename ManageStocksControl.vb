@@ -9,8 +9,49 @@ Public Class ManageStocksControl
     Dim adapter As SqlDataAdapter
     Dim dt As New DataTable()
 
+    'start of admin/employee logic
+    Private _loggedInUserId As Integer
+    Private _role As String
+
+    Public Property LoggedInUserId As Integer
+        Get
+            Return _loggedInUserId
+        End Get
+        Set(value As Integer)
+            _loggedInUserId = value
+            _role = GetLoggedInUserRole() ' fetch role from DB
+            ApplyRoleRestrictions()
+        End Set
+    End Property
+
+    Private Function GetLoggedInUserRole() As String
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+            Dim query As String = "SELECT Role FROM Users WHERE UserID=@id"
+            Using cmd As New SqlCommand(query, con)
+                cmd.Parameters.AddWithValue("@id", _loggedInUserId)
+                Dim roleObj = cmd.ExecuteScalar()
+                Return If(roleObj IsNot Nothing, roleObj.ToString(), String.Empty)
+            End Using
+        End Using
+    End Function
+
+    Private Sub ApplyRoleRestrictions()
+        If _loggedInUserId = 0 Then Exit Sub
+
+        Dim role As String = GetLoggedInUserRole() ' fetch from DB
+        If role = "Employee" Then
+            ' Disable admin-only controls
+            gbAddProduct.Enabled = False
+            gbManageStocks.Enabled = False
+            dgvStocks.ReadOnly = True
+        End If
+    End Sub
+    'end of admin/employee logic
+
     Public Sub InitializeStocks()
         LoadProducts()
+        ApplyRoleRestrictions()
     End Sub
 
     'live update stock

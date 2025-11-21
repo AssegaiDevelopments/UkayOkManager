@@ -7,16 +7,32 @@ Public Class ExpensesControl
     Dim categoryFilter() As String = {"All", "Utilities", "Rent", "Salaries", "Supplies", "Maintenance", "Miscellaneous"}
     Dim paymentFilter() As String = {"All", "Paid", "Unpaid"}
 
+    'start of admin/employee logic
     Private _loggedInUserId As Integer
+    Private _role As String
+
     Public Property LoggedInUserId As Integer
         Get
             Return _loggedInUserId
         End Get
         Set(value As Integer)
             _loggedInUserId = value
+            _role = GetLoggedInUserRole() ' fetch role from DB
             ApplyRoleRestrictions()
         End Set
     End Property
+
+    Private Function GetLoggedInUserRole() As String
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+            Dim query As String = "SELECT Role FROM Users WHERE UserID=@id"
+            Using cmd As New SqlCommand(query, con)
+                cmd.Parameters.AddWithValue("@id", _loggedInUserId)
+                Dim roleObj = cmd.ExecuteScalar()
+                Return If(roleObj IsNot Nothing, roleObj.ToString(), String.Empty)
+            End Using
+        End Using
+    End Function
 
     Private Sub ApplyRoleRestrictions()
         If _loggedInUserId = 0 Then Exit Sub
@@ -30,7 +46,7 @@ Public Class ExpensesControl
             btnMarkAsPaid.Enabled = False
         End If
     End Sub
-
+    'end of admin/employee logic
 
     'Return total paid and unpaid expenses specifically for dashboard access
     Public ReadOnly Property TotalPaid As Decimal
@@ -49,22 +65,6 @@ Public Class ExpensesControl
     Private _totalPaid As Decimal
     Private _totalUnpaid As Decimal
 
-    Private Function GetLoggedInUserRole() As String
-        If LoggedInUserId = 0 Then Return String.Empty
-
-        Using con As New SqlConnection(connectAs)
-            con.Open()
-            Dim query As String = "SELECT Role FROM Users WHERE UserID = @id;"
-            Using cmd As New SqlCommand(query, con)
-                cmd.Parameters.AddWithValue("@id", LoggedInUserId)
-                Dim roleObj = cmd.ExecuteScalar()
-                Return If(roleObj IsNot Nothing, roleObj.ToString(), String.Empty)
-            End Using
-        End Using
-    End Function
-
-
-
     'public event to notify dashboard of updates
     Public Event ExpensesUpdated()
 
@@ -72,7 +72,7 @@ Public Class ExpensesControl
 
 
     ' Get total expenses with optional filters
-    Public Function GetExpenseTotal(Optional status As String = Nothing, Optional fromDate As Date? = Nothing) As Decimal
+    Public Function GetExpenseTotal(Optional status As String = Nothing, Optional fromDate As Date? = Nothing, Optional toDate As Date? = Nothing) As Decimal
         Dim total As Decimal = 0D
 
         Try
@@ -80,6 +80,7 @@ Public Class ExpensesControl
                 con.Open()
                 Dim query As String = "SELECT SUM(Amount) FROM Expenses WHERE 1=1"
 
+                ' Add filters
                 If Not String.IsNullOrEmpty(status) Then
                     query &= " AND Status = @status"
                 End If
@@ -88,9 +89,14 @@ Public Class ExpensesControl
                     query &= " AND Date >= @fromDate"
                 End If
 
+                If toDate.HasValue Then
+                    query &= " AND Date <= @toDate"
+                End If
+
                 Using cmd As New SqlCommand(query, con)
                     If Not String.IsNullOrEmpty(status) Then cmd.Parameters.AddWithValue("@status", status)
                     If fromDate.HasValue Then cmd.Parameters.AddWithValue("@fromDate", fromDate.Value.Date)
+                    If toDate.HasValue Then cmd.Parameters.AddWithValue("@toDate", toDate.Value.Date)
 
                     Dim result = cmd.ExecuteScalar()
                     total = If(IsDBNull(result), 0D, Convert.ToDecimal(result))
@@ -102,6 +108,7 @@ Public Class ExpensesControl
 
         Return total
     End Function
+
 
     Public Sub LoadComboBoxes()
         cbPaymentStatus.Items.Clear()
@@ -121,6 +128,7 @@ Public Class ExpensesControl
         cbFilterStatus.SelectedIndex = 0
     End Sub
     Private Sub ExpensesControl_Load(sender As Object, e As EventArgs) Handles Me.Load
+
         InitializeExpenses()
     End Sub
 
@@ -323,20 +331,17 @@ Public Class ExpensesControl
     End Sub
     'load category expense chart
     Private Sub LoadCategoryChart()
-        ' Prepare containers for query results
         Dim categories As New List(Of String)
         Dim amounts As New List(Of Double)
 
-        ' Fetch aggregated totals per category
+        ' --- Fetch data ---
         Using con As New SqlConnection(connectAs)
             con.Open()
-
             Dim query As String = "
-        SELECT Category, SUM(Amount) AS TotalAmount
-        FROM Expenses
-        GROUP BY Category
-        ORDER BY Category;"
-
+            SELECT Category, SUM(Amount) AS TotalAmount
+            FROM Expenses
+            GROUP BY Category
+            ORDER BY Category;"
             Using cmd As New SqlCommand(query, con)
                 Using reader As SqlDataReader = cmd.ExecuteReader()
                     While reader.Read()
@@ -347,25 +352,41 @@ Public Class ExpensesControl
             End Using
         End Using
 
-        ' If nothing to show, clear the chart and exit
+        ' --- Reset chart if no data ---
         chartCategoryExpenses.Plot.Clear()
         If categories.Count = 0 Then
             chartCategoryExpenses.Refresh()
             Return
         End If
 
-        ' Create Pie chart
+        ' --- Create Pie Chart with Labels ---
         Dim pie = chartCategoryExpenses.Plot.Add.Pie(amounts.ToArray())
 
-        'pie.SliceLabelDistance = 0.6
+        ' THIS IS WHERE LABELS GET ADDED (ScottPlot 5)
+
+        ' Optional: show percentages inside slice
+
+        pie.DonutFraction = 0 ' full pie
+
+        ' Legend — will show slice names
         chartCategoryExpenses.Plot.Legend.IsVisible = True
+
+        ' Hide axes
         chartCategoryExpenses.Plot.HideAxesAndGrid()
-        ' Set axis limits to -1.5 to 1.5 in both directions (center at 0,0)
+
+        ' Fix bounds
         chartCategoryExpenses.Plot.Axes.SetLimits(-1.5, 1.5, -1.5, 1.5)
+
+        ' Disable zoom/pan
         chartCategoryExpenses.UserInputProcessor.IsEnabled = False
+
+        ' Title
         chartCategoryExpenses.Plot.Title("Expenses by Category")
+
         chartCategoryExpenses.Refresh()
     End Sub
+
+
     'load daily expense chart for last 30 days
     Private Sub LoadDailyExpenseChart()
         ' containers
