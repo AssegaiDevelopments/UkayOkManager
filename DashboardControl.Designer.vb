@@ -68,7 +68,7 @@ Partial Class DashboardControl
         ' chartCategory
         ' 
         chartCategory.DisplayScale = 1F
-        chartCategory.Location = New Point(621, 337)
+        chartCategory.Location = New Point(603, 343)
         chartCategory.Name = "chartCategory"
         chartCategory.Size = New Size(462, 317)
         chartCategory.TabIndex = 1
@@ -409,11 +409,11 @@ Partial Class DashboardControl
         ' 
         ' Label13
         ' 
-        Label13.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        Label13.Anchor = AnchorStyles.Right
         Label13.AutoSize = True
         Label13.Font = New Font("Segoe UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label13.ForeColor = Color.White
-        Label13.Location = New Point(78, 44)
+        Label13.Location = New Point(78, 22)
         Label13.Name = "Label13"
         Label13.Size = New Size(202, 50)
         Label13.TabIndex = 12

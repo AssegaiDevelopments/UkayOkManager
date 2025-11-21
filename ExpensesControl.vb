@@ -334,14 +334,16 @@ Public Class ExpensesControl
         Dim categories As New List(Of String)
         Dim amounts As New List(Of Double)
 
-        ' --- Fetch data ---
+        ' --- Query database ---
         Using con As New SqlConnection(connectAs)
             con.Open()
+
             Dim query As String = "
-            SELECT Category, SUM(Amount) AS TotalAmount
-            FROM Expenses
-            GROUP BY Category
-            ORDER BY Category;"
+        SELECT Category, SUM(Amount) AS TotalAmount
+        FROM Expenses
+        GROUP BY Category
+        ORDER BY Category;"
+
             Using cmd As New SqlCommand(query, con)
                 Using reader As SqlDataReader = cmd.ExecuteReader()
                     While reader.Read()
@@ -352,39 +354,68 @@ Public Class ExpensesControl
             End Using
         End Using
 
-        ' --- Reset chart if no data ---
+        ' --- Handle no data ---
         chartCategoryExpenses.Plot.Clear()
         If categories.Count = 0 Then
             chartCategoryExpenses.Refresh()
             Return
         End If
 
-        ' --- Create Pie Chart with Labels ---
-        Dim pie = chartCategoryExpenses.Plot.Add.Pie(amounts.ToArray())
+        ' --- Build Slices (ScottPlot 5 correct method) ---
+        Dim slices As New List(Of PieSlice)
 
-        ' THIS IS WHERE LABELS GET ADDED (ScottPlot 5)
+        For i As Integer = 0 To categories.Count - 1
+            Dim slice As New PieSlice() With {
+            .Value = amounts(i),
+            .Label = categories(i),              ' text shown on the slice
+            .LegendText = categories(i) & " (" & amounts(i).ToString("₱#,##0.00") & ")" ' text shown in legend
+        }
 
-        ' Optional: show percentages inside slice
+            slices.Add(slice)
+        Next
 
-        pie.DonutFraction = 0 ' full pie
+        ' --- Add Pie to plot ---
+        Dim pie = chartCategoryExpenses.Plot.Add.Pie(slices)
+        ' Assign distinct colors to each slice
+        Dim colors As New List(Of ScottPlot.Color) From {
+              ScottPlot.Color.FromHex("#4e79a7"),
+              ScottPlot.Color.FromHex("#f28e2b"),
+              ScottPlot.Color.FromHex("#e15759"),
+              ScottPlot.Color.FromHex("#76b7b2"),
+              ScottPlot.Color.FromHex("#59a14f"),
+              ScottPlot.Color.FromHex("#edc948"),
+              ScottPlot.Color.FromHex("#b07aa1"),
+              ScottPlot.Color.FromHex("#ff9da7"),
+              ScottPlot.Color.FromHex("#9c755f"),
+              ScottPlot.Color.FromHex("#bab0ab")
+            }
 
-        ' Legend — will show slice names
-        chartCategoryExpenses.Plot.Legend.IsVisible = True
+        ' Trim or expand the list for the number of slices
+        pie.LineColor = ScottPlot.Color.FromHex("#bab0ab")
 
-        ' Hide axes
-        chartCategoryExpenses.Plot.HideAxesAndGrid()
 
-        ' Fix bounds
-        chartCategoryExpenses.Plot.Axes.SetLimits(-1.5, 1.5, -1.5, 1.5)
 
-        ' Disable zoom/pan
-        chartCategoryExpenses.UserInputProcessor.IsEnabled = False
+        pie.ExplodeFraction = 0.05
+        pie.SliceLabelDistance = 1.2
 
-        ' Title
+        ' Match slice label color to slice color (optional, looks cleaner)
+        For Each s In pie.Slices
+            s.LabelFontColor = s.FillColor.Darken(0.4)
+        Next
+
+        ' --- Legend ---
+        chartCategoryExpenses.Plot.ShowLegend()
+
+        ' --- Style ---
+        chartCategoryExpenses.Plot.Axes.Frameless()
+        chartCategoryExpenses.Plot.HideGrid()
         chartCategoryExpenses.Plot.Title("Expenses by Category")
+
+        chartCategoryExpenses.UserInputProcessor.IsEnabled = False
 
         chartCategoryExpenses.Refresh()
     End Sub
+
 
 
     'load daily expense chart for last 30 days

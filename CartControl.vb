@@ -1,6 +1,9 @@
-﻿Imports Microsoft.Data.SqlClient
+﻿Imports System.Security.Authentication.ExtendedProtection
+Imports Microsoft.Data.SqlClient
 Public Class CartControl
     Public Event CartCheckoutCompleted()
+    Dim globalPricingEnabled As Boolean = False
+    Dim globalPrice As Decimal = 0D
     Dim clothingType, pname As String
     Dim quantity, discount As Integer
     Dim itemTotal, price, grandTotal As Decimal
@@ -167,12 +170,34 @@ Public Class CartControl
             price = parsedPrice
             clothingType = cbClothingType.Text
             quantity = CInt(nudQuantity.Value)
+            discount = CInt(nudDiscount.Value)
 
-            If Not chbxDiscount.Checked Or nudDiscount.Value = 0 Or discount = 0 Then
-                itemTotal = quantity * price
+            'discount calculations
+            ' 1) Determine base price
+            ' --- Determine item total based on active discount ---
+            If chkGlobalPriceEnabled.Checked Then
+                ' Global Price overrides everything
+                itemTotal = quantity * globalPrice
+
+            ElseIf chbxBuyXForYEnabled.Checked And nudXQuantity.Value > 0 And nudYPrice.Value > 0 Then
+                ' Buy X for Y discount
+                Dim buyX As Integer = CInt(nudXQuantity.Value)
+                Dim forY As Decimal = nudYPrice.Value
+
+                Dim fullSets As Integer = quantity \ buyX       ' number of complete sets
+                Dim remaining As Integer = quantity Mod buyX    ' leftover items at regular price
+
+                itemTotal = (fullSets * forY) + (remaining * price)
+
+            ElseIf chbxDiscount.Checked And nudDiscount.Value > 0 Then
+                ' Percent discount
+                itemTotal = quantity * price * (1 - (CDec(nudDiscount.Value) / 100D))
+
             Else
-                itemTotal = quantity * price * (1 - discount * 0.01D)
+                ' No discount
+                itemTotal = quantity * price
             End If
+
 
             ' Get available stock from DB
             Dim selectedItem = cbClothingType.Text
@@ -220,24 +245,102 @@ Public Class CartControl
             MsgBox("Price value not valid!")
         End If
     End Sub
-    'discount feature
-    Private Sub chbxDiscountEnabled_CheckedChanged(sender As Object, e As EventArgs) Handles chbxDiscount.CheckedChanged
+    'discount feature; Handles the "Percentage Discount" checkbox
+    ' =======================
+    ' CHECKBOX HANDLERS
+    ' =======================
+
+    ' Percentage Discount
+    Private Sub chbxDiscount_CheckedChanged(sender As Object, e As EventArgs) Handles chbxDiscount.CheckedChanged
         If chbxDiscount.Checked Then
+            ' Disable other discounts
+            chkGlobalPriceEnabled.Checked = False
+            chbxBuyXForYEnabled.Checked = False
+
+            ' Enable related numeric
             nudDiscount.Enabled = True
             lDiscount.Enabled = True
+            UpdateDiscountLabel()
         Else
             nudDiscount.Enabled = False
             nudDiscount.Value = 0
-            lDiscount.Text = "Discount: 0%"
+            lDiscount.Text = ""
             lDiscount.Enabled = False
-
         End If
     End Sub
-    'discount value changed
-    Private Sub nudDiscount_ValueChanged(sender As Object, e As EventArgs) Handles nudDiscount.ValueChanged
-        discount = CInt(nudDiscount.Value)
-        lDiscount.Text = "Discount: " & discount.ToString & "%"
+
+    ' Global Price
+    Private Sub chkGlobalPriceEnabled_CheckedChanged(sender As Object, e As EventArgs) Handles chkGlobalPriceEnabled.CheckedChanged
+        If chkGlobalPriceEnabled.Checked Then
+            ' Disable other discounts
+            chbxDiscount.Checked = False
+            chbxBuyXForYEnabled.Checked = False
+
+            ' Enable related numeric
+            nudGlobalPrice.Enabled = True
+            UpdateDiscountLabel()
+        Else
+            nudGlobalPrice.Enabled = False
+            nudGlobalPrice.Value = 0
+            lDiscount.Text = ""
+        End If
     End Sub
+
+    ' Buy X for Y
+    Private Sub chbxBuyXForYEnabled_CheckedChanged(sender As Object, e As EventArgs) Handles chbxBuyXForYEnabled.CheckedChanged
+        If chbxBuyXForYEnabled.Checked Then
+            ' Disable other discounts
+            chbxDiscount.Checked = False
+            chkGlobalPriceEnabled.Checked = False
+
+            ' Enable related numerics
+            nudXQuantity.Enabled = True
+            nudYPrice.Enabled = True
+            lDiscount.Enabled = True
+            UpdateDiscountLabel()
+        Else
+            nudXQuantity.Enabled = False
+            nudYPrice.Enabled = False
+            lDiscount.Enabled = False
+            lDiscount.Text = ""
+        End If
+    End Sub
+
+    ' =======================
+    ' NUMERIC VALUE CHANGE HANDLERS
+    ' =======================
+
+    Private Sub nudDiscount_ValueChanged(sender As Object, e As EventArgs) Handles nudDiscount.ValueChanged
+        UpdateDiscountLabel()
+    End Sub
+
+    Private Sub nudGlobalPrice_ValueChanged(sender As Object, e As EventArgs) Handles nudGlobalPrice.ValueChanged
+        UpdateDiscountLabel()
+    End Sub
+
+    Private Sub nudXQuantity_ValueChanged(sender As Object, e As EventArgs) Handles nudXQuantity.ValueChanged
+        UpdateDiscountLabel()
+    End Sub
+
+    Private Sub nudYPrice_ValueChanged(sender As Object, e As EventArgs) Handles nudYPrice.ValueChanged
+        UpdateDiscountLabel()
+    End Sub
+
+    ' =======================
+    ' UPDATE LABEL LOGIC
+    ' =======================
+    Private Sub UpdateDiscountLabel()
+        If chbxDiscount.Checked Then
+            lDiscount.Text = $"Discount: {nudDiscount.Value}%"
+        ElseIf chkGlobalPriceEnabled.Checked Then
+            lDiscount.Text = $"All Items ₱{nudGlobalPrice.Value}"
+        ElseIf chbxBuyXForYEnabled.Checked Then
+            lDiscount.Text = $"Buy {nudXQuantity.Value} For ₱{nudYPrice.Value}!"
+        Else
+            lDiscount.Text = ""
+        End If
+    End Sub
+
 
     'Display price and stock based on selected clothing type
     Private Sub cbClothingType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbClothingType.SelectedIndexChanged
@@ -381,4 +484,7 @@ Public Class CartControl
         RefreshProductInfo()
         cbClothingType.SelectedIndex = 0
     End Sub
+
+    'checkbox check
+
 End Class

@@ -262,11 +262,4 @@ Public Class DashboardControl
         chartCategory.Refresh()
     End Sub
 
-
-
-
-
-
-
-
 End Class
