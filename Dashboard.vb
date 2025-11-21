@@ -27,6 +27,7 @@ Public Class Dashboard
     Private cartControl As New CartControl()
     Private expensesControl As New ExpensesControl()
     Private dashboardControl As New DashboardControl()
+    Private accountsControl As New AccountsControl()
 
     Private Sub ShowPanel(panelToShow As Control)
         'pnlMain.SuspendLayout()
@@ -56,22 +57,22 @@ Public Class Dashboard
     Public Sub Dashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler expensesControl.ExpensesUpdated, AddressOf dashboardControl.RefreshDashboard
 
-        Login.Hide()
-
         'add UserControls to main panel to switch
         pnlMain.Controls.Add(stocksControl)
         pnlMain.Controls.Add(transactionsControl)
         pnlMain.Controls.Add(cartControl)
         pnlMain.Controls.Add(expensesControl)
         pnlMain.Controls.Add(dashboardControl)
+        pnlMain.Controls.Add(accountsControl)
 
         stocksControl.Dock = DockStyle.Fill
         transactionsControl.Dock = DockStyle.Fill
         cartControl.Dock = DockStyle.Fill
         expensesControl.Dock = DockStyle.Fill
         dashboardControl.Dock = DockStyle.Fill
+        accountsControl.Dock = DockStyle.Fill
 
-        btnCart.PerformClick()
+        btnDashboardControl.PerformClick()
     End Sub
     'Minimize application
     Private Sub btnMinimize_Click(sender As Object, e As EventArgs) Handles btnMinimize.Click
@@ -110,6 +111,6 @@ Public Class Dashboard
     End Sub
 
     Private Sub btnManageAccounts_Click(sender As Object, e As EventArgs) Handles btnManageAccounts.Click
-
+        ShowPanel(accountsControl)
     End Sub
 End Class

@@ -7,6 +7,31 @@ Public Class ExpensesControl
     Dim categoryFilter() As String = {"All", "Utilities", "Rent", "Salaries", "Supplies", "Maintenance", "Miscellaneous"}
     Dim paymentFilter() As String = {"All", "Paid", "Unpaid"}
 
+    Private _loggedInUserId As Integer
+    Public Property LoggedInUserId As Integer
+        Get
+            Return _loggedInUserId
+        End Get
+        Set(value As Integer)
+            _loggedInUserId = value
+            ApplyRoleRestrictions()
+        End Set
+    End Property
+
+    Private Sub ApplyRoleRestrictions()
+        If _loggedInUserId = 0 Then Exit Sub
+
+        Dim role As String = GetLoggedInUserRole() ' fetch from DB
+        If role = "Employee" Then
+            ' Disable admin-only controls
+            gbAddUpdateExpense.Enabled = False
+            btnRemoveExpense.Enabled = False
+            btnAddExpense.Enabled = False
+            btnMarkAsPaid.Enabled = False
+        End If
+    End Sub
+
+
     'Return total paid and unpaid expenses specifically for dashboard access
     Public ReadOnly Property TotalPaid As Decimal
         Get
@@ -24,11 +49,26 @@ Public Class ExpensesControl
     Private _totalPaid As Decimal
     Private _totalUnpaid As Decimal
 
+    Private Function GetLoggedInUserRole() As String
+        If LoggedInUserId = 0 Then Return String.Empty
 
-    Dim x As New List(Of Double)
-    Dim y As New List(Of Double)
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+            Dim query As String = "SELECT Role FROM Users WHERE UserID = @id;"
+            Using cmd As New SqlCommand(query, con)
+                cmd.Parameters.AddWithValue("@id", LoggedInUserId)
+                Dim roleObj = cmd.ExecuteScalar()
+                Return If(roleObj IsNot Nothing, roleObj.ToString(), String.Empty)
+            End Using
+        End Using
+    End Function
 
+
+
+    'public event to notify dashboard of updates
     Public Event ExpensesUpdated()
+
+    ' Set logged in user and apply restrictions
 
 
     ' Get total expenses with optional filters
@@ -96,6 +136,7 @@ Public Class ExpensesControl
         LoadDailyExpenseChart()
         LoadCategoryChart()
         RecalculateTotalsFromTable()
+        ApplyRoleRestrictions()
     End Sub
 
     Private Sub RecalculateTotalsFromTable()

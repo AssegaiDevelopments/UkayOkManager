@@ -41,6 +41,7 @@ Public Class Login
                 Else
                     MsgBox("Invalid username or password.", vbExclamation, "Invalid")
                 End If
+
             End Using
         End Using
 
@@ -70,7 +71,9 @@ Public Class Login
 
     Sub LoginSuccess()
         Dim Dashboard As New Dashboard()
+        'Dashboard.LoggedInUserId = Convert.ToInt32(txtbUser.Tag) ' or store from reader
         Dashboard.Show()
+        Me.Hide() ' hide login
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click

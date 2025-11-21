@@ -30,7 +30,7 @@ Partial Class ExpensesControl
         Label2 = New Label()
         lblTotalUnpaid = New Label()
         Label3 = New Label()
-        GroupBox1 = New GroupBox()
+        gbAddUpdateExpense = New GroupBox()
         Label5 = New Label()
         Label6 = New Label()
         btnUpdateExpenses = New Button()
@@ -69,7 +69,7 @@ Partial Class ExpensesControl
         BufferedPanel1 = New BufferedPanel()
         CType(nudExpenseAmount, ComponentModel.ISupportInitialize).BeginInit()
         CType(dgvExpenses, ComponentModel.ISupportInitialize).BeginInit()
-        GroupBox1.SuspendLayout()
+        gbAddUpdateExpense.SuspendLayout()
         GroupBox2.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         GroupBox3.SuspendLayout()
@@ -163,27 +163,27 @@ Partial Class ExpensesControl
         Label3.TabIndex = 29
         Label3.Text = "Expenses"
         ' 
-        ' GroupBox1
+        ' gbAddUpdateExpense
         ' 
-        GroupBox1.Controls.Add(Label5)
-        GroupBox1.Controls.Add(Label6)
-        GroupBox1.Controls.Add(btnAddExpense)
-        GroupBox1.Controls.Add(btnUpdateExpenses)
-        GroupBox1.Controls.Add(Label7)
-        GroupBox1.Controls.Add(cbPaymentStatus)
-        GroupBox1.Controls.Add(cbExpensesCategory)
-        GroupBox1.Controls.Add(dtpExpensesDueDate)
-        GroupBox1.Controls.Add(txtbDescription)
-        GroupBox1.Controls.Add(nudExpenseAmount)
-        GroupBox1.Controls.Add(Label2)
-        GroupBox1.Controls.Add(Label1)
-        GroupBox1.ForeColor = Color.White
-        GroupBox1.Location = New Point(9, 223)
-        GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(329, 214)
-        GroupBox1.TabIndex = 30
-        GroupBox1.TabStop = False
-        GroupBox1.Text = "Add/Update Expense"
+        gbAddUpdateExpense.Controls.Add(Label5)
+        gbAddUpdateExpense.Controls.Add(Label6)
+        gbAddUpdateExpense.Controls.Add(btnAddExpense)
+        gbAddUpdateExpense.Controls.Add(btnUpdateExpenses)
+        gbAddUpdateExpense.Controls.Add(Label7)
+        gbAddUpdateExpense.Controls.Add(cbPaymentStatus)
+        gbAddUpdateExpense.Controls.Add(cbExpensesCategory)
+        gbAddUpdateExpense.Controls.Add(dtpExpensesDueDate)
+        gbAddUpdateExpense.Controls.Add(txtbDescription)
+        gbAddUpdateExpense.Controls.Add(nudExpenseAmount)
+        gbAddUpdateExpense.Controls.Add(Label2)
+        gbAddUpdateExpense.Controls.Add(Label1)
+        gbAddUpdateExpense.ForeColor = Color.White
+        gbAddUpdateExpense.Location = New Point(9, 223)
+        gbAddUpdateExpense.Name = "gbAddUpdateExpense"
+        gbAddUpdateExpense.Size = New Size(329, 214)
+        gbAddUpdateExpense.TabIndex = 30
+        gbAddUpdateExpense.TabStop = False
+        gbAddUpdateExpense.Text = "Add/Update Expense"
         ' 
         ' Label5
         ' 
@@ -589,7 +589,7 @@ Partial Class ExpensesControl
         ' 
         BufferedPanel1.Controls.Add(Label3)
         BufferedPanel1.Controls.Add(GroupBox2)
-        BufferedPanel1.Controls.Add(GroupBox1)
+        BufferedPanel1.Controls.Add(gbAddUpdateExpense)
         BufferedPanel1.Controls.Add(GroupBox3)
         BufferedPanel1.Dock = DockStyle.Left
         BufferedPanel1.Location = New Point(0, 0)
@@ -610,8 +610,8 @@ Partial Class ExpensesControl
         Size = New Size(1135, 682)
         CType(nudExpenseAmount, ComponentModel.ISupportInitialize).EndInit()
         CType(dgvExpenses, ComponentModel.ISupportInitialize).EndInit()
-        GroupBox1.ResumeLayout(False)
-        GroupBox1.PerformLayout()
+        gbAddUpdateExpense.ResumeLayout(False)
+        gbAddUpdateExpense.PerformLayout()
         GroupBox2.ResumeLayout(False)
         TableLayoutPanel1.ResumeLayout(False)
         GroupBox3.ResumeLayout(False)
@@ -633,7 +633,7 @@ Partial Class ExpensesControl
     Friend WithEvents Label2 As Label
     Friend WithEvents lblTotalUnpaid As Label
     Friend WithEvents Label3 As Label
-    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents gbAddUpdateExpense As GroupBox
     Friend WithEvents Label5 As Label
     Friend WithEvents Label6 As Label
     Friend WithEvents Label7 As Label

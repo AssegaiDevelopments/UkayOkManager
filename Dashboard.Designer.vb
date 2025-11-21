@@ -121,13 +121,13 @@ Partial Class Dashboard
         ' btnCart
         ' 
         btnCart.Anchor = AnchorStyles.Left
-        btnCart.BackColor = Color.SeaGreen
+        btnCart.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
         btnCart.Cursor = Cursors.Hand
         btnCart.FlatAppearance.BorderSize = 0
         btnCart.FlatStyle = FlatStyle.Flat
         btnCart.Font = New Font("Segoe UI Emoji", 9.75F)
         btnCart.ForeColor = Color.White
-        btnCart.Location = New Point(0, 0)
+        btnCart.Location = New Point(0, 42)
         btnCart.Margin = New Padding(0)
         btnCart.Name = "btnCart"
         btnCart.Size = New Size(145, 42)
@@ -146,7 +146,7 @@ Partial Class Dashboard
         btnViewTransaction.FlatStyle = FlatStyle.Flat
         btnViewTransaction.Font = New Font("Segoe UI Emoji", 9.75F)
         btnViewTransaction.ForeColor = Color.White
-        btnViewTransaction.Location = New Point(0, 42)
+        btnViewTransaction.Location = New Point(0, 84)
         btnViewTransaction.Margin = New Padding(0)
         btnViewTransaction.Name = "btnViewTransaction"
         btnViewTransaction.Size = New Size(145, 42)
@@ -169,11 +169,11 @@ Partial Class Dashboard
         ' 
         ' flpSidebar
         ' 
+        flpSidebar.Controls.Add(btnDashboardControl)
         flpSidebar.Controls.Add(btnCart)
         flpSidebar.Controls.Add(btnViewTransaction)
         flpSidebar.Controls.Add(btnManageStocks)
         flpSidebar.Controls.Add(btnExpenses)
-        flpSidebar.Controls.Add(btnDashboardControl)
         flpSidebar.Controls.Add(btnManageAccounts)
         flpSidebar.Dock = DockStyle.Bottom
         flpSidebar.Location = New Point(0, 68)
@@ -190,7 +190,7 @@ Partial Class Dashboard
         btnManageStocks.FlatStyle = FlatStyle.Flat
         btnManageStocks.Font = New Font("Segoe UI Emoji", 9.75F)
         btnManageStocks.ForeColor = Color.White
-        btnManageStocks.Location = New Point(0, 84)
+        btnManageStocks.Location = New Point(0, 126)
         btnManageStocks.Margin = New Padding(0)
         btnManageStocks.Name = "btnManageStocks"
         btnManageStocks.Size = New Size(145, 42)
@@ -209,7 +209,7 @@ Partial Class Dashboard
         btnExpenses.FlatStyle = FlatStyle.Flat
         btnExpenses.Font = New Font("Segoe UI Emoji", 9.75F)
         btnExpenses.ForeColor = Color.White
-        btnExpenses.Location = New Point(0, 126)
+        btnExpenses.Location = New Point(0, 168)
         btnExpenses.Margin = New Padding(0)
         btnExpenses.Name = "btnExpenses"
         btnExpenses.Size = New Size(145, 42)
@@ -222,13 +222,13 @@ Partial Class Dashboard
         ' btnDashboardControl
         ' 
         btnDashboardControl.Anchor = AnchorStyles.Left
-        btnDashboardControl.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
+        btnDashboardControl.BackColor = Color.SeaGreen
         btnDashboardControl.Cursor = Cursors.Hand
         btnDashboardControl.FlatAppearance.BorderSize = 0
         btnDashboardControl.FlatStyle = FlatStyle.Flat
         btnDashboardControl.Font = New Font("Segoe UI Emoji", 9.75F)
         btnDashboardControl.ForeColor = Color.White
-        btnDashboardControl.Location = New Point(0, 168)
+        btnDashboardControl.Location = New Point(0, 0)
         btnDashboardControl.Margin = New Padding(0)
         btnDashboardControl.Name = "btnDashboardControl"
         btnDashboardControl.Size = New Size(145, 42)
