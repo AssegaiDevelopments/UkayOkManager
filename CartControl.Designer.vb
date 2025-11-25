@@ -595,7 +595,7 @@ Partial Class CartControl
         lblStock.Location = New Point(238, 36)
         lblStock.Name = "lblStock"
         lblStock.RightToLeft = RightToLeft.No
-        lblStock.Size = New Size(211, 20)
+        lblStock.Size = New Size(211, 26)
         lblStock.TabIndex = 42
         lblStock.Text = "0"
         lblStock.TextAlign = ContentAlignment.MiddleLeft
@@ -641,10 +641,10 @@ Partial Class CartControl
         dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvCart.EditMode = DataGridViewEditMode.EditProgrammatically
         dgvCart.GridColor = Color.White
-        dgvCart.Location = New Point(16, 78)
+        dgvCart.Location = New Point(3, 78)
         dgvCart.Name = "dgvCart"
         dgvCart.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvCart.Size = New Size(1102, 446)
+        dgvCart.Size = New Size(1129, 446)
         dgvCart.TabIndex = 60
         ' 
         ' btnCheckout

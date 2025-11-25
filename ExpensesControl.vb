@@ -128,10 +128,17 @@ Public Class ExpensesControl
         cbFilterStatus.SelectedIndex = 0
     End Sub
     Private Sub ExpensesControl_Load(sender As Object, e As EventArgs) Handles Me.Load
-
         InitializeExpenses()
+        ApplyRoleRestrictions()
     End Sub
 
+    Private Sub RefreshExpenses()
+        LoadComboBoxes()
+        LoadExpenses()
+        LoadDailyExpenseChart()
+        LoadCategoryChart()
+        RecalculateTotalsFromTable()
+    End Sub
     'initialize expenses datagridview
     Public Sub InitializeExpenses()
         dgvExpenses.AllowUserToAddRows = False
@@ -139,12 +146,7 @@ Public Class ExpensesControl
         dgvExpenses.DefaultCellStyle.ForeColor = System.Drawing.Color.Black
         chartCategoryExpenses.Plot.Title()
         chartDailyExpenses.Plot.DataBackground.Color = Colors.White
-        LoadComboBoxes()
-        LoadExpenses()
-        LoadDailyExpenseChart()
-        LoadCategoryChart()
-        RecalculateTotalsFromTable()
-        ApplyRoleRestrictions()
+        RefreshExpenses()
     End Sub
 
     Private Sub RecalculateTotalsFromTable()
@@ -245,7 +247,7 @@ Public Class ExpensesControl
             End Using
 
             ' Refresh the DataGridView
-            LoadExpenses()
+            RefreshExpenses()
             RaiseEvent ExpensesUpdated()
             ' Optional: Clear inputs
             txtbDescription.Clear()
@@ -269,7 +271,7 @@ Public Class ExpensesControl
                 cmd.ExecuteNonQuery()
             End Using
             RaiseEvent ExpensesUpdated()
-            LoadExpenses()
+            RefreshExpenses()
         End If
     End Sub
     'apply filters to expenses

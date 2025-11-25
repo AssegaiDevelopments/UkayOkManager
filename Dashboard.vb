@@ -82,9 +82,6 @@ Public Class Dashboard
 
         ' Subscribe to expense updates
         AddHandler expensesControl.ExpensesUpdated, AddressOf dashboardControl.RefreshDashboard
-
-        ' Show the default panel
-        btnDashboardControl.PerformClick()
     End Sub
 
 
@@ -133,4 +130,15 @@ Public Class Dashboard
         WindowState = FormWindowState.Minimized
     End Sub
 
+    Private Sub Dashboard_Load(sender As Object, e As EventArgs) Handles Me.Load
+        ' Show the default panel
+        btnDashboardControl.PerformClick()
+        'timer
+        timer.Enabled = True
+        timer.Start()
+    End Sub
+
+    Private Sub timer_Tick(sender As Object, e As EventArgs) Handles timer.Tick
+        lblTimeDisplay.Text = DateTime.Now.ToString("MMMM dd, yyyy  |  hh:mm:ss tt")
+    End Sub
 End Class

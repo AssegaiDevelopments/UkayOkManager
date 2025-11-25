@@ -53,6 +53,8 @@ Partial Class DashboardControl
         Label1 = New Label()
         Label13 = New Label()
         chartSales = New ScottPlot.WinForms.FormsPlot()
+        TableLayoutPanel2 = New TableLayoutPanel()
+        chartTopProducts = New ScottPlot.WinForms.FormsPlot()
         TableLayoutPanel1.SuspendLayout()
         RoundedPanel10.SuspendLayout()
         RoundedPanel2.SuspendLayout()
@@ -63,14 +65,16 @@ Partial Class DashboardControl
         RoundedPanel5.SuspendLayout()
         RoundedPanel4.SuspendLayout()
         RoundedPanel1.SuspendLayout()
+        TableLayoutPanel2.SuspendLayout()
         SuspendLayout()
         ' 
         ' chartCategory
         ' 
         chartCategory.DisplayScale = 1F
-        chartCategory.Location = New Point(603, 343)
+        chartCategory.Dock = DockStyle.Fill
+        chartCategory.Location = New Point(759, 3)
         chartCategory.Name = "chartCategory"
-        chartCategory.Size = New Size(462, 317)
+        chartCategory.Size = New Size(373, 388)
         chartCategory.TabIndex = 1
         ' 
         ' TableLayoutPanel1
@@ -409,11 +413,11 @@ Partial Class DashboardControl
         ' 
         ' Label13
         ' 
-        Label13.Anchor = AnchorStyles.Right
+        Label13.Anchor = AnchorStyles.None
         Label13.AutoSize = True
         Label13.Font = New Font("Segoe UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label13.ForeColor = Color.White
-        Label13.Location = New Point(78, 22)
+        Label13.Location = New Point(40, 22)
         Label13.Name = "Label13"
         Label13.Size = New Size(202, 50)
         Label13.TabIndex = 12
@@ -422,18 +426,44 @@ Partial Class DashboardControl
         ' chartSales
         ' 
         chartSales.DisplayScale = 1F
-        chartSales.Location = New Point(89, 343)
+        chartSales.Dock = DockStyle.Fill
+        chartSales.Location = New Point(381, 3)
         chartSales.Name = "chartSales"
-        chartSales.Size = New Size(424, 311)
+        chartSales.Size = New Size(372, 388)
         chartSales.TabIndex = 5
+        ' 
+        ' TableLayoutPanel2
+        ' 
+        TableLayoutPanel2.ColumnCount = 3
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel2.Controls.Add(chartCategory, 2, 0)
+        TableLayoutPanel2.Controls.Add(chartSales, 1, 0)
+        TableLayoutPanel2.Controls.Add(chartTopProducts, 0, 0)
+        TableLayoutPanel2.Dock = DockStyle.Bottom
+        TableLayoutPanel2.Location = New Point(0, 288)
+        TableLayoutPanel2.Name = "TableLayoutPanel2"
+        TableLayoutPanel2.RowCount = 1
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        TableLayoutPanel2.Size = New Size(1135, 394)
+        TableLayoutPanel2.TabIndex = 6
+        ' 
+        ' chartTopProducts
+        ' 
+        chartTopProducts.DisplayScale = 1F
+        chartTopProducts.Dock = DockStyle.Fill
+        chartTopProducts.Location = New Point(3, 3)
+        chartTopProducts.Name = "chartTopProducts"
+        chartTopProducts.Size = New Size(372, 388)
+        chartTopProducts.TabIndex = 6
         ' 
         ' DashboardControl
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
-        Controls.Add(chartCategory)
-        Controls.Add(chartSales)
+        Controls.Add(TableLayoutPanel2)
         Controls.Add(TableLayoutPanel1)
         Name = "DashboardControl"
         Size = New Size(1135, 682)
@@ -457,6 +487,7 @@ Partial Class DashboardControl
         RoundedPanel4.PerformLayout()
         RoundedPanel1.ResumeLayout(False)
         RoundedPanel1.PerformLayout()
+        TableLayoutPanel2.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
     Friend WithEvents RoundedPanel2 As RoundedPanel
@@ -491,5 +522,7 @@ Partial Class DashboardControl
     Friend WithEvents RoundedPanel10 As RoundedPanel
     Friend WithEvents lblUpcomingExpensesWeek As Label
     Friend WithEvents Label3 As Label
+    Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
+    Friend WithEvents chartTopProducts As ScottPlot.WinForms.FormsPlot
 
 End Class

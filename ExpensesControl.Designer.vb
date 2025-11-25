@@ -157,7 +157,7 @@ Partial Class ExpensesControl
         Label3.BackColor = Color.Transparent
         Label3.Font = New Font("Malgun Gothic", 20.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label3.ForeColor = Color.White
-        Label3.Location = New Point(9, 30)
+        Label3.Location = New Point(9, 20)
         Label3.Name = "Label3"
         Label3.Size = New Size(134, 37)
         Label3.TabIndex = 29
@@ -515,8 +515,8 @@ Partial Class ExpensesControl
         ' TableLayoutPanel2
         ' 
         TableLayoutPanel2.ColumnCount = 2
-        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50.0F))
-        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50.0F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         TableLayoutPanel2.Controls.Add(RoundedPanel2, 0, 0)
         TableLayoutPanel2.Controls.Add(chartDailyExpenses, 1, 0)
         TableLayoutPanel2.Controls.Add(RoundedPanel1, 1, 1)
@@ -525,9 +525,9 @@ Partial Class ExpensesControl
         TableLayoutPanel2.Location = New Point(506, 0)
         TableLayoutPanel2.Name = "TableLayoutPanel2"
         TableLayoutPanel2.RowCount = 3
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50.0F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50.0F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20.0F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
         TableLayoutPanel2.Size = New Size(629, 443)
         TableLayoutPanel2.TabIndex = 45
         ' 
@@ -576,7 +576,7 @@ Partial Class ExpensesControl
         Label11.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         Label11.AutoSize = True
         Label11.BackColor = Color.Transparent
-        Label11.Font = New Font("Segoe UI", 72.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label11.Font = New Font("Segoe UI", 72F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label11.ForeColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
         Label11.Location = New Point(-38, 92)
         Label11.Name = "Label11"

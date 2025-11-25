@@ -85,6 +85,17 @@ Public Class DashboardControl
                     Dim result = cmd.ExecuteScalar()
                     totalSalesMonth = If(IsDBNull(result), 0D, Convert.ToDecimal(result))
                 End Using
+                Dim queryLastWeekNetProfit As String = "
+                      SELECT SUM(TotalAmount) 
+                      FROM Transactions 
+                      WHERE CAST(TransactionDate AS DATE) BETWEEN @fromDate AND @toDate;"
+
+                Using cmd As New SqlCommand(queryLastWeekNetProfit, con)
+                    cmd.Parameters.AddWithValue("@fromDate", Date.Today.AddDays(-6)) ' last 7 days including today
+                    cmd.Parameters.AddWithValue("@toDate", Date.Today)
+                    Dim result = cmd.ExecuteScalar()
+                    netProfitLastWeek = If(IsDBNull(result), 0D, Convert.ToDecimal(result))
+                End Using
             End Using
 
             ' --- Get expenses from ExpensesControl ---
@@ -110,6 +121,7 @@ Public Class DashboardControl
             lblUpcomingExpensesWeek.Text = totalNext7Days.ToString("₱#,##0.00")
             lblNetProfit.Text = netProfit.ToString("₱#,##0.00")
             lblTotalSalesMonth.Text = totalSalesMonth.ToString("₱#,##0.00")
+            lblNetProfitLastWeek.Text = netProfitLastWeek.ToString("₱#,##0.00")
 
             ' --- Refresh charts ---
             LoadDailySalesChart()
@@ -260,6 +272,52 @@ Public Class DashboardControl
         chartCategory.UserInputProcessor.IsEnabled = False
 
         chartCategory.Refresh()
+    End Sub
+
+    Private Sub LoadTopProductsChart()
+        Dim topProducts As New List(Of String)()
+        Dim topTotals As New List(Of Double)()
+
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+            Dim query As String = "
+        SELECT TOP 5 ProductName, SUM(Quantity) AS TotalSold
+        FROM TransactionItems
+        GROUP BY ProductName
+        ORDER BY TotalSold DESC;"
+
+            Using cmd As New SqlCommand(query, con)
+                Using reader As SqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        topProducts.Add(reader("ProductName").ToString())
+                        topTotals.Add(Convert.ToDouble(reader("TotalSold")))
+                    End While
+                End Using
+            End Using
+        End Using
+
+        chartTopProducts.Plot.Clear()
+
+        If topProducts.Count = 0 Then
+            chartTopProducts.Refresh()
+            Return
+        End If
+
+        ' ScottPlot horizontal bars use BarH()
+        Dim values = topTotals.ToArray()
+        Dim positions = Enumerable.Range(0, topProducts.Count).Select(Function(i) CDbl(i)).ToArray()
+        Dim hbar = chartTopProducts.Plot.Add.Bars(values, positions)
+        hbar.Horizontal = True
+        ' Set labels for each bar
+        chartTopProducts.Plot.Axes.Left.SetTicks(positions, topProducts.ToArray())
+
+        ' Style
+        chartTopProducts.Plot.Title("Top 5 Products Sold")
+        chartTopProducts.Plot.XLabel("Quantity Sold")
+        chartTopProducts.Plot.YLabel("Product")
+        chartTopProducts.Plot.Axes.Margins(left:=0.15) ' leave space for product names
+        chartTopProducts.Refresh()
+
     End Sub
 
 End Class

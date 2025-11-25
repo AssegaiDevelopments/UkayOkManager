@@ -41,6 +41,7 @@ Public Class AccountsControl
             btnAddUser.Enabled = False
             btnSetUserStatus.Enabled = False
             btnUpdateUserRole.Enabled = False
+            txtUsername.Enabled = False
             txtConfirmPassword.Enabled = False
             txtPassword.Enabled = False
             cbNewRole.Enabled = False

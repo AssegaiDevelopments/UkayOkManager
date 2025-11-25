@@ -22,8 +22,10 @@ Partial Class Dashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Dashboard))
         pnlNav = New Panel()
+        lblTimeDisplay = New Label()
         FlowLayoutPanel1 = New FlowLayoutPanel()
         btnExit = New Button()
         btnMinimize = New Button()
@@ -46,6 +48,7 @@ Partial Class Dashboard
         SqlCommand2 = New Microsoft.Data.SqlClient.SqlCommand()
         SqlCommand1 = New Microsoft.Data.SqlClient.SqlCommand()
         BufferedPanel1 = New BufferedPanel()
+        timer = New Timer(components)
         pnlNav.SuspendLayout()
         FlowLayoutPanel1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -57,12 +60,25 @@ Partial Class Dashboard
         ' pnlNav
         ' 
         pnlNav.BackColor = Color.Transparent
+        pnlNav.Controls.Add(lblTimeDisplay)
         pnlNav.Controls.Add(FlowLayoutPanel1)
         pnlNav.Dock = DockStyle.Top
         pnlNav.Location = New Point(145, 0)
         pnlNav.Name = "pnlNav"
         pnlNav.Size = New Size(1135, 38)
         pnlNav.TabIndex = 48
+        ' 
+        ' lblTimeDisplay
+        ' 
+        lblTimeDisplay.Anchor = AnchorStyles.Left
+        lblTimeDisplay.AutoSize = True
+        lblTimeDisplay.Font = New Font("Verdana", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblTimeDisplay.ForeColor = Color.White
+        lblTimeDisplay.Location = New Point(15, 14)
+        lblTimeDisplay.Name = "lblTimeDisplay"
+        lblTimeDisplay.Size = New Size(163, 18)
+        lblTimeDisplay.TabIndex = 19
+        lblTimeDisplay.Text = "Loading Date/Time..."
         ' 
         ' FlowLayoutPanel1
         ' 
@@ -151,10 +167,10 @@ Partial Class Dashboard
         btnCart.FlatStyle = FlatStyle.Flat
         btnCart.Font = New Font("Segoe UI Emoji", 9.75F)
         btnCart.ForeColor = Color.White
-        btnCart.Location = New Point(0, 81)
+        btnCart.Location = New Point(0, 58)
         btnCart.Margin = New Padding(0)
         btnCart.Name = "btnCart"
-        btnCart.Size = New Size(145, 81)
+        btnCart.Size = New Size(145, 58)
         btnCart.TabIndex = 28
         btnCart.Tag = "CartControl"
         btnCart.Text = ChrW(55357) & ChrW(57042) & " Cart"
@@ -170,10 +186,10 @@ Partial Class Dashboard
         btnViewTransaction.FlatStyle = FlatStyle.Flat
         btnViewTransaction.Font = New Font("Segoe UI Emoji", 9.75F)
         btnViewTransaction.ForeColor = Color.White
-        btnViewTransaction.Location = New Point(0, 162)
+        btnViewTransaction.Location = New Point(0, 116)
         btnViewTransaction.Margin = New Padding(0)
         btnViewTransaction.Name = "btnViewTransaction"
-        btnViewTransaction.Size = New Size(145, 81)
+        btnViewTransaction.Size = New Size(145, 58)
         btnViewTransaction.TabIndex = 26
         btnViewTransaction.Tag = "ViewTransactionsControl"
         btnViewTransaction.Text = "📠 Transaction Logs"
@@ -217,7 +233,7 @@ Partial Class Dashboard
         btnDashboardControl.Location = New Point(0, 0)
         btnDashboardControl.Margin = New Padding(0)
         btnDashboardControl.Name = "btnDashboardControl"
-        btnDashboardControl.Size = New Size(145, 81)
+        btnDashboardControl.Size = New Size(145, 58)
         btnDashboardControl.TabIndex = 30
         btnDashboardControl.Tag = "DashboardControl"
         btnDashboardControl.Text = "📈 Dashboard"
@@ -233,10 +249,10 @@ Partial Class Dashboard
         btnManageStocks.FlatStyle = FlatStyle.Flat
         btnManageStocks.Font = New Font("Segoe UI Emoji", 9.75F)
         btnManageStocks.ForeColor = Color.White
-        btnManageStocks.Location = New Point(0, 243)
+        btnManageStocks.Location = New Point(0, 174)
         btnManageStocks.Margin = New Padding(0)
         btnManageStocks.Name = "btnManageStocks"
-        btnManageStocks.Size = New Size(145, 81)
+        btnManageStocks.Size = New Size(145, 58)
         btnManageStocks.TabIndex = 0
         btnManageStocks.Tag = "ManageStocksControl"
         btnManageStocks.Text = "📦 Manage Stocks"
@@ -252,10 +268,10 @@ Partial Class Dashboard
         btnExpenses.FlatStyle = FlatStyle.Flat
         btnExpenses.Font = New Font("Segoe UI Emoji", 9.75F)
         btnExpenses.ForeColor = Color.White
-        btnExpenses.Location = New Point(0, 324)
+        btnExpenses.Location = New Point(0, 232)
         btnExpenses.Margin = New Padding(0)
         btnExpenses.Name = "btnExpenses"
-        btnExpenses.Size = New Size(145, 81)
+        btnExpenses.Size = New Size(145, 58)
         btnExpenses.TabIndex = 29
         btnExpenses.Tag = "ExpensesControl"
         btnExpenses.Text = "💱 Expenses"
@@ -271,10 +287,10 @@ Partial Class Dashboard
         btnManageAccounts.FlatStyle = FlatStyle.Flat
         btnManageAccounts.Font = New Font("Segoe UI Emoji", 9.75F)
         btnManageAccounts.ForeColor = Color.White
-        btnManageAccounts.Location = New Point(0, 405)
+        btnManageAccounts.Location = New Point(0, 290)
         btnManageAccounts.Margin = New Padding(0)
         btnManageAccounts.Name = "btnManageAccounts"
-        btnManageAccounts.Size = New Size(145, 81)
+        btnManageAccounts.Size = New Size(145, 58)
         btnManageAccounts.TabIndex = 31
         btnManageAccounts.Tag = "AccountsControl"
         btnManageAccounts.Text = "👤 Manage Accounts"
@@ -357,6 +373,10 @@ Partial Class Dashboard
         BufferedPanel1.Size = New Size(1280, 720)
         BufferedPanel1.TabIndex = 2
         ' 
+        ' timer
+        ' 
+        timer.Interval = 1000
+        ' 
         ' Dashboard
         ' 
         AutoScaleDimensions = New SizeF(96F, 96F)
@@ -376,6 +396,7 @@ Partial Class Dashboard
         Text = "UkayOk Cart"
         WindowState = FormWindowState.Maximized
         pnlNav.ResumeLayout(False)
+        pnlNav.PerformLayout()
         FlowLayoutPanel1.ResumeLayout(False)
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         pnlSidebar.ResumeLayout(False)
@@ -407,4 +428,6 @@ Partial Class Dashboard
     Friend WithEvents BufferedPanel1 As BufferedPanel
     Friend WithEvents btnManageAccounts As Button
     Friend WithEvents btnLogOut As Button
+    Friend WithEvents lblTimeDisplay As Label
+    Friend WithEvents timer As Timer
 End Class
