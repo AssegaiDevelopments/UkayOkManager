@@ -259,6 +259,7 @@ Partial Class AccountsControl
         ' 
         ' BufferedPanel
         ' 
+        BufferedPanel.BackColor = Color.MidnightBlue
         BufferedPanel.Controls.Add(Label5)
         BufferedPanel.Controls.Add(TableLayoutPanel1)
         BufferedPanel.Dock = DockStyle.Fill

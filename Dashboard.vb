@@ -52,6 +52,28 @@ Public Class Dashboard
         panelToShow.BringToFront()
     End Sub
 
+    Private Function GetLoggedInUserRole() As String
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+            Dim query As String = "SELECT Role FROM Users WHERE UserID=@id"
+            Using cmd As New SqlCommand(query, con)
+                cmd.Parameters.AddWithValue("@id", _LoggedInUserId)
+                Dim roleObj = cmd.ExecuteScalar()
+                Return If(roleObj IsNot Nothing, roleObj.ToString(), String.Empty)
+            End Using
+        End Using
+    End Function
+
+    Private Sub ApplyRoleRestrictions()
+        If _LoggedInUserId = 0 Then Exit Sub
+
+        Dim role As String = GetLoggedInUserRole() ' fetch from DB
+        If role = "Employee" Then
+            ' Disable admin-only controls
+            btnManageAccounts.Visible = False
+        End If
+    End Sub
+
     ' --- Initialize dashboard after setting user ID ---
     Public Sub InitializeDashboard(userId As String)
         Me.LoggedInUserId = userId
@@ -75,10 +97,12 @@ Public Class Dashboard
         End If
 
         ' Pass user ID to all controls that need it
+        ' Other controls can use LoggedInUserId internally as needed
         stocksControl.LoggedInUserId = userId
         expensesControl.LoggedInUserId = userId
         accountsControl.LoggedInUserId = userId
-        ' Other controls can use LoggedInUserId internally as needed
+
+        ApplyRoleRestrictions()
 
         ' Subscribe to expense updates
         AddHandler expensesControl.ExpensesUpdated, AddressOf dashboardControl.RefreshDashboard

@@ -363,7 +363,7 @@ Partial Class CartControl
         nudXQuantity.Enabled = False
         nudXQuantity.Increment = New Decimal(New Integer() {5, 0, 0, 0})
         nudXQuantity.Location = New Point(11, 38)
-        nudXQuantity.Maximum = New Decimal(New Integer() {95, 0, 0, 0})
+        nudXQuantity.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
         nudXQuantity.Name = "nudXQuantity"
         nudXQuantity.Size = New Size(70, 23)
         nudXQuantity.TabIndex = 52
@@ -374,7 +374,7 @@ Partial Class CartControl
         nudYPrice.Enabled = False
         nudYPrice.Increment = New Decimal(New Integer() {5, 0, 0, 0})
         nudYPrice.Location = New Point(86, 38)
-        nudYPrice.Maximum = New Decimal(New Integer() {95, 0, 0, 0})
+        nudYPrice.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         nudYPrice.Name = "nudYPrice"
         nudYPrice.Size = New Size(70, 23)
         nudYPrice.TabIndex = 51
@@ -466,7 +466,7 @@ Partial Class CartControl
         nudGlobalPrice.Enabled = False
         nudGlobalPrice.Increment = New Decimal(New Integer() {5, 0, 0, 0})
         nudGlobalPrice.Location = New Point(17, 37)
-        nudGlobalPrice.Maximum = New Decimal(New Integer() {95, 0, 0, 0})
+        nudGlobalPrice.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         nudGlobalPrice.Name = "nudGlobalPrice"
         nudGlobalPrice.Size = New Size(70, 23)
         nudGlobalPrice.TabIndex = 49

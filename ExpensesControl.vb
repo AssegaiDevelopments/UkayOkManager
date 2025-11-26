@@ -597,7 +597,7 @@ Public Class ExpensesControl
                 Using writer As New IO.StreamWriter(sfd.FileName)
                     Dim table As New DataTable()
 
-                    ' 1️ Decide what data to export
+                    ' Decide what data to export
                     If chkExportAll.Checked Then
                         ' Fetch all expenses from DB
                         Using con As New SqlConnection(connectAs)
@@ -614,14 +614,14 @@ Public Class ExpensesControl
                         table = CType(dgvExpenses.DataSource, DataTable).Copy()
                     End If
 
-                    ' 2️ Write header row
+                    ' Write header row
                     Dim headers As New List(Of String)
                     For Each col As DataColumn In table.Columns
                         headers.Add(col.ColumnName)
                     Next
                     writer.WriteLine(String.Join(",", headers))
 
-                    ' 3️ Write data rows
+                    ' Write data rows
                     Dim totalAmount As Decimal = 0D
                     For Each row As DataRow In table.Rows
                         Dim cells As New List(Of String)
@@ -642,7 +642,7 @@ Public Class ExpensesControl
                         writer.WriteLine(String.Join(",", cells))
                     Next
 
-                    ' 4️ Add totals row
+                    ' Add totals row
                     If table.Columns.Contains("Amount") Then
                         Dim totalRow As New List(Of String)
                         For Each col As DataColumn In table.Columns
