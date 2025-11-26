@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.Data.SqlClient
 Imports ScottPlot
+Imports ScottPlot.Interactivity
 
 Public Class DashboardControl
     'set expenses control reference; subscribe to its update event
@@ -126,6 +127,8 @@ Public Class DashboardControl
             ' --- Refresh charts ---
             LoadDailySalesChart()
             LoadCategoryChart()
+            LoadHourlyHeatmap()
+
 
         Catch ex As Exception
             MessageBox.Show("Dashboard refresh failed: " & ex.Message,
@@ -151,6 +154,90 @@ Public Class DashboardControl
         chartSales.Plot.Clear()
 
     End Sub
+    'LoadHourlyHeatmap()
+    Private Sub LoadHourlyHeatmap()
+        Dim heatmapData(6, 23) As Double  ' 7 days × 24 hours
+
+        Try
+            Using con As New SqlConnection(connectAs)
+                con.Open()
+
+                Dim query As String = "
+                SELECT 
+                    CAST(TransactionDate AS DATE) AS SaleDate,
+                    DATEPART(HOUR, TransactionDate) AS SaleHour,
+                    SUM(TotalAmount) AS Total
+                FROM Transactions
+                WHERE TransactionDate >= DATEADD(day, -6, CAST(GETDATE() AS DATE))
+                GROUP BY 
+                    CAST(TransactionDate AS DATE),
+                    DATEPART(HOUR, TransactionDate)
+                ORDER BY SaleDate, SaleHour;
+            "
+
+                Using cmd As New SqlCommand(query, con)
+                    Using rdr = cmd.ExecuteReader()
+                        While rdr.Read()
+                            Dim saleDate As Date = CDate(rdr("SaleDate"))
+                            Dim saleHour As Integer = CInt(rdr("SaleHour"))
+                            Dim total As Double = CDbl(rdr("Total"))
+
+                            Dim dayIndex As Integer = CInt((saleDate - Date.Today.AddDays(-6)).TotalDays)
+                            If dayIndex >= 0 AndAlso dayIndex <= 6 Then
+                                If saleHour >= 0 AndAlso saleHour <= 23 Then
+                                    heatmapData(dayIndex, saleHour) = total
+                                End If
+                            End If
+                        End While
+                    End Using
+                End Using
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("Error creating hourly heatmap: " & ex.Message)
+            Return
+        End Try
+
+
+        ' --- DRAW HEATMAP ---
+        chartHourly.Plot.Clear()
+
+        Dim hm = chartHourly.Plot.Add.Heatmap(heatmapData)
+
+        ' Gradient (ScottPlot built-in)
+        hm.Colormap = New ScottPlot.Colormaps.Dense()
+
+
+        ' --- Labels ---
+        chartHourly.Plot.Title("Hourly Sales Heatmap (Last 7 Days)")
+        chartHourly.Plot.XLabel("Hour of Day")
+        chartHourly.Plot.YLabel("Date")
+
+        ' Hours 0–23
+        Dim hours = Enumerable.Range(0, 24).Select(Function(h) h.ToString()).ToArray()
+        chartHourly.Plot.Axes.Bottom.SetTicks(
+        Enumerable.Range(0, 24).Select(Function(i) CDbl(i)).ToArray(),
+        hours
+    )
+
+        ' Dates for past 7 days
+        Dim dateLabels As New List(Of String)
+        For i = 6 To 0 Step -1
+            Dim d = Date.Today.AddDays(-i)
+            dateLabels.Add(d.ToString("MMM dd"))
+        Next
+
+        chartHourly.Plot.Axes.Left.SetTicks(
+        Enumerable.Range(0, 7).Select(Function(i) CDbl(i)).ToArray(),
+        dateLabels.ToArray()
+    )
+
+        chartHourly.Plot.HideGrid()
+        chartHourly.Plot.Axes.Margins(0, 0)
+        chartHourly.UserInputProcessor.IsEnabled = False
+        chartHourly.Refresh()
+    End Sub
+
     Private Sub LoadDailySalesChart()
         ' 7-day window including today
         Dim last7Days As New List(Of Date)()
@@ -214,6 +301,7 @@ Public Class DashboardControl
         chartSales.Plot.YLabel("₱")
         chartSales.Plot.Axes.DateTimeTicksBottom() ' format X axis as dates
         chartSales.Plot.Axes.Margins(0, 0)
+        chartSales.UserInputProcessor.IsEnabled = False
         chartSales.Refresh()
     End Sub
 
@@ -296,27 +384,27 @@ Public Class DashboardControl
             End Using
         End Using
 
-        chartTopProducts.Plot.Clear()
+        chartHourly.Plot.Clear()
 
         If topProducts.Count = 0 Then
-            chartTopProducts.Refresh()
+            chartHourly.Refresh()
             Return
         End If
 
         ' ScottPlot horizontal bars use BarH()
         Dim values = topTotals.ToArray()
         Dim positions = Enumerable.Range(0, topProducts.Count).Select(Function(i) CDbl(i)).ToArray()
-        Dim hbar = chartTopProducts.Plot.Add.Bars(values, positions)
+        Dim hbar = chartHourly.Plot.Add.Bars(values, positions)
         hbar.Horizontal = True
         ' Set labels for each bar
-        chartTopProducts.Plot.Axes.Left.SetTicks(positions, topProducts.ToArray())
+        chartHourly.Plot.Axes.Left.SetTicks(positions, topProducts.ToArray())
 
         ' Style
-        chartTopProducts.Plot.Title("Top 5 Products Sold")
-        chartTopProducts.Plot.XLabel("Quantity Sold")
-        chartTopProducts.Plot.YLabel("Product")
-        chartTopProducts.Plot.Axes.Margins(left:=0.15) ' leave space for product names
-        chartTopProducts.Refresh()
+        chartHourly.Plot.Title("Top 5 Products Sold")
+        chartHourly.Plot.XLabel("Quantity Sold")
+        chartHourly.Plot.YLabel("Product")
+        chartHourly.Plot.Axes.Margins(left:=0.15) ' leave space for product names
+        chartHourly.Refresh()
 
     End Sub
 

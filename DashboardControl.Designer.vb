@@ -54,7 +54,7 @@ Partial Class DashboardControl
         Label13 = New Label()
         chartSales = New ScottPlot.WinForms.FormsPlot()
         TableLayoutPanel2 = New TableLayoutPanel()
-        chartTopProducts = New ScottPlot.WinForms.FormsPlot()
+        chartHourly = New ScottPlot.WinForms.FormsPlot()
         TableLayoutPanel1.SuspendLayout()
         RoundedPanel10.SuspendLayout()
         RoundedPanel2.SuspendLayout()
@@ -440,7 +440,7 @@ Partial Class DashboardControl
         TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
         TableLayoutPanel2.Controls.Add(chartCategory, 2, 0)
         TableLayoutPanel2.Controls.Add(chartSales, 1, 0)
-        TableLayoutPanel2.Controls.Add(chartTopProducts, 0, 0)
+        TableLayoutPanel2.Controls.Add(chartHourly, 0, 0)
         TableLayoutPanel2.Dock = DockStyle.Bottom
         TableLayoutPanel2.Location = New Point(0, 288)
         TableLayoutPanel2.Name = "TableLayoutPanel2"
@@ -449,14 +449,14 @@ Partial Class DashboardControl
         TableLayoutPanel2.Size = New Size(1135, 394)
         TableLayoutPanel2.TabIndex = 6
         ' 
-        ' chartTopProducts
+        ' chartHourly
         ' 
-        chartTopProducts.DisplayScale = 1F
-        chartTopProducts.Dock = DockStyle.Fill
-        chartTopProducts.Location = New Point(3, 3)
-        chartTopProducts.Name = "chartTopProducts"
-        chartTopProducts.Size = New Size(372, 388)
-        chartTopProducts.TabIndex = 6
+        chartHourly.DisplayScale = 1F
+        chartHourly.Dock = DockStyle.Fill
+        chartHourly.Location = New Point(3, 3)
+        chartHourly.Name = "chartHourly"
+        chartHourly.Size = New Size(372, 388)
+        chartHourly.TabIndex = 6
         ' 
         ' DashboardControl
         ' 
@@ -523,6 +523,6 @@ Partial Class DashboardControl
     Friend WithEvents lblUpcomingExpensesWeek As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
-    Friend WithEvents chartTopProducts As ScottPlot.WinForms.FormsPlot
+    Friend WithEvents chartHourly As ScottPlot.WinForms.FormsPlot
 
 End Class
