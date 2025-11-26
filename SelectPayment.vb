@@ -77,7 +77,7 @@
             lblChange.Text = $"Insufficient Cash (₱{Math.Abs(change):N2})"
             btnConfirmCash.Enabled = False
         Else
-            lblChange.ForeColor = Color.Black
+            lblChange.ForeColor = Color.White
             lblChange.Text = "₱" & change.ToString("N2")
             btnConfirmCash.Enabled = True
         End If
