@@ -22,8 +22,8 @@ Partial Class ViewTransactionsControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Label9 = New Label()
         Label7 = New Label()
         Label8 = New Label()
@@ -49,12 +49,32 @@ Partial Class ViewTransactionsControl
         dgvTransactions = New DataGridView()
         BufferedPanel1 = New BufferedPanel()
         BufferedPanel2 = New BufferedPanel()
+        GroupBox1 = New GroupBox()
+        txtSearchUser = New TextBox()
+        Label13 = New Label()
+        Label14 = New Label()
+        chkDateFrom = New CheckBox()
+        nudMinAmount = New NumericUpDown()
+        nudMaxAmount = New NumericUpDown()
+        Label12 = New Label()
+        dtpFromDate = New DateTimePicker()
+        Label11 = New Label()
+        dtpToDate = New DateTimePicker()
+        btnResetFilters = New Button()
+        chkDateTo = New CheckBox()
+        btnApplyFilters = New Button()
+        cmbStatus = New ComboBox()
+        cmbPaymentMethod = New ComboBox()
+        Label10 = New Label()
         CType(dgvTransactionItems, ComponentModel.ISupportInitialize).BeginInit()
         pnlDetails.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         CType(dgvTransactions, ComponentModel.ISupportInitialize).BeginInit()
         BufferedPanel1.SuspendLayout()
         BufferedPanel2.SuspendLayout()
+        GroupBox1.SuspendLayout()
+        CType(nudMinAmount, ComponentModel.ISupportInitialize).BeginInit()
+        CType(nudMaxAmount, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Label9
@@ -161,16 +181,15 @@ Partial Class ViewTransactionsControl
         ' 
         ' dgvTransactionItems
         ' 
-        dgvTransactionItems.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         dgvTransactionItems.BackgroundColor = Color.White
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = SystemColors.Control
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle1.ForeColor = Color.Black
-        DataGridViewCellStyle1.SelectionBackColor = Color.MediumAquamarine
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        dgvTransactionItems.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = SystemColors.Control
+        DataGridViewCellStyle5.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle5.ForeColor = Color.Black
+        DataGridViewCellStyle5.SelectionBackColor = Color.MediumAquamarine
+        DataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = DataGridViewTriState.True
+        dgvTransactionItems.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
         dgvTransactionItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvTransactionItems.Location = New Point(37, 115)
         dgvTransactionItems.Name = "dgvTransactionItems"
@@ -308,7 +327,7 @@ Partial Class ViewTransactionsControl
         TableLayoutPanel1.Controls.Add(lblRemarks, 4, 0)
         TableLayoutPanel1.Controls.Add(Label7, 4, 1)
         TableLayoutPanel1.Controls.Add(lblTotalAmount, 4, 2)
-        TableLayoutPanel1.Location = New Point(125, 22)
+        TableLayoutPanel1.Location = New Point(126, 20)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 3
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
@@ -323,7 +342,7 @@ Partial Class ViewTransactionsControl
         Label1.BackColor = Color.Transparent
         Label1.Font = New Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
-        Label1.Location = New Point(59, 12)
+        Label1.Location = New Point(59, 13)
         Label1.Name = "Label1"
         Label1.Size = New Size(209, 25)
         Label1.TabIndex = 6
@@ -336,7 +355,7 @@ Partial Class ViewTransactionsControl
         btnRefresh.FlatStyle = FlatStyle.Flat
         btnRefresh.Font = New Font("Arial", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnRefresh.ForeColor = Color.White
-        btnRefresh.Location = New Point(18, 7)
+        btnRefresh.Location = New Point(18, 8)
         btnRefresh.Name = "btnRefresh"
         btnRefresh.Size = New Size(33, 35)
         btnRefresh.TabIndex = 5
@@ -349,21 +368,21 @@ Partial Class ViewTransactionsControl
         dgvTransactions.AllowUserToDeleteRows = False
         dgvTransactions.AllowUserToOrderColumns = True
         dgvTransactions.BackgroundColor = Color.White
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = SystemColors.Control
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle2.ForeColor = Color.Black
-        DataGridViewCellStyle2.SelectionBackColor = Color.MediumAquamarine
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
-        dgvTransactions.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = SystemColors.Control
+        DataGridViewCellStyle6.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle6.ForeColor = Color.Black
+        DataGridViewCellStyle6.SelectionBackColor = Color.MediumAquamarine
+        DataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = DataGridViewTriState.True
+        dgvTransactions.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
         dgvTransactions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvTransactions.Dock = DockStyle.Fill
-        dgvTransactions.Location = New Point(20, 73)
+        dgvTransactions.Location = New Point(20, 172)
         dgvTransactions.Name = "dgvTransactions"
         dgvTransactions.ReadOnly = True
         dgvTransactions.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvTransactions.Size = New Size(1095, 195)
+        dgvTransactions.Size = New Size(1095, 96)
         dgvTransactions.TabIndex = 4
         ' 
         ' BufferedPanel1
@@ -379,13 +398,206 @@ Partial Class ViewTransactionsControl
         ' 
         ' BufferedPanel2
         ' 
+        BufferedPanel2.Controls.Add(GroupBox1)
         BufferedPanel2.Controls.Add(btnRefresh)
         BufferedPanel2.Controls.Add(Label1)
         BufferedPanel2.Dock = DockStyle.Top
         BufferedPanel2.Location = New Point(20, 0)
         BufferedPanel2.Name = "BufferedPanel2"
-        BufferedPanel2.Size = New Size(1095, 73)
+        BufferedPanel2.Size = New Size(1095, 172)
         BufferedPanel2.TabIndex = 7
+        ' 
+        ' GroupBox1
+        ' 
+        GroupBox1.Controls.Add(txtSearchUser)
+        GroupBox1.Controls.Add(Label13)
+        GroupBox1.Controls.Add(Label14)
+        GroupBox1.Controls.Add(chkDateFrom)
+        GroupBox1.Controls.Add(nudMinAmount)
+        GroupBox1.Controls.Add(nudMaxAmount)
+        GroupBox1.Controls.Add(Label12)
+        GroupBox1.Controls.Add(dtpFromDate)
+        GroupBox1.Controls.Add(Label11)
+        GroupBox1.Controls.Add(dtpToDate)
+        GroupBox1.Controls.Add(btnResetFilters)
+        GroupBox1.Controls.Add(chkDateTo)
+        GroupBox1.Controls.Add(btnApplyFilters)
+        GroupBox1.Controls.Add(cmbStatus)
+        GroupBox1.Controls.Add(cmbPaymentMethod)
+        GroupBox1.Controls.Add(Label10)
+        GroupBox1.Dock = DockStyle.Bottom
+        GroupBox1.ForeColor = Color.White
+        GroupBox1.Location = New Point(0, 49)
+        GroupBox1.Name = "GroupBox1"
+        GroupBox1.Size = New Size(1095, 123)
+        GroupBox1.TabIndex = 23
+        GroupBox1.TabStop = False
+        GroupBox1.Text = "Filter"
+        ' 
+        ' txtSearchUser
+        ' 
+        txtSearchUser.Anchor = AnchorStyles.None
+        txtSearchUser.Location = New Point(747, 61)
+        txtSearchUser.Name = "txtSearchUser"
+        txtSearchUser.Size = New Size(191, 23)
+        txtSearchUser.TabIndex = 7
+        ' 
+        ' Label13
+        ' 
+        Label13.Anchor = AnchorStyles.None
+        Label13.AutoSize = True
+        Label13.ForeColor = Color.White
+        Label13.Location = New Point(574, 16)
+        Label13.Name = "Label13"
+        Label13.Size = New Size(99, 15)
+        Label13.TabIndex = 21
+        Label13.Text = "Payment Method"
+        ' 
+        ' Label14
+        ' 
+        Label14.Anchor = AnchorStyles.None
+        Label14.AutoSize = True
+        Label14.ForeColor = Color.White
+        Label14.Location = New Point(574, 69)
+        Label14.Name = "Label14"
+        Label14.Size = New Size(39, 15)
+        Label14.TabIndex = 22
+        Label14.Text = "Status"
+        ' 
+        ' chkDateFrom
+        ' 
+        chkDateFrom.Anchor = AnchorStyles.None
+        chkDateFrom.AutoSize = True
+        chkDateFrom.ForeColor = Color.White
+        chkDateFrom.Location = New Point(300, 12)
+        chkDateFrom.Name = "chkDateFrom"
+        chkDateFrom.Size = New Size(81, 19)
+        chkDateFrom.TabIndex = 12
+        chkDateFrom.Text = "Date From"
+        chkDateFrom.UseVisualStyleBackColor = True
+        ' 
+        ' nudMinAmount
+        ' 
+        nudMinAmount.Anchor = AnchorStyles.None
+        nudMinAmount.Location = New Point(59, 36)
+        nudMinAmount.Maximum = New Decimal(New Integer() {99999999, 0, 0, 0})
+        nudMinAmount.Name = "nudMinAmount"
+        nudMinAmount.Size = New Size(146, 23)
+        nudMinAmount.TabIndex = 8
+        ' 
+        ' nudMaxAmount
+        ' 
+        nudMaxAmount.Anchor = AnchorStyles.None
+        nudMaxAmount.Location = New Point(59, 87)
+        nudMaxAmount.Maximum = New Decimal(New Integer() {99999999, 0, 0, 0})
+        nudMaxAmount.Name = "nudMaxAmount"
+        nudMaxAmount.Size = New Size(146, 23)
+        nudMaxAmount.TabIndex = 9
+        ' 
+        ' Label12
+        ' 
+        Label12.Anchor = AnchorStyles.None
+        Label12.AutoSize = True
+        Label12.ForeColor = Color.White
+        Label12.Location = New Point(94, 69)
+        Label12.Name = "Label12"
+        Label12.Size = New Size(80, 15)
+        Label12.TabIndex = 20
+        Label12.Text = "Max Amount:"
+        ' 
+        ' dtpFromDate
+        ' 
+        dtpFromDate.Anchor = AnchorStyles.None
+        dtpFromDate.Location = New Point(300, 34)
+        dtpFromDate.Name = "dtpFromDate"
+        dtpFromDate.Size = New Size(200, 23)
+        dtpFromDate.TabIndex = 10
+        ' 
+        ' Label11
+        ' 
+        Label11.Anchor = AnchorStyles.None
+        Label11.AutoSize = True
+        Label11.ForeColor = Color.White
+        Label11.Location = New Point(92, 17)
+        Label11.Name = "Label11"
+        Label11.Size = New Size(81, 15)
+        Label11.TabIndex = 19
+        Label11.Text = "Min. Amount:"
+        ' 
+        ' dtpToDate
+        ' 
+        dtpToDate.Anchor = AnchorStyles.None
+        dtpToDate.Location = New Point(300, 92)
+        dtpToDate.Name = "dtpToDate"
+        dtpToDate.Size = New Size(200, 23)
+        dtpToDate.TabIndex = 11
+        ' 
+        ' btnResetFilters
+        ' 
+        btnResetFilters.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnResetFilters.ForeColor = Color.Black
+        btnResetFilters.Location = New Point(978, 69)
+        btnResetFilters.Name = "btnResetFilters"
+        btnResetFilters.Size = New Size(90, 36)
+        btnResetFilters.TabIndex = 18
+        btnResetFilters.Text = "Reset Filters"
+        btnResetFilters.UseVisualStyleBackColor = True
+        ' 
+        ' chkDateTo
+        ' 
+        chkDateTo.Anchor = AnchorStyles.None
+        chkDateTo.AutoSize = True
+        chkDateTo.ForeColor = Color.White
+        chkDateTo.Location = New Point(300, 67)
+        chkDateTo.Name = "chkDateTo"
+        chkDateTo.Size = New Size(65, 19)
+        chkDateTo.TabIndex = 13
+        chkDateTo.Text = "Date To"
+        chkDateTo.UseVisualStyleBackColor = True
+        ' 
+        ' btnApplyFilters
+        ' 
+        btnApplyFilters.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnApplyFilters.ForeColor = Color.Black
+        btnApplyFilters.Location = New Point(978, 27)
+        btnApplyFilters.Name = "btnApplyFilters"
+        btnApplyFilters.Size = New Size(90, 36)
+        btnApplyFilters.TabIndex = 17
+        btnApplyFilters.Text = "Apply Filters"
+        btnApplyFilters.UseVisualStyleBackColor = True
+        ' 
+        ' cmbStatus
+        ' 
+        cmbStatus.Anchor = AnchorStyles.None
+        cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList
+        cmbStatus.FormattingEnabled = True
+        cmbStatus.Items.AddRange(New Object() {"All", "Completed", "Pending"})
+        cmbStatus.Location = New Point(574, 87)
+        cmbStatus.Name = "cmbStatus"
+        cmbStatus.Size = New Size(121, 23)
+        cmbStatus.TabIndex = 14
+        ' 
+        ' cmbPaymentMethod
+        ' 
+        cmbPaymentMethod.Anchor = AnchorStyles.None
+        cmbPaymentMethod.DropDownStyle = ComboBoxStyle.DropDownList
+        cmbPaymentMethod.FormattingEnabled = True
+        cmbPaymentMethod.Items.AddRange(New Object() {"All", "Cash", "GCash"})
+        cmbPaymentMethod.Location = New Point(574, 37)
+        cmbPaymentMethod.Name = "cmbPaymentMethod"
+        cmbPaymentMethod.Size = New Size(121, 23)
+        cmbPaymentMethod.TabIndex = 16
+        ' 
+        ' Label10
+        ' 
+        Label10.Anchor = AnchorStyles.None
+        Label10.AutoSize = True
+        Label10.ForeColor = Color.White
+        Label10.Location = New Point(747, 43)
+        Label10.Name = "Label10"
+        Label10.Size = New Size(33, 15)
+        Label10.TabIndex = 15
+        Label10.Text = "User:"
         ' 
         ' ViewTransactionsControl
         ' 
@@ -407,6 +619,10 @@ Partial Class ViewTransactionsControl
         BufferedPanel1.ResumeLayout(False)
         BufferedPanel2.ResumeLayout(False)
         BufferedPanel2.PerformLayout()
+        GroupBox1.ResumeLayout(False)
+        GroupBox1.PerformLayout()
+        CType(nudMinAmount, ComponentModel.ISupportInitialize).EndInit()
+        CType(nudMaxAmount, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -436,5 +652,22 @@ Partial Class ViewTransactionsControl
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents BufferedPanel1 As BufferedPanel
     Friend WithEvents BufferedPanel2 As BufferedPanel
+    Friend WithEvents btnResetFilters As Button
+    Friend WithEvents btnApplyFilters As Button
+    Friend WithEvents cmbPaymentMethod As ComboBox
+    Friend WithEvents Label10 As Label
+    Friend WithEvents cmbStatus As ComboBox
+    Friend WithEvents chkDateTo As CheckBox
+    Friend WithEvents chkDateFrom As CheckBox
+    Friend WithEvents dtpToDate As DateTimePicker
+    Friend WithEvents dtpFromDate As DateTimePicker
+    Friend WithEvents nudMaxAmount As NumericUpDown
+    Friend WithEvents nudMinAmount As NumericUpDown
+    Friend WithEvents txtSearchUser As TextBox
+    Friend WithEvents Label12 As Label
+    Friend WithEvents Label11 As Label
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents Label14 As Label
+    Friend WithEvents Label13 As Label
 
 End Class

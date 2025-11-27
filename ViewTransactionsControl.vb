@@ -7,6 +7,7 @@ Public Class ViewTransactionsControl
 
     Public Sub InitializeTransactions()
         LoadTransactions()
+        btnResetFilters.PerformClick()
     End Sub
 
     ' ================================================================
@@ -73,9 +74,8 @@ Public Class ViewTransactionsControl
         End Try
     End Sub
 
-    ' ================================================================
     ' STYLE FOR ITEM GRID (called after DataSource is assigned)
-    ' ================================================================
+
     Private Sub ApplyItemGridStyle()
         With dgvTransactionItems
             .DefaultCellStyle.ForeColor = Color.Black
@@ -89,9 +89,7 @@ Public Class ViewTransactionsControl
         End With
     End Sub
 
-    ' ================================================================
     ' LOAD MAIN TRANSACTION LIST
-    ' ================================================================
     Private Sub LoadTransactions()
         Try
             Using con As New SqlConnection(connectAs)
@@ -114,9 +112,73 @@ Public Class ViewTransactionsControl
         End Try
     End Sub
 
-    ' ================================================================
+    Private Sub ApplyFilters()
+        If dt Is Nothing OrElse dt.Rows.Count = 0 Then Exit Sub
+
+        'store filters in list
+        Dim filters As New List(Of String)
+
+        ' --- Username ---
+        If Not String.IsNullOrWhiteSpace(txtSearchUser.Text) Then
+            filters.Add($"Username LIKE '%{txtSearchUser.Text.Replace("'", "''")}%'")
+        End If
+
+        ' --- Amount Min/Max ---  
+        Dim minVal As Decimal = nudMinAmount.Value
+        Dim maxVal As Decimal = nudMaxAmount.Value
+
+        ' Only apply range filters IF at least one value is non-zero  
+        If Not (minVal = 0 AndAlso maxVal = 0) Then
+
+            ' Min only  
+            If minVal > 0 AndAlso maxVal = 0 Then
+                filters.Add($"TotalAmount >= {minVal}")
+            End If
+
+            ' Max only  
+            If maxVal > 0 AndAlso minVal = 0 Then
+                filters.Add($"TotalAmount <= {maxVal}")
+            End If
+
+            ' Both min and max → range filter  
+            If minVal > 0 AndAlso maxVal > 0 Then
+                filters.Add($"TotalAmount >= {minVal} AND TotalAmount <= {maxVal}")
+            End If
+        End If
+
+
+        ' --- Date From ---
+        If chkDateFrom.Checked Then
+            filters.Add($"TransactionDate >= '#{dtpFromDate.Value:yyyy-MM-dd HH:mm:ss}#'")
+        End If
+
+        ' --- Date To ---
+        If chkDateTo.Checked Then
+            filters.Add($"TransactionDate <= '#{dtpToDate.Value:yyyy-MM-dd HH:mm:ss}#'")
+        End If
+
+        ' --- Status ---
+        If cmbStatus.SelectedIndex > 0 Then
+            filters.Add($"Status = '{cmbStatus.SelectedItem.ToString().Replace("'", "''")}'")
+        End If
+
+        ' --- Payment Method ---
+        If cmbPaymentMethod.SelectedIndex > 0 Then
+            filters.Add($"PaymentMethod = '{cmbPaymentMethod.SelectedItem.ToString().Replace("'", "''")}'")
+        End If
+
+        ' Combine all conditions
+        Dim finalFilter As String = String.Join(" AND ", filters)
+
+        Dim dv As New DataView(dt)
+        dv.RowFilter = finalFilter
+
+        dgvTransactions.DataSource = dv
+    End Sub
+
+
     ' STYLE & FORMAT MAIN GRID
-    ' ================================================================
+
     Private Sub FormatTransactionGrid()
         With dgvTransactions
             If .Columns.Contains("TransactionID") Then .Columns("TransactionID").Visible = False
@@ -145,9 +207,8 @@ Public Class ViewTransactionsControl
         End With
     End Sub
 
-    ' ================================================================
     ' FORM LOAD
-    ' ================================================================
+
     Private Sub ViewTransactions_Load(sender As Object, e As EventArgs) Handles Me.Load
 
         ' Main transactions grid
@@ -171,9 +232,7 @@ Public Class ViewTransactionsControl
         LoadTransactions()
     End Sub
 
-    ' ================================================================
-    ' EVENTS
-    ' ================================================================
+    ' events
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         LoadTransactions()
     End Sub
@@ -189,6 +248,22 @@ Public Class ViewTransactionsControl
 
     Private Sub btnCloseDetails_Click(sender As Object, e As EventArgs) Handles btnCloseDetails.Click
         pnlDetails.Visible = False
+    End Sub
+
+    Private Sub btnApplyFilters_Click(sender As Object, e As EventArgs) Handles btnApplyFilters.Click
+        ApplyFilters()
+    End Sub
+
+    Private Sub btnResetFilters_Click(sender As Object, e As EventArgs) Handles btnResetFilters.Click
+        txtSearchUser.Clear()
+        nudMinAmount.Value = 0
+        nudMaxAmount.Value = 0
+        chkDateFrom.Checked = False
+        chkDateTo.Checked = False
+        cmbStatus.SelectedIndex = 0
+        cmbPaymentMethod.SelectedIndex = 0
+
+        dgvTransactions.DataSource = dt
     End Sub
 
 End Class
