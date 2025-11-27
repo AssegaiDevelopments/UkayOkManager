@@ -22,14 +22,16 @@ Partial Class CartControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
         BufferedPanel1 = New BufferedPanel()
+        tlpMain = New TableLayoutPanel()
+        dgvCart = New DataGridView()
         TableLayoutPanel3 = New TableLayoutPanel()
         RoundedPanel1 = New RoundedPanel()
         Label1 = New Label()
         lGrandTotal = New Label()
-        lDiscount = New Label()
         btnCheckout = New Button()
+        lDiscount = New Label()
         Label7 = New Label()
         GroupBox3 = New GroupBox()
         TableLayoutPanel1 = New TableLayoutPanel()
@@ -66,8 +68,9 @@ Partial Class CartControl
         lblStock = New Label()
         txtbItemPrice = New TextBox()
         Label4 = New Label()
-        dgvCart = New DataGridView()
         BufferedPanel1.SuspendLayout()
+        tlpMain.SuspendLayout()
+        CType(dgvCart, ComponentModel.ISupportInitialize).BeginInit()
         TableLayoutPanel3.SuspendLayout()
         RoundedPanel1.SuspendLayout()
         GroupBox3.SuspendLayout()
@@ -86,56 +89,94 @@ Partial Class CartControl
         CType(nudDiscount, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox2.SuspendLayout()
         CType(nudQuantity, ComponentModel.ISupportInitialize).BeginInit()
-        CType(dgvCart, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' BufferedPanel1
         ' 
-        BufferedPanel1.Controls.Add(TableLayoutPanel3)
-        BufferedPanel1.Controls.Add(GroupBox3)
-        BufferedPanel1.Controls.Add(dgvCart)
+        BufferedPanel1.Controls.Add(tlpMain)
         BufferedPanel1.Dock = DockStyle.Fill
         BufferedPanel1.Location = New Point(0, 0)
         BufferedPanel1.Name = "BufferedPanel1"
         BufferedPanel1.Size = New Size(1135, 682)
         BufferedPanel1.TabIndex = 0
         ' 
+        ' tlpMain
+        ' 
+        tlpMain.ColumnCount = 1
+        tlpMain.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
+        tlpMain.Controls.Add(dgvCart, 0, 1)
+        tlpMain.Controls.Add(TableLayoutPanel3, 0, 0)
+        tlpMain.Controls.Add(GroupBox3, 0, 2)
+        tlpMain.Dock = DockStyle.Fill
+        tlpMain.Location = New Point(0, 0)
+        tlpMain.Name = "tlpMain"
+        tlpMain.RowCount = 3
+        tlpMain.RowStyles.Add(New RowStyle(SizeType.Absolute, 100F))
+        tlpMain.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        tlpMain.RowStyles.Add(New RowStyle(SizeType.Absolute, 164F))
+        tlpMain.Size = New Size(1135, 682)
+        tlpMain.TabIndex = 64
+        ' 
+        ' dgvCart
+        ' 
+        dgvCart.AllowUserToAddRows = False
+        dgvCart.AllowUserToDeleteRows = False
+        dgvCart.BackgroundColor = Color.White
+        dgvCart.BorderStyle = BorderStyle.Fixed3D
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = SystemColors.Control
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = Color.MediumTurquoise
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        dgvCart.Dock = DockStyle.Fill
+        dgvCart.EditMode = DataGridViewEditMode.EditProgrammatically
+        dgvCart.GridColor = Color.White
+        dgvCart.Location = New Point(3, 103)
+        dgvCart.Name = "dgvCart"
+        dgvCart.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvCart.Size = New Size(1129, 412)
+        dgvCart.TabIndex = 60
+        ' 
         ' TableLayoutPanel3
         ' 
         TableLayoutPanel3.ColumnCount = 4
-        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 17.6262188F))
-        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle())
-        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 65.3675842F))
-        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 16.9176254F))
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 31.7349854F))
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 496F))
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 68.2650146F))
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 184F))
         TableLayoutPanel3.Controls.Add(RoundedPanel1, 2, 0)
-        TableLayoutPanel3.Controls.Add(lDiscount, 1, 0)
         TableLayoutPanel3.Controls.Add(btnCheckout, 3, 0)
+        TableLayoutPanel3.Controls.Add(lDiscount, 1, 0)
         TableLayoutPanel3.Controls.Add(Label7, 0, 0)
         TableLayoutPanel3.Dock = DockStyle.Top
-        TableLayoutPanel3.Location = New Point(0, 0)
+        TableLayoutPanel3.Location = New Point(3, 3)
         TableLayoutPanel3.Name = "TableLayoutPanel3"
         TableLayoutPanel3.RowCount = 1
         TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel3.Size = New Size(1135, 100)
+        TableLayoutPanel3.Size = New Size(1129, 94)
         TableLayoutPanel3.TabIndex = 66
         ' 
         ' RoundedPanel1
         ' 
-        RoundedPanel1.Anchor = AnchorStyles.Right
         RoundedPanel1.BackColor = Color.FromArgb(CByte(244), CByte(208), CByte(62))
         RoundedPanel1.Controls.Add(Label1)
         RoundedPanel1.Controls.Add(lGrandTotal)
         RoundedPanel1.CornerRadius = 20
-        RoundedPanel1.Location = New Point(655, 12)
+        RoundedPanel1.Dock = DockStyle.Fill
+        RoundedPanel1.Location = New Point(641, 3)
         RoundedPanel1.Name = "RoundedPanel1"
-        RoundedPanel1.Size = New Size(285, 75)
+        RoundedPanel1.Size = New Size(300, 88)
         RoundedPanel1.TabIndex = 65
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Lucida Sans", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label1.Location = New Point(29, 51)
+        Label1.Location = New Point(23, 58)
         Label1.Name = "Label1"
         Label1.Size = New Size(37, 15)
         Label1.TabIndex = 4
@@ -146,25 +187,12 @@ Partial Class CartControl
         lGrandTotal.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         lGrandTotal.AutoSize = True
         lGrandTotal.Font = New Font("Consolas", 27.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lGrandTotal.Location = New Point(16, 8)
+        lGrandTotal.Location = New Point(16, 15)
         lGrandTotal.Name = "lGrandTotal"
         lGrandTotal.Size = New Size(119, 43)
         lGrandTotal.TabIndex = 5
         lGrandTotal.Text = "₱0.00"
         lGrandTotal.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' lDiscount
-        ' 
-        lDiscount.Anchor = AnchorStyles.Bottom
-        lDiscount.AutoSize = True
-        lDiscount.BackColor = Color.Transparent
-        lDiscount.Enabled = False
-        lDiscount.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lDiscount.ForeColor = Color.White
-        lDiscount.Location = New Point(202, 60)
-        lDiscount.Name = "lDiscount"
-        lDiscount.Size = New Size(0, 40)
-        lDiscount.TabIndex = 39
         ' 
         ' btnCheckout
         ' 
@@ -177,12 +205,26 @@ Partial Class CartControl
         btnCheckout.FlatStyle = FlatStyle.Flat
         btnCheckout.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnCheckout.ForeColor = Color.Gold
-        btnCheckout.Location = New Point(946, 3)
+        btnCheckout.Location = New Point(947, 3)
         btnCheckout.Name = "btnCheckout"
-        btnCheckout.Size = New Size(186, 94)
+        btnCheckout.Size = New Size(179, 88)
         btnCheckout.TabIndex = 63
         btnCheckout.Text = "Proceed to Checkout →"
         btnCheckout.UseVisualStyleBackColor = False
+        ' 
+        ' lDiscount
+        ' 
+        lDiscount.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom
+        lDiscount.AutoSize = True
+        lDiscount.BackColor = Color.Transparent
+        lDiscount.Enabled = False
+        lDiscount.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lDiscount.ForeColor = Color.White
+        lDiscount.Location = New Point(390, 0)
+        lDiscount.Name = "lDiscount"
+        lDiscount.Size = New Size(0, 94)
+        lDiscount.TabIndex = 39
+        lDiscount.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Label7
         ' 
@@ -191,16 +233,15 @@ Partial Class CartControl
         Label7.BackColor = Color.Transparent
         Label7.Font = New Font("Microsoft Sans Serif", 26.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label7.ForeColor = Color.White
-        Label7.Location = New Point(58, 0)
+        Label7.Location = New Point(29, 0)
         Label7.Name = "Label7"
-        Label7.Size = New Size(83, 100)
+        Label7.Size = New Size(83, 94)
         Label7.TabIndex = 64
         Label7.Text = "Cart"
         Label7.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' GroupBox3
         ' 
-        GroupBox3.Anchor = AnchorStyles.Bottom
         GroupBox3.Controls.Add(TableLayoutPanel1)
         GroupBox3.Controls.Add(cbClothingType)
         GroupBox3.Controls.Add(GroupBox1)
@@ -211,10 +252,11 @@ Partial Class CartControl
         GroupBox3.Controls.Add(lblStock)
         GroupBox3.Controls.Add(txtbItemPrice)
         GroupBox3.Controls.Add(Label4)
+        GroupBox3.Dock = DockStyle.Fill
         GroupBox3.ForeColor = Color.White
-        GroupBox3.Location = New Point(16, 530)
+        GroupBox3.Location = New Point(3, 521)
         GroupBox3.Name = "GroupBox3"
-        GroupBox3.Size = New Size(1116, 149)
+        GroupBox3.Size = New Size(1129, 158)
         GroupBox3.TabIndex = 50
         GroupBox3.TabStop = False
         GroupBox3.Text = "Add Items"
@@ -227,14 +269,14 @@ Partial Class CartControl
         TableLayoutPanel1.Controls.Add(btnClearCart, 0, 2)
         TableLayoutPanel1.Controls.Add(btnRemoveItemFromCart, 0, 1)
         TableLayoutPanel1.Dock = DockStyle.Right
-        TableLayoutPanel1.Location = New Point(999, 19)
+        TableLayoutPanel1.Location = New Point(1012, 19)
         TableLayoutPanel1.Margin = New Padding(0)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 3
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 33.3333321F))
-        TableLayoutPanel1.Size = New Size(114, 127)
+        TableLayoutPanel1.Size = New Size(114, 136)
         TableLayoutPanel1.TabIndex = 63
         ' 
         ' btnAddItemToCart
@@ -248,7 +290,7 @@ Partial Class CartControl
         btnAddItemToCart.Location = New Point(3, 0)
         btnAddItemToCart.Margin = New Padding(3, 0, 3, 0)
         btnAddItemToCart.Name = "btnAddItemToCart"
-        btnAddItemToCart.Size = New Size(108, 42)
+        btnAddItemToCart.Size = New Size(108, 45)
         btnAddItemToCart.TabIndex = 29
         btnAddItemToCart.Text = "Add Item" & vbCrLf & "+" & ChrW(55357) & ChrW(57042)
         btnAddItemToCart.TextAlign = ContentAlignment.TopCenter
@@ -262,10 +304,10 @@ Partial Class CartControl
         btnClearCart.FlatAppearance.MouseOverBackColor = Color.DimGray
         btnClearCart.FlatStyle = FlatStyle.Flat
         btnClearCart.ForeColor = Color.FromArgb(CByte(255), CByte(192), CByte(192))
-        btnClearCart.Location = New Point(3, 84)
+        btnClearCart.Location = New Point(3, 90)
         btnClearCart.Margin = New Padding(3, 0, 3, 0)
         btnClearCart.Name = "btnClearCart"
-        btnClearCart.Size = New Size(108, 43)
+        btnClearCart.Size = New Size(108, 46)
         btnClearCart.TabIndex = 62
         btnClearCart.Text = "Clear Cart" & vbCrLf & ChrW(55357) & ChrW(57042)
         btnClearCart.TextAlign = ContentAlignment.TopCenter
@@ -279,10 +321,10 @@ Partial Class CartControl
         btnRemoveItemFromCart.FlatAppearance.MouseOverBackColor = Color.DimGray
         btnRemoveItemFromCart.FlatStyle = FlatStyle.Flat
         btnRemoveItemFromCart.ForeColor = Color.FromArgb(CByte(255), CByte(224), CByte(192))
-        btnRemoveItemFromCart.Location = New Point(3, 42)
+        btnRemoveItemFromCart.Location = New Point(3, 45)
         btnRemoveItemFromCart.Margin = New Padding(3, 0, 3, 0)
         btnRemoveItemFromCart.Name = "btnRemoveItemFromCart"
-        btnRemoveItemFromCart.Size = New Size(108, 42)
+        btnRemoveItemFromCart.Size = New Size(108, 45)
         btnRemoveItemFromCart.TabIndex = 59
         btnRemoveItemFromCart.Text = "Remove Item" & vbCrLf & "-" & ChrW(55357) & ChrW(57042)
         btnRemoveItemFromCart.TextAlign = ContentAlignment.TopCenter
@@ -294,7 +336,7 @@ Partial Class CartControl
         cbClothingType.BackColor = Color.White
         cbClothingType.DropDownStyle = ComboBoxStyle.DropDownList
         cbClothingType.Font = New Font("Segoe UI", 12F)
-        cbClothingType.Location = New Point(127, 26)
+        cbClothingType.Location = New Point(70, 31)
         cbClothingType.Name = "cbClothingType"
         cbClothingType.Size = New Size(140, 29)
         cbClothingType.TabIndex = 30
@@ -304,7 +346,7 @@ Partial Class CartControl
         GroupBox1.Anchor = AnchorStyles.None
         GroupBox1.Controls.Add(TableLayoutPanel2)
         GroupBox1.ForeColor = Color.White
-        GroupBox1.Location = New Point(539, 18)
+        GroupBox1.Location = New Point(545, 23)
         GroupBox1.Name = "GroupBox1"
         GroupBox1.Size = New Size(445, 120)
         GroupBox1.TabIndex = 48
@@ -315,8 +357,8 @@ Partial Class CartControl
         ' 
         TableLayoutPanel2.ColumnCount = 3
         TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 25.96401F))
-        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 27.5064259F))
-        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 46.5295639F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 29.8405476F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 44.419136F))
         TableLayoutPanel2.Controls.Add(BufferedPanel4, 2, 0)
         TableLayoutPanel2.Controls.Add(BufferedPanel3, 1, 0)
         TableLayoutPanel2.Controls.Add(BufferedPanel2, 0, 0)
@@ -336,9 +378,9 @@ Partial Class CartControl
         BufferedPanel4.Controls.Add(NumericUpDown1)
         BufferedPanel4.Controls.Add(CheckBox1)
         BufferedPanel4.Dock = DockStyle.Fill
-        BufferedPanel4.Location = New Point(236, 3)
+        BufferedPanel4.Location = New Point(246, 3)
         BufferedPanel4.Name = "BufferedPanel4"
-        BufferedPanel4.Size = New Size(200, 92)
+        BufferedPanel4.Size = New Size(190, 92)
         BufferedPanel4.TabIndex = 2
         ' 
         ' BufferedPanel5
@@ -351,16 +393,16 @@ Partial Class CartControl
         BufferedPanel5.Dock = DockStyle.Fill
         BufferedPanel5.Location = New Point(0, 0)
         BufferedPanel5.Name = "BufferedPanel5"
-        BufferedPanel5.Size = New Size(200, 92)
+        BufferedPanel5.Size = New Size(190, 92)
         BufferedPanel5.TabIndex = 54
         ' 
         ' Label9
         ' 
-        Label9.Anchor = AnchorStyles.None
+        Label9.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         Label9.AutoSize = True
         Label9.BackColor = Color.Transparent
         Label9.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label9.Location = New Point(122, 69)
+        Label9.Location = New Point(129, 69)
         Label9.Name = "Label9"
         Label9.Size = New Size(14, 15)
         Label9.TabIndex = 54
@@ -369,11 +411,11 @@ Partial Class CartControl
         ' 
         ' Label6
         ' 
-        Label6.Anchor = AnchorStyles.None
+        Label6.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         Label6.AutoSize = True
         Label6.BackColor = Color.Transparent
         Label6.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label6.Location = New Point(40, 69)
+        Label6.Location = New Point(47, 69)
         Label6.Name = "Label6"
         Label6.Size = New Size(29, 15)
         Label6.TabIndex = 53
@@ -382,9 +424,10 @@ Partial Class CartControl
         ' 
         ' nudXQuantity
         ' 
+        nudXQuantity.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         nudXQuantity.Enabled = False
         nudXQuantity.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        nudXQuantity.Location = New Point(11, 38)
+        nudXQuantity.Location = New Point(23, 38)
         nudXQuantity.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
         nudXQuantity.Name = "nudXQuantity"
         nudXQuantity.Size = New Size(70, 23)
@@ -392,10 +435,11 @@ Partial Class CartControl
         ' 
         ' nudYPrice
         ' 
+        nudYPrice.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         nudYPrice.DecimalPlaces = 2
         nudYPrice.Enabled = False
         nudYPrice.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        nudYPrice.Location = New Point(86, 38)
+        nudYPrice.Location = New Point(98, 38)
         nudYPrice.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         nudYPrice.Name = "nudYPrice"
         nudYPrice.Size = New Size(70, 23)
@@ -403,10 +447,11 @@ Partial Class CartControl
         ' 
         ' chbxBuyXForYEnabled
         ' 
+        chbxBuyXForYEnabled.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         chbxBuyXForYEnabled.BackColor = Color.Transparent
         chbxBuyXForYEnabled.Cursor = Cursors.Hand
         chbxBuyXForYEnabled.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        chbxBuyXForYEnabled.Location = New Point(41, 5)
+        chbxBuyXForYEnabled.Location = New Point(53, 5)
         chbxBuyXForYEnabled.Name = "chbxBuyXForYEnabled"
         chbxBuyXForYEnabled.Size = New Size(87, 41)
         chbxBuyXForYEnabled.TabIndex = 50
@@ -419,7 +464,7 @@ Partial Class CartControl
         Label5.AutoSize = True
         Label5.BackColor = Color.Transparent
         Label5.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label5.Location = New Point(33, 67)
+        Label5.Location = New Point(28, 67)
         Label5.Name = "Label5"
         Label5.Size = New Size(29, 15)
         Label5.TabIndex = 53
@@ -466,16 +511,16 @@ Partial Class CartControl
         BufferedPanel3.Dock = DockStyle.Fill
         BufferedPanel3.Location = New Point(116, 3)
         BufferedPanel3.Name = "BufferedPanel3"
-        BufferedPanel3.Size = New Size(114, 92)
+        BufferedPanel3.Size = New Size(124, 92)
         BufferedPanel3.TabIndex = 1
         ' 
         ' Label10
         ' 
-        Label10.Anchor = AnchorStyles.None
+        Label10.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         Label10.AutoSize = True
         Label10.BackColor = Color.Transparent
         Label10.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label10.Location = New Point(50, 67)
+        Label10.Location = New Point(55, 67)
         Label10.Name = "Label10"
         Label10.Size = New Size(14, 15)
         Label10.TabIndex = 55
@@ -484,10 +529,11 @@ Partial Class CartControl
         ' 
         ' nudGlobalPrice
         ' 
+        nudGlobalPrice.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         nudGlobalPrice.DecimalPlaces = 2
         nudGlobalPrice.Enabled = False
         nudGlobalPrice.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        nudGlobalPrice.Location = New Point(17, 37)
+        nudGlobalPrice.Location = New Point(27, 37)
         nudGlobalPrice.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         nudGlobalPrice.Name = "nudGlobalPrice"
         nudGlobalPrice.Size = New Size(70, 23)
@@ -495,10 +541,11 @@ Partial Class CartControl
         ' 
         ' chkGlobalPriceEnabled
         ' 
+        chkGlobalPriceEnabled.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         chkGlobalPriceEnabled.BackColor = Color.Transparent
         chkGlobalPriceEnabled.Cursor = Cursors.Hand
         chkGlobalPriceEnabled.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        chkGlobalPriceEnabled.Location = New Point(11, 3)
+        chkGlobalPriceEnabled.Location = New Point(21, 3)
         chkGlobalPriceEnabled.Name = "chkGlobalPriceEnabled"
         chkGlobalPriceEnabled.Size = New Size(82, 41)
         chkGlobalPriceEnabled.TabIndex = 48
@@ -517,11 +564,11 @@ Partial Class CartControl
         ' 
         ' chbxDiscount
         ' 
-        chbxDiscount.Anchor = AnchorStyles.None
+        chbxDiscount.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         chbxDiscount.BackColor = Color.Transparent
         chbxDiscount.Cursor = Cursors.Hand
         chbxDiscount.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        chbxDiscount.Location = New Point(15, 5)
+        chbxDiscount.Location = New Point(12, 5)
         chbxDiscount.Name = "chbxDiscount"
         chbxDiscount.Size = New Size(82, 41)
         chbxDiscount.TabIndex = 37
@@ -530,10 +577,10 @@ Partial Class CartControl
         ' 
         ' nudDiscount
         ' 
-        nudDiscount.Anchor = AnchorStyles.None
+        nudDiscount.Anchor = AnchorStyles.Left Or AnchorStyles.Right
         nudDiscount.Enabled = False
         nudDiscount.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        nudDiscount.Location = New Point(19, 52)
+        nudDiscount.Location = New Point(16, 52)
         nudDiscount.Maximum = New Decimal(New Integer() {95, 0, 0, 0})
         nudDiscount.Name = "nudDiscount"
         nudDiscount.Size = New Size(70, 23)
@@ -545,9 +592,9 @@ Partial Class CartControl
         GroupBox2.Controls.Add(txtbRemarks)
         GroupBox2.Controls.Add(Label8)
         GroupBox2.ForeColor = Color.White
-        GroupBox2.Location = New Point(273, 72)
+        GroupBox2.Location = New Point(230, 77)
         GroupBox2.Name = "GroupBox2"
-        GroupBox2.Size = New Size(249, 66)
+        GroupBox2.Size = New Size(298, 66)
         GroupBox2.TabIndex = 49
         GroupBox2.TabStop = False
         GroupBox2.Text = "Remarks"
@@ -558,7 +605,7 @@ Partial Class CartControl
         txtbRemarks.Location = New Point(3, 40)
         txtbRemarks.Margin = New Padding(50, 0, 50, 0)
         txtbRemarks.Name = "txtbRemarks"
-        txtbRemarks.Size = New Size(243, 23)
+        txtbRemarks.Size = New Size(292, 23)
         txtbRemarks.TabIndex = 45
         ' 
         ' Label8
@@ -580,7 +627,7 @@ Partial Class CartControl
         Label2.AutoSize = True
         Label2.BackColor = Color.Transparent
         Label2.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label2.Location = New Point(87, 34)
+        Label2.Location = New Point(30, 39)
         Label2.Name = "Label2"
         Label2.Size = New Size(34, 15)
         Label2.TabIndex = 31
@@ -590,7 +637,7 @@ Partial Class CartControl
         ' 
         nudQuantity.Anchor = AnchorStyles.None
         nudQuantity.Font = New Font("Segoe UI", 12F)
-        nudQuantity.Location = New Point(189, 107)
+        nudQuantity.Location = New Point(132, 112)
         nudQuantity.Name = "nudQuantity"
         nudQuantity.Size = New Size(78, 29)
         nudQuantity.TabIndex = 32
@@ -601,7 +648,7 @@ Partial Class CartControl
         Label3.AutoSize = True
         Label3.BackColor = Color.Transparent
         Label3.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label3.Location = New Point(127, 114)
+        Label3.Location = New Point(70, 119)
         Label3.Name = "Label3"
         Label3.Size = New Size(56, 15)
         Label3.TabIndex = 33
@@ -614,7 +661,7 @@ Partial Class CartControl
         lblStock.BackColor = Color.Transparent
         lblStock.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblStock.ForeColor = Color.White
-        lblStock.Location = New Point(293, 29)
+        lblStock.Location = New Point(233, 34)
         lblStock.Name = "lblStock"
         lblStock.RightToLeft = RightToLeft.No
         lblStock.Size = New Size(211, 26)
@@ -626,7 +673,7 @@ Partial Class CartControl
         ' 
         txtbItemPrice.Anchor = AnchorStyles.None
         txtbItemPrice.Font = New Font("Segoe UI", 12F)
-        txtbItemPrice.Location = New Point(127, 68)
+        txtbItemPrice.Location = New Point(70, 73)
         txtbItemPrice.MaxLength = 7
         txtbItemPrice.Name = "txtbItemPrice"
         txtbItemPrice.Size = New Size(140, 29)
@@ -639,35 +686,11 @@ Partial Class CartControl
         Label4.AutoSize = True
         Label4.BackColor = Color.Transparent
         Label4.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label4.Location = New Point(87, 76)
+        Label4.Location = New Point(30, 81)
         Label4.Name = "Label4"
         Label4.Size = New Size(36, 15)
         Label4.TabIndex = 36
         Label4.Text = "Price:"
-        ' 
-        ' dgvCart
-        ' 
-        dgvCart.AllowUserToAddRows = False
-        dgvCart.AllowUserToDeleteRows = False
-        dgvCart.Anchor = AnchorStyles.None
-        dgvCart.BackgroundColor = Color.White
-        dgvCart.BorderStyle = BorderStyle.Fixed3D
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = SystemColors.Control
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle2.ForeColor = SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = Color.MediumTurquoise
-        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
-        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
-        dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        dgvCart.EditMode = DataGridViewEditMode.EditProgrammatically
-        dgvCart.GridColor = Color.White
-        dgvCart.Location = New Point(3, 78)
-        dgvCart.Name = "dgvCart"
-        dgvCart.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvCart.Size = New Size(1129, 446)
-        dgvCart.TabIndex = 60
         ' 
         ' CartControl
         ' 
@@ -678,6 +701,8 @@ Partial Class CartControl
         Name = "CartControl"
         Size = New Size(1135, 682)
         BufferedPanel1.ResumeLayout(False)
+        tlpMain.ResumeLayout(False)
+        CType(dgvCart, ComponentModel.ISupportInitialize).EndInit()
         TableLayoutPanel3.ResumeLayout(False)
         TableLayoutPanel3.PerformLayout()
         RoundedPanel1.ResumeLayout(False)
@@ -703,7 +728,6 @@ Partial Class CartControl
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
         CType(nudQuantity, ComponentModel.ISupportInitialize).EndInit()
-        CType(dgvCart, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
@@ -751,5 +775,6 @@ Partial Class CartControl
     Friend WithEvents Label5 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
+    Friend WithEvents tlpMain As TableLayoutPanel
 
 End Class

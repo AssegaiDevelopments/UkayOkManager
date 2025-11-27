@@ -259,13 +259,11 @@ Public Class CartControl
 
             ' Enable related numeric
             nudDiscount.Enabled = True
-            lDiscount.Enabled = True
             UpdateDiscountLabel()
         Else
             nudDiscount.Enabled = False
             nudDiscount.Value = 0
             lDiscount.Text = ""
-            lDiscount.Enabled = False
         End If
     End Sub
 
@@ -296,12 +294,10 @@ Public Class CartControl
             ' Enable related numerics
             nudXQuantity.Enabled = True
             nudYPrice.Enabled = True
-            lDiscount.Enabled = True
             UpdateDiscountLabel()
         Else
             nudXQuantity.Enabled = False
             nudYPrice.Enabled = False
-            lDiscount.Enabled = False
             lDiscount.Text = ""
         End If
     End Sub
