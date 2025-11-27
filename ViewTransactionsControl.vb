@@ -1,47 +1,68 @@
 ﻿Imports Microsoft.Data.SqlClient
-'Imports System.Data.SqlClient
+
 Public Class ViewTransactionsControl
-    Dim adapter As SqlDataAdapter
-    Dim dt As New DataTable()
+
+    Private adapter As SqlDataAdapter
+    Private dt As New DataTable()
 
     Public Sub InitializeTransactions()
         LoadTransactions()
     End Sub
 
+    ' ================================================================
+    ' SHOW DETAILS OF SELECTED TRANSACTION
+    ' ================================================================
     Private Sub ShowTransactionDetails(transactionID As Integer)
         Try
             Using con As New SqlConnection(connectAs)
                 con.Open()
 
-                ' --- Load transaction info ---
-                Dim cmd As New SqlCommand("SELECT * FROM Transactions WHERE TransactionID = @id", con)
-                cmd.Parameters.AddWithValue("@id", transactionID)
-                Dim reader As SqlDataReader = cmd.ExecuteReader()
+                ' ----------------------------------------------------------
+                ' Load transaction info
+                ' ----------------------------------------------------------
+                Using cmd As New SqlCommand("
+                    SELECT TransactionID, Username, TotalAmount, TransactionDate,
+                           PaymentMethod, Status, TransactionType, Remarks
+                    FROM Transactions
+                    WHERE TransactionID = @id", con)
 
-                If reader.Read() Then
-                    lblTransactionID.Text = reader("TransactionID").ToString()
-                    lblUsername.Text = reader("Username").ToString()
-                    lblTotalAmount.Text = "₱" & Convert.ToDecimal(reader("TotalAmount")).ToString("#,##0.00")
-                    lblTransactionDate.Text = Convert.ToDateTime(reader("TransactionDate")).ToString("yyyy-MM-dd HH:mm:ss")
-                    lblPaymentMethod.Text = reader("PaymentMethod").ToString()
-                    lblStatus.Text = reader("Status").ToString()
-                    lblTransactionType.Text = reader("TransactionType").ToString()
-                    If reader.IsDBNull(reader.GetOrdinal("Remarks")) Then
-                        lblRemarks.Text = "No remarks."
-                    Else
-                        lblRemarks.Text = reader("Remarks").ToString()
-                    End If
-                End If
-                reader.Close()
+                    cmd.Parameters.AddWithValue("@id", transactionID)
 
-                ' --- Load items from TransactionItems table ---
-                Dim itemAdapter As New SqlDataAdapter("SELECT ProductName, Quantity, Price, Total FROM TransactionItems WHERE TransactionID = @id", con)
-                itemAdapter.SelectCommand.Parameters.AddWithValue("@id", transactionID)
+                    Using reader = cmd.ExecuteReader()
+                        If reader.Read() Then
+                            lblTransactionID.Text = reader("TransactionID").ToString()
+                            lblUsername.Text = reader("Username").ToString()
+                            lblTotalAmount.Text = "₱" & Convert.ToDecimal(reader("TotalAmount")).ToString("#,##0.00")
+                            lblTransactionDate.Text = Convert.ToDateTime(reader("TransactionDate")).ToString("yyyy-MM-dd HH:mm:ss")
+                            lblPaymentMethod.Text = reader("PaymentMethod").ToString()
+                            lblStatus.Text = reader("Status").ToString()
+                            lblTransactionType.Text = reader("TransactionType").ToString()
+
+                            lblRemarks.Text =
+                                If(reader.IsDBNull(reader.GetOrdinal("Remarks")),
+                                   "No remarks.",
+                                   reader("Remarks").ToString())
+                        End If
+                    End Using
+                End Using
+
+                ' ----------------------------------------------------------
+                ' Load item details for the transaction
+                ' ----------------------------------------------------------
                 Dim itemTable As New DataTable()
-                itemAdapter.Fill(itemTable)
+                Using itemAdapter As New SqlDataAdapter("
+                    SELECT ProductName, Quantity, Price, Total
+                    FROM TransactionItems
+                    WHERE TransactionID = @id", con)
+
+                    itemAdapter.SelectCommand.Parameters.AddWithValue("@id", transactionID)
+                    itemAdapter.Fill(itemTable)
+                End Using
 
                 dgvTransactionItems.DataSource = itemTable
                 dgvTransactionItems.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+                ApplyItemGridStyle()
 
             End Using
 
@@ -52,87 +73,122 @@ Public Class ViewTransactionsControl
         End Try
     End Sub
 
+    ' ================================================================
+    ' STYLE FOR ITEM GRID (called after DataSource is assigned)
+    ' ================================================================
+    Private Sub ApplyItemGridStyle()
+        With dgvTransactionItems
+            .DefaultCellStyle.ForeColor = Color.Black
+            .DefaultCellStyle.BackColor = Color.White
+            .DefaultCellStyle.Font = New Font("Segoe UI", 9.5)
+            .DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue
+            .DefaultCellStyle.SelectionForeColor = Color.Black
 
+            .AlternatingRowsDefaultCellStyle.BackColor = Color.AliceBlue
+            .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        End With
+    End Sub
+
+    ' ================================================================
+    ' LOAD MAIN TRANSACTION LIST
+    ' ================================================================
     Private Sub LoadTransactions()
         Try
             Using con As New SqlConnection(connectAs)
                 con.Open()
 
-                Dim query As String = "SELECT * FROM Transactions ORDER BY TransactionDate DESC"
-                adapter = New SqlDataAdapter(query, con)
+                adapter = New SqlDataAdapter("
+                    SELECT *
+                    FROM Transactions
+                    ORDER BY TransactionDate DESC", con)
+
                 dt.Clear()
                 adapter.Fill(dt)
                 dgvTransactions.DataSource = dt
             End Using
 
-            ' --- Column formatting ---
-            With dgvTransactions
-                ' Hide internal ID
-                If .Columns.Contains("TransactionID") Then
-                    .Columns("TransactionID").Visible = False
-                End If
-
-                ' Rename headers
-                If .Columns.Contains("Username") Then .Columns("Username").HeaderText = "User"
-                If .Columns.Contains("TotalAmount") Then
-                    .Columns("TotalAmount").HeaderText = "Total Amount"
-                    .Columns("TotalAmount").DefaultCellStyle.Format = "₱#,##0.00"
-                End If
-                If .Columns.Contains("TransactionDate") Then
-                    .Columns("TransactionDate").HeaderText = "Date"
-                    .Columns("TransactionDate").DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss"
-                End If
-                If .Columns.Contains("PaymentMethod") Then .Columns("PaymentMethod").HeaderText = "Payment"
-                If .Columns.Contains("Status") Then .Columns("Status").HeaderText = "Status"
-                If .Columns.Contains("DateCreated") Then
-                    .Columns("DateCreated").HeaderText = "Created On"
-                    .Columns("DateCreated").DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss"
-                End If
-                If .Columns.Contains("Remarks") Then .Columns("Remarks").HeaderText = "Remarks"
-                If .Columns.Contains("TransactionType") Then .Columns("TransactionType").HeaderText = "Type"
-
-            End With
+            FormatTransactionGrid()
 
         Catch ex As Exception
             MessageBox.Show("Error loading transactions: " & ex.Message)
         End Try
     End Sub
 
-    Private Sub ViewTransactions_Load(sender As Object, e As EventArgs) Handles Me.Load
-        dgvTransactions.Dock = DockStyle.Fill
-        dgvTransactions.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
-        dgvTransactions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvTransactions.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvTransactions.ReadOnly = True
-        dgvTransactions.AlternatingRowsDefaultCellStyle.BackColor = Color.AliceBlue
-        dgvTransactions.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
-        dgvTransactions.DefaultCellStyle.Font = New Font("Segoe UI", 9.5)
-        dgvTransactions.DefaultCellStyle.ForeColor = Color.Black
-        dgvTransactions.DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue
-        dgvTransactions.DefaultCellStyle.SelectionForeColor = Color.Black
+    ' ================================================================
+    ' STYLE & FORMAT MAIN GRID
+    ' ================================================================
+    Private Sub FormatTransactionGrid()
+        With dgvTransactions
+            If .Columns.Contains("TransactionID") Then .Columns("TransactionID").Visible = False
+            If .Columns.Contains("Username") Then .Columns("Username").HeaderText = "User"
 
-        LoadTransactions()
-        dgvTransactions.MinimumSize = New Size(600, 300)
-        ' Optional: set minimum form size so content isn't too cramped
+            If .Columns.Contains("TotalAmount") Then
+                .Columns("TotalAmount").HeaderText = "Total Amount"
+                .Columns("TotalAmount").DefaultCellStyle.Format = "₱#,##0.00"
+            End If
 
-        pnlDetails.Visible = False
-        pnlDetails.Dock = DockStyle.Bottom
+            If .Columns.Contains("TransactionDate") Then
+                .Columns("TransactionDate").HeaderText = "Date"
+                .Columns("TransactionDate").DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss"
+            End If
 
+            If .Columns.Contains("PaymentMethod") Then .Columns("PaymentMethod").HeaderText = "Payment"
+            If .Columns.Contains("Status") Then .Columns("Status").HeaderText = "Status"
+
+            If .Columns.Contains("DateCreated") Then
+                .Columns("DateCreated").HeaderText = "Created On"
+                .Columns("DateCreated").DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss"
+            End If
+
+            If .Columns.Contains("Remarks") Then .Columns("Remarks").HeaderText = "Remarks"
+            If .Columns.Contains("TransactionType") Then .Columns("TransactionType").HeaderText = "Type"
+        End With
     End Sub
 
+    ' ================================================================
+    ' FORM LOAD
+    ' ================================================================
+    Private Sub ViewTransactions_Load(sender As Object, e As EventArgs) Handles Me.Load
+
+        ' Main transactions grid
+        With dgvTransactions
+            .Dock = DockStyle.Fill
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .ReadOnly = True
+
+            .AlternatingRowsDefaultCellStyle.BackColor = Color.AliceBlue
+            .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+            .DefaultCellStyle.Font = New Font("Segoe UI", 9.5)
+            .DefaultCellStyle.ForeColor = Color.Black
+            .DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue
+            .DefaultCellStyle.SelectionForeColor = Color.Black
+        End With
+
+        pnlDetails.Dock = DockStyle.Bottom
+        pnlDetails.Visible = False
+
+        LoadTransactions()
+    End Sub
+
+    ' ================================================================
+    ' EVENTS
+    ' ================================================================
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         LoadTransactions()
     End Sub
 
-    Private Sub dgvTransactions_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvTransactions.CellDoubleClick
+    Private Sub dgvTransactions_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) _
+        Handles dgvTransactions.CellDoubleClick
+
         If e.RowIndex >= 0 Then
-            Dim selectedRow As DataGridViewRow = dgvTransactions.Rows(e.RowIndex)
-            Dim transactionID As Integer = selectedRow.Cells("TransactionID").Value
-            ShowTransactionDetails(transactionID)
+            Dim id As Integer = dgvTransactions.Rows(e.RowIndex).Cells("TransactionID").Value
+            ShowTransactionDetails(id)
         End If
     End Sub
 
     Private Sub btnCloseDetails_Click(sender As Object, e As EventArgs) Handles btnCloseDetails.Click
         pnlDetails.Visible = False
     End Sub
+
 End Class

@@ -22,8 +22,8 @@ Partial Class ViewTransactionsControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         Label9 = New Label()
         Label7 = New Label()
         Label8 = New Label()
@@ -47,10 +47,14 @@ Partial Class ViewTransactionsControl
         Label1 = New Label()
         btnRefresh = New Button()
         dgvTransactions = New DataGridView()
+        BufferedPanel1 = New BufferedPanel()
+        BufferedPanel2 = New BufferedPanel()
         CType(dgvTransactionItems, ComponentModel.ISupportInitialize).BeginInit()
         pnlDetails.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         CType(dgvTransactions, ComponentModel.ISupportInitialize).BeginInit()
+        BufferedPanel1.SuspendLayout()
+        BufferedPanel2.SuspendLayout()
         SuspendLayout()
         ' 
         ' Label9
@@ -159,20 +163,20 @@ Partial Class ViewTransactionsControl
         ' 
         dgvTransactionItems.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         dgvTransactionItems.BackgroundColor = Color.White
-        DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = SystemColors.Control
-        DataGridViewCellStyle3.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle3.ForeColor = Color.Black
-        DataGridViewCellStyle3.SelectionBackColor = Color.MediumAquamarine
-        DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
-        dgvTransactionItems.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = SystemColors.Control
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle1.ForeColor = Color.Black
+        DataGridViewCellStyle1.SelectionBackColor = Color.MediumAquamarine
+        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+        dgvTransactionItems.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         dgvTransactionItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        dgvTransactionItems.Location = New Point(37, 117)
+        dgvTransactionItems.Location = New Point(37, 115)
         dgvTransactionItems.Name = "dgvTransactionItems"
         dgvTransactionItems.ReadOnly = True
         dgvTransactionItems.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvTransactionItems.Size = New Size(1070, 294)
+        dgvTransactionItems.Size = New Size(1068, 294)
         dgvTransactionItems.TabIndex = 8
         ' 
         ' lblRemarks
@@ -268,6 +272,7 @@ Partial Class ViewTransactionsControl
         ' 
         pnlDetails.AutoSize = True
         pnlDetails.BackColor = Color.SteelBlue
+        pnlDetails.BorderStyle = BorderStyle.FixedSingle
         pnlDetails.Controls.Add(TableLayoutPanel1)
         pnlDetails.Controls.Add(Label9)
         pnlDetails.Controls.Add(btnCloseDetails)
@@ -318,7 +323,7 @@ Partial Class ViewTransactionsControl
         Label1.BackColor = Color.Transparent
         Label1.Font = New Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
-        Label1.Location = New Point(79, 21)
+        Label1.Location = New Point(59, 12)
         Label1.Name = "Label1"
         Label1.Size = New Size(209, 25)
         Label1.TabIndex = 6
@@ -331,7 +336,7 @@ Partial Class ViewTransactionsControl
         btnRefresh.FlatStyle = FlatStyle.Flat
         btnRefresh.Font = New Font("Arial", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnRefresh.ForeColor = Color.White
-        btnRefresh.Location = New Point(37, 18)
+        btnRefresh.Location = New Point(18, 7)
         btnRefresh.Name = "btnRefresh"
         btnRefresh.Size = New Size(33, 35)
         btnRefresh.TabIndex = 5
@@ -344,21 +349,43 @@ Partial Class ViewTransactionsControl
         dgvTransactions.AllowUserToDeleteRows = False
         dgvTransactions.AllowUserToOrderColumns = True
         dgvTransactions.BackgroundColor = Color.White
-        DataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = SystemColors.Control
-        DataGridViewCellStyle4.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle4.ForeColor = Color.Black
-        DataGridViewCellStyle4.SelectionBackColor = Color.MediumAquamarine
-        DataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle4.WrapMode = DataGridViewTriState.True
-        dgvTransactions.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = SystemColors.Control
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = Color.Black
+        DataGridViewCellStyle2.SelectionBackColor = Color.MediumAquamarine
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
+        dgvTransactions.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         dgvTransactions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        dgvTransactions.Location = New Point(37, 56)
+        dgvTransactions.Dock = DockStyle.Fill
+        dgvTransactions.Location = New Point(20, 73)
         dgvTransactions.Name = "dgvTransactions"
         dgvTransactions.ReadOnly = True
         dgvTransactions.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvTransactions.Size = New Size(1070, 468)
+        dgvTransactions.Size = New Size(1095, 195)
         dgvTransactions.TabIndex = 4
+        ' 
+        ' BufferedPanel1
+        ' 
+        BufferedPanel1.Controls.Add(dgvTransactions)
+        BufferedPanel1.Controls.Add(BufferedPanel2)
+        BufferedPanel1.Dock = DockStyle.Fill
+        BufferedPanel1.Location = New Point(0, 0)
+        BufferedPanel1.Name = "BufferedPanel1"
+        BufferedPanel1.Padding = New Padding(20, 0, 20, 0)
+        BufferedPanel1.Size = New Size(1135, 268)
+        BufferedPanel1.TabIndex = 8
+        ' 
+        ' BufferedPanel2
+        ' 
+        BufferedPanel2.Controls.Add(btnRefresh)
+        BufferedPanel2.Controls.Add(Label1)
+        BufferedPanel2.Dock = DockStyle.Top
+        BufferedPanel2.Location = New Point(20, 0)
+        BufferedPanel2.Name = "BufferedPanel2"
+        BufferedPanel2.Size = New Size(1095, 73)
+        BufferedPanel2.TabIndex = 7
         ' 
         ' ViewTransactionsControl
         ' 
@@ -367,10 +394,8 @@ Partial Class ViewTransactionsControl
         AutoSize = True
         BackColor = Color.Transparent
         BackgroundImageLayout = ImageLayout.Stretch
+        Controls.Add(BufferedPanel1)
         Controls.Add(pnlDetails)
-        Controls.Add(Label1)
-        Controls.Add(btnRefresh)
-        Controls.Add(dgvTransactions)
         Name = "ViewTransactionsControl"
         Size = New Size(1135, 682)
         CType(dgvTransactionItems, ComponentModel.ISupportInitialize).EndInit()
@@ -379,6 +404,9 @@ Partial Class ViewTransactionsControl
         TableLayoutPanel1.ResumeLayout(False)
         TableLayoutPanel1.PerformLayout()
         CType(dgvTransactions, ComponentModel.ISupportInitialize).EndInit()
+        BufferedPanel1.ResumeLayout(False)
+        BufferedPanel2.ResumeLayout(False)
+        BufferedPanel2.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -406,5 +434,7 @@ Partial Class ViewTransactionsControl
     Friend WithEvents btnRefresh As Button
     Friend WithEvents dgvTransactions As DataGridView
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
+    Friend WithEvents BufferedPanel1 As BufferedPanel
+    Friend WithEvents BufferedPanel2 As BufferedPanel
 
 End Class
