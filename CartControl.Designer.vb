@@ -217,7 +217,6 @@ Partial Class CartControl
         lDiscount.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom
         lDiscount.AutoSize = True
         lDiscount.BackColor = Color.Transparent
-        lDiscount.Enabled = False
         lDiscount.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lDiscount.ForeColor = Color.White
         lDiscount.Location = New Point(390, 0)
