@@ -12,6 +12,10 @@ Public Class CartControl
     Dim tempStock As New Dictionary(Of String, Integer)
 
     Public Sub InitializeCart()
+        lCurrencySym1.Text = AppSettings.CurrentCurrency
+        lCurrencySym2.Text = AppSettings.CurrentCurrency
+        lGrandTotal.Text = AppHelpers.FormatCurrency(0)
+
         cbClothingType.Items.Clear()
         Using con As New SqlConnection(connectAs)
             Try
@@ -107,7 +111,7 @@ Public Class CartControl
             End If
         Next
 
-        lGrandTotal.Text = "₱" & grandTotal.ToString("N2")
+        lGrandTotal.Text = AppHelpers.FormatCurrency(grandTotal)
     End Sub
     ' Refresh product info from DB and update stock label
     Public Sub RefreshProductInfo()
@@ -361,7 +365,7 @@ Public Class CartControl
     Private Sub btnClearCart_Click(sender As Object, e As EventArgs) Handles btnClearCart.Click
         dgvCart.Rows.Clear()
         grandTotal = 0
-        lGrandTotal.Text = "₱0.00"
+        lGrandTotal.Text = AppHelpers.FormatCurrency(0.00)
         RefreshProductInfo()
     End Sub
 
@@ -495,16 +499,9 @@ Public Class CartControl
 
         dgvCart.Rows.Clear()
         grandTotal = 0
-        lGrandTotal.Text = "₱0.00"
+        lGrandTotal.Text = AppHelpers.FormatCurrency(0)
         RefreshProductInfo()
         cbClothingType.SelectedIndex = 0
     End Sub
 
-    Private Sub PrintDocument1_PrintPage(sender As Object, e As Printing.PrintPageEventArgs)
-
-    End Sub
-
-    Private Sub btnPrintReceipt_Click(sender As Object, e As EventArgs) Handles btnPrintReceipt.Click
-
-    End Sub
 End Class

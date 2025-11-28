@@ -114,15 +114,16 @@ Public Class DashboardControl
             netProfit = todaySales - todayExpenses
 
             ' --- Update labels ---
-            lblTotalSalesToday.Text = todaySales.ToString("₱#,##0.00")
-            lblTotalItemsSold.Text = totalItemsSold.ToString()
-            lblTodayExpenses.Text = todayExpenses.ToString("₱#,##0.00")
-            lblTotalExpensesPaid.Text = totalPaid.ToString("₱#,##0.00")
-            lblTotalExpensesUnpaid.Text = totalUnpaid.ToString("₱#,##0.00")
-            lblUpcomingExpensesWeek.Text = totalNext7Days.ToString("₱#,##0.00")
-            lblNetProfit.Text = netProfit.ToString("₱#,##0.00")
-            lblTotalSalesMonth.Text = totalSalesMonth.ToString("₱#,##0.00")
-            lblNetProfitLastWeek.Text = netProfitLastWeek.ToString("₱#,##0.00")
+            lblTotalSalesToday.Text = AppHelpers.FormatCurrency(todaySales)
+            lblTotalItemsSold.Text = totalItemsSold.ToString() ' This is not money, so no formatting needed
+            lblTodayExpenses.Text = AppHelpers.FormatCurrency(todayExpenses)
+            lblTotalExpensesPaid.Text = AppHelpers.FormatCurrency(totalPaid)
+            lblTotalExpensesUnpaid.Text = AppHelpers.FormatCurrency(totalUnpaid)
+            lblUpcomingExpensesWeek.Text = AppHelpers.FormatCurrency(totalNext7Days)
+            lblNetProfit.Text = AppHelpers.FormatCurrency(netProfit)
+            lblTotalSalesMonth.Text = AppHelpers.FormatCurrency(totalSalesMonth)
+            lblNetProfitLastWeek.Text = AppHelpers.FormatCurrency(netProfitLastWeek)
+
 
             ' --- Refresh charts ---
             LoadDailySalesChart()
@@ -205,7 +206,7 @@ Public Class DashboardControl
         Dim hm = chartHourly.Plot.Add.Heatmap(heatmapData)
 
         ' Gradient (ScottPlot built-in)
-        hm.Colormap = New ScottPlot.Colormaps.Dense()
+        hm.Colormap = New ScottPlot.Colormaps.Thermal()
 
 
         ' --- Labels ---
@@ -298,7 +299,7 @@ Public Class DashboardControl
 
         chartSales.Plot.Title("Sales (Last 7 Days)")
         chartSales.Plot.XLabel("Date")
-        chartSales.Plot.YLabel("₱")
+        chartSales.Plot.YLabel(AppSettings.CurrentCurrency)
         chartSales.Plot.Axes.DateTimeTicksBottom() ' format X axis as dates
         chartSales.Plot.Axes.Margins(0, 0)
         chartSales.UserInputProcessor.IsEnabled = False

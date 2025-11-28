@@ -266,4 +266,17 @@ Public Class ViewTransactionsControl
         dgvTransactions.DataSource = dt
     End Sub
 
+    Private Sub dgvTransactions_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles dgvTransactions.CellFormatting
+        ' Identify which columns contain currency values
+        If dgvTransactions.Columns(e.ColumnIndex).Name = "Amount" OrElse
+           dgvTransactions.Columns(e.ColumnIndex).Name = "Price" OrElse
+           dgvTransactions.Columns(e.ColumnIndex).Name = "TotalAmount" Then
+
+            If e.Value IsNot Nothing AndAlso IsNumeric(e.Value) Then
+                e.Value = AppHelpers.FormatCurrency(Convert.ToDecimal(e.Value))
+                e.FormattingApplied = True
+            End If
+
+        End If
+    End Sub
 End Class

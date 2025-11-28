@@ -121,14 +121,6 @@ Public Class ManageStocksControl
         dgvStocks.EndEdit()
     End Sub
 
-    'Private Sub ManageStocks_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-    '    If MsgBox("Do you want to save changes before closing?", MsgBoxStyle.YesNo, "Save unsaved changes") = vbYes Then
-    '        btnSaveChanges.PerformClick()
-    '    Else
-    '        Me.Hide()
-    '    End If
-    'End Sub
-
     Private Sub btnAddItem_Click(sender As Object, e As EventArgs) Handles btnAddItem.Click
         Using con As New SqlConnection(connectAs)
             Dim cmd As New SqlCommand("INSERT INTO Products (ProductName, Stock, RegularPrice) VALUES (@name, @stock, @price)", con)
@@ -156,6 +148,20 @@ Public Class ManageStocksControl
                 cmd.ExecuteNonQuery()
             End Using
             LoadProducts()
+        End If
+    End Sub
+
+    Private Sub dgvStocks_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) _
+    Handles dgvStocks.CellFormatting
+
+        Dim colName As String = dgvStocks.Columns(e.ColumnIndex).Name
+
+        ' Only format RegularPrice (DECIMAL)
+        If colName = "RegularPrice" Then
+            If e.Value IsNot Nothing AndAlso IsNumeric(e.Value) Then
+                e.Value = AppHelpers.FormatCurrency(Convert.ToDecimal(e.Value))
+                e.FormattingApplied = True
+            End If
         End If
     End Sub
 

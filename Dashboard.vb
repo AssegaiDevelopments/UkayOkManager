@@ -32,6 +32,7 @@ Public Class Dashboard
     Private expensesControl As New ExpensesControl()
     Private dashboardControl As New DashboardControl()
     Private accountsControl As New AccountsControl()
+    Private settingsControl As New SettingsControl()
 
     ' --- Utility: show a panel and update sidebar ---
     Private Sub ShowPanel(panelToShow As Control)
@@ -71,11 +72,15 @@ Public Class Dashboard
         If role = "Employee" Then
             ' Disable admin-only controls
             btnManageAccounts.Visible = False
+            btnManageAccounts.Enabled = False
+            btnSettings.Enabled = False
+            btnSettings.Visible = False
         End If
     End Sub
 
     ' --- Initialize dashboard after setting user ID ---
     Public Sub InitializeDashboard(userId As String)
+        AppSettings.LoadSettings()
         Me.LoggedInUserId = userId
 
         ' Add user controls to main panel (if not already added)
@@ -86,6 +91,7 @@ Public Class Dashboard
             pnlMain.Controls.Add(expensesControl)
             pnlMain.Controls.Add(dashboardControl)
             pnlMain.Controls.Add(accountsControl)
+            pnlMain.Controls.Add(settingsControl)
 
             ' Dock controls
             stocksControl.Dock = DockStyle.Fill
@@ -94,6 +100,7 @@ Public Class Dashboard
             expensesControl.Dock = DockStyle.Fill
             dashboardControl.Dock = DockStyle.Fill
             accountsControl.Dock = DockStyle.Fill
+            settingsControl.Dock = DockStyle.Fill
         End If
 
         ' Pass user ID to all controls that need it
@@ -140,6 +147,11 @@ Public Class Dashboard
         ShowPanel(accountsControl)
     End Sub
 
+    Private Sub btnSettings_Click(sender As Object, e As EventArgs) Handles btnSettings.Click
+        ShowPanel(settingsControl)
+        settingsControl.InitializeSettings()
+    End Sub
+
     ' --- Logout / Exit ---
     Private Sub btnLogOut_Click(sender As Object, e As EventArgs) Handles btnLogOut.Click
         Login.Show()
@@ -166,4 +178,6 @@ Public Class Dashboard
     Private Sub timer_Tick(sender As Object, e As EventArgs) Handles timer.Tick
         lblTimeDisplay.Text = DateTime.Now.ToString("MMMM dd, yyyy  |  hh:mm:ss tt")
     End Sub
+
+
 End Class

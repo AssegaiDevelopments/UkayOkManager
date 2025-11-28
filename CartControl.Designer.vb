@@ -22,7 +22,7 @@ Partial Class CartControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         BufferedPanel1 = New BufferedPanel()
         tlpMain = New TableLayoutPanel()
         dgvCart = New DataGridView()
@@ -43,7 +43,7 @@ Partial Class CartControl
         TableLayoutPanel2 = New TableLayoutPanel()
         BufferedPanel4 = New BufferedPanel()
         BufferedPanel5 = New BufferedPanel()
-        Label9 = New Label()
+        lCurrencySym2 = New Label()
         Label6 = New Label()
         nudXQuantity = New NumericUpDown()
         nudYPrice = New NumericUpDown()
@@ -53,7 +53,7 @@ Partial Class CartControl
         NumericUpDown1 = New NumericUpDown()
         btnPrintReceipt = New CheckBox()
         BufferedPanel3 = New BufferedPanel()
-        Label10 = New Label()
+        lCurrencySym1 = New Label()
         nudGlobalPrice = New NumericUpDown()
         chkGlobalPriceEnabled = New CheckBox()
         BufferedPanel2 = New BufferedPanel()
@@ -123,14 +123,14 @@ Partial Class CartControl
         dgvCart.AllowUserToDeleteRows = False
         dgvCart.BackgroundColor = Color.White
         dgvCart.BorderStyle = BorderStyle.Fixed3D
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = SystemColors.Control
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = Color.MediumTurquoise
-        DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
-        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = SystemColors.Control
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = SystemColors.WindowText
+        DataGridViewCellStyle2.SelectionBackColor = Color.MediumTurquoise
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
+        dgvCart.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvCart.Dock = DockStyle.Fill
         dgvCart.EditMode = DataGridViewEditMode.EditProgrammatically
@@ -384,7 +384,7 @@ Partial Class CartControl
         ' 
         ' BufferedPanel5
         ' 
-        BufferedPanel5.Controls.Add(Label9)
+        BufferedPanel5.Controls.Add(lCurrencySym2)
         BufferedPanel5.Controls.Add(Label6)
         BufferedPanel5.Controls.Add(nudXQuantity)
         BufferedPanel5.Controls.Add(nudYPrice)
@@ -395,18 +395,18 @@ Partial Class CartControl
         BufferedPanel5.Size = New Size(190, 92)
         BufferedPanel5.TabIndex = 54
         ' 
-        ' Label9
+        ' lCurrencySym2
         ' 
-        Label9.Anchor = AnchorStyles.Left Or AnchorStyles.Right
-        Label9.AutoSize = True
-        Label9.BackColor = Color.Transparent
-        Label9.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label9.Location = New Point(129, 69)
-        Label9.Name = "Label9"
-        Label9.Size = New Size(14, 15)
-        Label9.TabIndex = 54
-        Label9.Text = "₱"
-        Label9.TextAlign = ContentAlignment.MiddleRight
+        lCurrencySym2.Anchor = AnchorStyles.Left Or AnchorStyles.Right
+        lCurrencySym2.AutoSize = True
+        lCurrencySym2.BackColor = Color.Transparent
+        lCurrencySym2.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
+        lCurrencySym2.Location = New Point(129, 69)
+        lCurrencySym2.Name = "lCurrencySym2"
+        lCurrencySym2.Size = New Size(14, 15)
+        lCurrencySym2.TabIndex = 54
+        lCurrencySym2.Text = "₱"
+        lCurrencySym2.TextAlign = ContentAlignment.MiddleRight
         ' 
         ' Label6
         ' 
@@ -504,7 +504,7 @@ Partial Class CartControl
         ' 
         ' BufferedPanel3
         ' 
-        BufferedPanel3.Controls.Add(Label10)
+        BufferedPanel3.Controls.Add(lCurrencySym1)
         BufferedPanel3.Controls.Add(nudGlobalPrice)
         BufferedPanel3.Controls.Add(chkGlobalPriceEnabled)
         BufferedPanel3.Dock = DockStyle.Fill
@@ -513,18 +513,18 @@ Partial Class CartControl
         BufferedPanel3.Size = New Size(124, 92)
         BufferedPanel3.TabIndex = 1
         ' 
-        ' Label10
+        ' lCurrencySym1
         ' 
-        Label10.Anchor = AnchorStyles.Left Or AnchorStyles.Right
-        Label10.AutoSize = True
-        Label10.BackColor = Color.Transparent
-        Label10.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        Label10.Location = New Point(55, 67)
-        Label10.Name = "Label10"
-        Label10.Size = New Size(14, 15)
-        Label10.TabIndex = 55
-        Label10.Text = "₱"
-        Label10.TextAlign = ContentAlignment.MiddleRight
+        lCurrencySym1.Anchor = AnchorStyles.Left Or AnchorStyles.Right
+        lCurrencySym1.AutoSize = True
+        lCurrencySym1.BackColor = Color.Transparent
+        lCurrencySym1.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
+        lCurrencySym1.Location = New Point(55, 67)
+        lCurrencySym1.Name = "lCurrencySym1"
+        lCurrencySym1.Size = New Size(14, 15)
+        lCurrencySym1.TabIndex = 55
+        lCurrencySym1.Text = "₱"
+        lCurrencySym1.TextAlign = ContentAlignment.MiddleRight
         ' 
         ' nudGlobalPrice
         ' 
@@ -766,13 +766,13 @@ Partial Class CartControl
     Friend WithEvents BufferedPanel3 As BufferedPanel
     Friend WithEvents BufferedPanel2 As BufferedPanel
     Friend WithEvents BufferedPanel5 As BufferedPanel
-    Friend WithEvents Label9 As Label
+    Friend WithEvents lCurrencySym2 As Label
     Friend WithEvents Label6 As Label
     Friend WithEvents nudXQuantity As NumericUpDown
     Friend WithEvents nudYPrice As NumericUpDown
     Friend WithEvents chbxBuyXForYEnabled As CheckBox
     Friend WithEvents Label5 As Label
-    Friend WithEvents Label10 As Label
+    Friend WithEvents lCurrencySym1 As Label
     Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
     Friend WithEvents tlpMain As TableLayoutPanel
 

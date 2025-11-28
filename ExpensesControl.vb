@@ -153,8 +153,8 @@ Public Class ExpensesControl
         Try
             Dim table As DataTable = TryCast(dgvExpenses.DataSource, DataTable)
             If table Is Nothing OrElse table.Rows.Count = 0 Then
-                lblTotalUnpaid.Text = "₱0.00"
-                lblTotalPaid.Text = "₱0.00"
+                lblTotalUnpaid.Text = AppHelpers.FormatCurrency(0)
+                lblTotalPaid.Text = AppHelpers.FormatCurrency(0)
                 Return
             End If
 
@@ -168,8 +168,8 @@ Public Class ExpensesControl
             Where(Function(r) Not r.IsNull("Status") AndAlso String.Equals(Convert.ToString(r("Status")), "Paid", StringComparison.OrdinalIgnoreCase)).
             Sum(Function(r) If(r.IsNull("Amount"), 0D, Convert.ToDecimal(r("Amount"))))
 
-            lblTotalUnpaid.Text = totalUnpaid.ToString("₱#,##0.00")
-            lblTotalPaid.Text = totalPaid.ToString("₱#,##0.00")
+            lblTotalUnpaid.Text = AppHelpers.FormatCurrency(totalUnpaid)
+            lblTotalPaid.Text = AppHelpers.FormatCurrency(totalPaid)
 
             'put totalpaid and totalunpaid to public so dashboard can access
             _totalPaid = totalPaid
@@ -204,8 +204,6 @@ Public Class ExpensesControl
             ' Visual formatting
             With dgvExpenses
                 .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-                If .Columns.Contains("Amount") Then .Columns("Amount").DefaultCellStyle.Format = "₱#,##0.00"
-                If .Columns.Contains("Date") Then .Columns("Date").DefaultCellStyle.Format = "yyyy-MM-dd"
                 .ReadOnly = True
                 .SelectionMode = DataGridViewSelectionMode.FullRowSelect
             End With
@@ -216,6 +214,13 @@ Public Class ExpensesControl
         Catch ex As Exception
             MessageBox.Show("Error loading expenses: " & ex.Message)
         End Try
+    End Sub
+
+    Private Sub dgvExpenses_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles dgvExpenses.CellFormatting
+        If dgvExpenses.Columns(e.ColumnIndex).Name = "Amount" AndAlso e.Value IsNot Nothing AndAlso Not IsDBNull(e.Value) Then
+            e.Value = AppHelpers.FormatCurrency(Convert.ToDecimal(e.Value))
+            e.FormattingApplied = True
+        End If
     End Sub
 
 
@@ -370,7 +375,7 @@ Public Class ExpensesControl
             Dim slice As New PieSlice() With {
             .Value = amounts(i),
             .Label = categories(i),              ' text shown on the slice
-            .LegendText = categories(i) & " (" & amounts(i).ToString("₱#,##0.00") & ")" ' text shown in legend
+            .LegendText = $"{categories(i)} ({AppHelpers.FormatCurrency(amounts(i))})" ' text shown in legend
         }
 
             slices.Add(slice)
@@ -459,7 +464,7 @@ Public Class ExpensesControl
         chartDailyExpenses.Plot.Add.Scatter(x.ToArray(), y.ToArray())
         chartDailyExpenses.Plot.Title("Daily Expenses (Last 30 Days)")
         chartDailyExpenses.Plot.XLabel("Date")
-        chartDailyExpenses.Plot.YLabel("₱")
+        chartDailyExpenses.Plot.YLabel(AppSettings.CurrentCurrency)
         chartDailyExpenses.Plot.Axes.DateTimeTicksBottom() ' format X axis as dates
         chartDailyExpenses.Plot.Axes.Margins(0, 0)
         chartDailyExpenses.Refresh()
@@ -647,7 +652,7 @@ Public Class ExpensesControl
                         Dim totalRow As New List(Of String)
                         For Each col As DataColumn In table.Columns
                             If col.ColumnName = "Amount" Then
-                                totalRow.Add(totalAmount.ToString("₱#,##0.00"))
+                                totalRow.Add(AppHelpers.FormatCurrency(totalAmount))
                             Else
                                 totalRow.Add("") ' leave other columns empty
                             End If

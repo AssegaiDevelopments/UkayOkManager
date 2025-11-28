@@ -49,6 +49,7 @@ Partial Class Dashboard
         SqlCommand1 = New Microsoft.Data.SqlClient.SqlCommand()
         BufferedPanel1 = New BufferedPanel()
         timer = New Timer(components)
+        btnSettings = New Button()
         pnlNav.SuspendLayout()
         FlowLayoutPanel1.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -215,6 +216,7 @@ Partial Class Dashboard
         flpSidebar.Controls.Add(btnManageStocks)
         flpSidebar.Controls.Add(btnExpenses)
         flpSidebar.Controls.Add(btnManageAccounts)
+        flpSidebar.Controls.Add(btnSettings)
         flpSidebar.Dock = DockStyle.Bottom
         flpSidebar.Location = New Point(0, 68)
         flpSidebar.Name = "flpSidebar"
@@ -377,6 +379,25 @@ Partial Class Dashboard
         ' 
         timer.Interval = 1000
         ' 
+        ' btnSettings
+        ' 
+        btnSettings.Anchor = AnchorStyles.Left
+        btnSettings.BackColor = Color.FromArgb(CByte(23), CByte(77), CByte(113))
+        btnSettings.Cursor = Cursors.Hand
+        btnSettings.FlatAppearance.BorderSize = 0
+        btnSettings.FlatStyle = FlatStyle.Flat
+        btnSettings.Font = New Font("Segoe UI Emoji", 9.75F)
+        btnSettings.ForeColor = Color.White
+        btnSettings.Location = New Point(0, 300)
+        btnSettings.Margin = New Padding(0)
+        btnSettings.Name = "btnSettings"
+        btnSettings.Size = New Size(145, 50)
+        btnSettings.TabIndex = 32
+        btnSettings.Tag = "SettingsControl"
+        btnSettings.Text = "🔧 Settings"
+        btnSettings.TextAlign = ContentAlignment.MiddleLeft
+        btnSettings.UseVisualStyleBackColor = False
+        ' 
         ' Dashboard
         ' 
         AutoScaleDimensions = New SizeF(96F, 96F)
@@ -430,4 +451,5 @@ Partial Class Dashboard
     Friend WithEvents btnLogOut As Button
     Friend WithEvents lblTimeDisplay As Label
     Friend WithEvents timer As Timer
+    Friend WithEvents btnSettings As Button
 End Class
