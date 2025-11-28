@@ -101,6 +101,7 @@ Public Class Dashboard
         stocksControl.LoggedInUserId = userId
         expensesControl.LoggedInUserId = userId
         accountsControl.LoggedInUserId = userId
+        cartControl.LoggedInUserId = userId
 
         ApplyRoleRestrictions()
 

@@ -51,7 +51,7 @@ Partial Class CartControl
         Label5 = New Label()
         NumericUpDown2 = New NumericUpDown()
         NumericUpDown1 = New NumericUpDown()
-        CheckBox1 = New CheckBox()
+        btnPrintReceipt = New CheckBox()
         BufferedPanel3 = New BufferedPanel()
         Label10 = New Label()
         nudGlobalPrice = New NumericUpDown()
@@ -375,7 +375,7 @@ Partial Class CartControl
         BufferedPanel4.Controls.Add(Label5)
         BufferedPanel4.Controls.Add(NumericUpDown2)
         BufferedPanel4.Controls.Add(NumericUpDown1)
-        BufferedPanel4.Controls.Add(CheckBox1)
+        BufferedPanel4.Controls.Add(btnPrintReceipt)
         BufferedPanel4.Dock = DockStyle.Fill
         BufferedPanel4.Location = New Point(246, 3)
         BufferedPanel4.Name = "BufferedPanel4"
@@ -490,17 +490,17 @@ Partial Class CartControl
         NumericUpDown1.Size = New Size(70, 23)
         NumericUpDown1.TabIndex = 51
         ' 
-        ' CheckBox1
+        ' btnPrintReceipt
         ' 
-        CheckBox1.BackColor = Color.Transparent
-        CheckBox1.Cursor = Cursors.Hand
-        CheckBox1.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
-        CheckBox1.Location = New Point(41, 4)
-        CheckBox1.Name = "CheckBox1"
-        CheckBox1.Size = New Size(87, 41)
-        CheckBox1.TabIndex = 50
-        CheckBox1.Text = "Buy X For Y"
-        CheckBox1.UseVisualStyleBackColor = False
+        btnPrintReceipt.BackColor = Color.Transparent
+        btnPrintReceipt.Cursor = Cursors.Hand
+        btnPrintReceipt.ForeColor = Color.FromArgb(CByte(248), CByte(248), CByte(248))
+        btnPrintReceipt.Location = New Point(41, 4)
+        btnPrintReceipt.Name = "btnPrintReceipt"
+        btnPrintReceipt.Size = New Size(87, 41)
+        btnPrintReceipt.TabIndex = 50
+        btnPrintReceipt.Text = "Buy X For Y"
+        btnPrintReceipt.UseVisualStyleBackColor = False
         ' 
         ' BufferedPanel3
         ' 
@@ -758,7 +758,7 @@ Partial Class CartControl
     Friend WithEvents RoundedPanel1 As RoundedPanel
     Friend WithEvents nudGlobalPrice As NumericUpDown
     Friend WithEvents chkGlobalPriceEnabled As CheckBox
-    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents btnPrintReceipt As CheckBox
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
     Friend WithEvents BufferedPanel4 As BufferedPanel
     Friend WithEvents NumericUpDown2 As NumericUpDown

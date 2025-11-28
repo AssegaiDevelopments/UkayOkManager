@@ -2,6 +2,8 @@
 Imports Microsoft.Data.SqlClient
 Public Class CartControl
     Public Event CartCheckoutCompleted()
+    Public Property LoggedInUserId As String
+
     Dim globalPricingEnabled As Boolean = False
     Dim globalPrice As Decimal = 0D
     Dim clothingType, pname As String
@@ -354,6 +356,7 @@ Public Class CartControl
             reader.Close()
         End Using
     End Sub
+
     'Clear cart and reset grand total
     Private Sub btnClearCart_Click(sender As Object, e As EventArgs) Handles btnClearCart.Click
         dgvCart.Rows.Clear()
@@ -361,6 +364,7 @@ Public Class CartControl
         lGrandTotal.Text = "₱0.00"
         RefreshProductInfo()
     End Sub
+
     ' Remove selected item from cart and update stock and grand total
     Private Sub btnRemoveItemFromCart_Click(sender As Object, e As EventArgs) Handles btnRemoveItemFromCart.Click
         If dgvCart.SelectedRows.Count > 0 Then
@@ -401,6 +405,20 @@ Public Class CartControl
             totalAmount += Convert.ToDecimal(row.Cells("Total").Value)
         Next
 
+        Dim username As String = "Unknown"
+        'take current user's Username; display unknown if there's none
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+            Dim cmd As New SqlCommand("SELECT Username FROM Users WHERE UserID = @id", con)
+            cmd.Parameters.AddWithValue("@id", LoggedInUserId)
+            Dim result = cmd.ExecuteScalar()
+            If result IsNot Nothing Then
+                username = result.ToString()
+            End If
+        End Using
+
+
+
         Using con As New SqlConnection(connectAs)
             con.Open()
 
@@ -411,7 +429,7 @@ Public Class CartControl
             OUTPUT INSERTED.TransactionID
             VALUES (@user, @total, @method, @status, @date, @remarks, @type)", con)
 
-            cmdTrans.Parameters.AddWithValue("@user", "Admin")
+            cmdTrans.Parameters.AddWithValue("@user", username)
             cmdTrans.Parameters.AddWithValue("@total", totalAmount)
 
             'Payment Method
@@ -471,6 +489,7 @@ Public Class CartControl
             refreshComboBoxInfo()
         End Using
 
+
         MsgBox("Checkout successful! Transaction saved.", vbInformation, "Success")
         RaiseEvent CartCheckoutCompleted()
 
@@ -481,6 +500,11 @@ Public Class CartControl
         cbClothingType.SelectedIndex = 0
     End Sub
 
-    'checkbox check
+    Private Sub PrintDocument1_PrintPage(sender As Object, e As Printing.PrintPageEventArgs)
 
+    End Sub
+
+    Private Sub btnPrintReceipt_Click(sender As Object, e As EventArgs) Handles btnPrintReceipt.Click
+
+    End Sub
 End Class

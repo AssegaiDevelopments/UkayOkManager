@@ -172,7 +172,7 @@ Partial Class SelectPayment
         Label9.BackColor = Color.Transparent
         Label9.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label9.ForeColor = Color.White
-        Label9.Location = New Point(187, 30)
+        Label9.Location = New Point(187, 22)
         Label9.Name = "Label9"
         Label9.RightToLeft = RightToLeft.Yes
         Label9.Size = New Size(70, 42)
@@ -185,10 +185,10 @@ Partial Class SelectPayment
         lblChange.BorderStyle = BorderStyle.FixedSingle
         lblChange.Font = New Font("Courier New", 12F, FontStyle.Bold)
         lblChange.ForeColor = Color.White
-        lblChange.Location = New Point(128, 229)
+        lblChange.Location = New Point(128, 225)
         lblChange.Name = "lblChange"
         lblChange.RightToLeft = RightToLeft.Yes
-        lblChange.Size = New Size(274, 26)
+        lblChange.Size = New Size(274, 38)
         lblChange.TabIndex = 9
         lblChange.Text = "0"
         lblChange.TextAlign = ContentAlignment.MiddleLeft
@@ -199,7 +199,7 @@ Partial Class SelectPayment
         Label3.BackColor = Color.Transparent
         Label3.Font = New Font("Segoe UI", 12F)
         Label3.ForeColor = Color.White
-        Label3.Location = New Point(124, 204)
+        Label3.Location = New Point(128, 202)
         Label3.Margin = New Padding(0, 0, 3, 0)
         Label3.Name = "Label3"
         Label3.RightToLeft = RightToLeft.No
@@ -214,10 +214,10 @@ Partial Class SelectPayment
         lblCartTotal.BorderStyle = BorderStyle.FixedSingle
         lblCartTotal.Font = New Font("Courier New", 12F, FontStyle.Bold)
         lblCartTotal.ForeColor = Color.Black
-        lblCartTotal.Location = New Point(129, 170)
+        lblCartTotal.Location = New Point(128, 162)
         lblCartTotal.Name = "lblCartTotal"
         lblCartTotal.RightToLeft = RightToLeft.Yes
-        lblCartTotal.Size = New Size(274, 26)
+        lblCartTotal.Size = New Size(274, 38)
         lblCartTotal.TabIndex = 7
         lblCartTotal.Text = "0"
         lblCartTotal.TextAlign = ContentAlignment.MiddleLeft
@@ -227,7 +227,7 @@ Partial Class SelectPayment
         PictureBox3.BackColor = Color.Transparent
         PictureBox3.BackgroundImage = My.Resources.Resources.cashicon
         PictureBox3.BackgroundImageLayout = ImageLayout.Zoom
-        PictureBox3.Location = New Point(257, 20)
+        PictureBox3.Location = New Point(257, 12)
         PictureBox3.Name = "PictureBox3"
         PictureBox3.Size = New Size(57, 54)
         PictureBox3.TabIndex = 6
@@ -239,7 +239,7 @@ Partial Class SelectPayment
         Label5.BackColor = Color.Transparent
         Label5.Font = New Font("Segoe UI", 12F)
         Label5.ForeColor = Color.White
-        Label5.Location = New Point(124, 88)
+        Label5.Location = New Point(128, 74)
         Label5.Margin = New Padding(0, 0, 3, 0)
         Label5.Name = "Label5"
         Label5.RightToLeft = RightToLeft.No
@@ -253,7 +253,7 @@ Partial Class SelectPayment
         Label4.BackColor = Color.Transparent
         Label4.Font = New Font("Segoe UI", 12F)
         Label4.ForeColor = Color.White
-        Label4.Location = New Point(125, 148)
+        Label4.Location = New Point(128, 139)
         Label4.Margin = New Padding(0, 0, 3, 0)
         Label4.Name = "Label4"
         Label4.RightToLeft = RightToLeft.No
@@ -287,21 +287,21 @@ Partial Class SelectPayment
         btnBack.FlatStyle = FlatStyle.Flat
         btnBack.Font = New Font("Segoe UI", 8.25F)
         btnBack.ForeColor = Color.White
-        btnBack.Location = New Point(5, 12)
+        btnBack.Location = New Point(3, 12)
         btnBack.Name = "btnBack"
         btnBack.Size = New Size(75, 23)
         btnBack.TabIndex = 2
-        btnBack.Text = "Go back"
+        btnBack.Text = "⬅ Go back"
         btnBack.UseVisualStyleBackColor = False
         ' 
         ' txtCashReceived
         ' 
         txtCashReceived.BorderStyle = BorderStyle.FixedSingle
-        txtCashReceived.Font = New Font("Courier New", 12F, FontStyle.Bold)
-        txtCashReceived.Location = New Point(128, 113)
+        txtCashReceived.Font = New Font("Courier New", 20.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        txtCashReceived.Location = New Point(128, 98)
         txtCashReceived.Name = "txtCashReceived"
         txtCashReceived.RightToLeft = RightToLeft.Yes
-        txtCashReceived.Size = New Size(275, 26)
+        txtCashReceived.Size = New Size(275, 38)
         txtCashReceived.TabIndex = 1
         ' 
         ' pnlGCashReceived

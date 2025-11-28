@@ -22,7 +22,7 @@ Partial Class ManageStocksControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
         BufferedPanel1 = New BufferedPanel()
         RoundedPanel1 = New RoundedPanel()
         gbAddProduct = New GroupBox()
@@ -185,9 +185,9 @@ Partial Class ManageStocksControl
         gbManageStocks.Controls.Add(TableLayoutPanel3)
         gbManageStocks.Controls.Add(TableLayoutPanel1)
         gbManageStocks.ForeColor = Color.Black
-        gbManageStocks.Location = New Point(34, 241)
+        gbManageStocks.Location = New Point(34, 258)
         gbManageStocks.Name = "gbManageStocks"
-        gbManageStocks.Size = New Size(361, 110)
+        gbManageStocks.Size = New Size(361, 192)
         gbManageStocks.TabIndex = 36
         gbManageStocks.TabStop = False
         gbManageStocks.Text = "Manage Stocks"
@@ -196,7 +196,7 @@ Partial Class ManageStocksControl
         ' 
         btnApplyToCell.Cursor = Cursors.Hand
         btnApplyToCell.ForeColor = Color.Black
-        btnApplyToCell.Location = New Point(6, 70)
+        btnApplyToCell.Location = New Point(118, 73)
         btnApplyToCell.Name = "btnApplyToCell"
         btnApplyToCell.Size = New Size(121, 32)
         btnApplyToCell.TabIndex = 24
@@ -250,7 +250,7 @@ Partial Class ManageStocksControl
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         TableLayoutPanel1.Controls.Add(btnRemoveItem, 0, 0)
         TableLayoutPanel1.Controls.Add(btnSaveChanges, 1, 0)
-        TableLayoutPanel1.Location = New Point(130, 69)
+        TableLayoutPanel1.Location = New Point(67, 146)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 1
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
@@ -291,14 +291,14 @@ Partial Class ManageStocksControl
         dgvStocks.BackgroundColor = Color.White
         dgvStocks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvStocks.Cursor = Cursors.Hand
-        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = Color.GhostWhite
-        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = Color.MediumSeaGreen
-        DataGridViewCellStyle2.SelectionForeColor = Color.White
-        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
-        dgvStocks.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = Color.GhostWhite
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle1.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle1.SelectionBackColor = Color.MediumSeaGreen
+        DataGridViewCellStyle1.SelectionForeColor = Color.White
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.False
+        dgvStocks.DefaultCellStyle = DataGridViewCellStyle1
         dgvStocks.Dock = DockStyle.Right
         dgvStocks.GridColor = Color.LightCyan
         dgvStocks.Location = New Point(482, 0)
