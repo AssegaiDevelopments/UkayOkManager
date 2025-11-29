@@ -398,8 +398,7 @@ Public Class ExpensesControl
             }
 
         ' Trim or expand the list for the number of slices
-        pie.LineColor = ScottPlot.Color.FromHex("#bab0ab")
-
+        pie.LineColor = ScottPlot.Color.FromHex("#ff0000")
 
 
         pie.ExplodeFraction = 0.05

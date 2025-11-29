@@ -208,11 +208,14 @@ Public Class DashboardControl
         ' Gradient (ScottPlot built-in)
         hm.Colormap = New ScottPlot.Colormaps.Thermal()
 
+        hm.Opacity = 1.0            ' fully solid
 
         ' --- Labels ---
         chartHourly.Plot.Title("Hourly Sales Heatmap (Last 7 Days)")
         chartHourly.Plot.XLabel("Hour of Day")
         chartHourly.Plot.YLabel("Date")
+        chartHourly.Plot.DataBackground.Color = ScottPlot.Colors.DarkGray
+
 
         ' Hours 0–23
         Dim hours = Enumerable.Range(0, 24).Select(Function(h) h.ToString()).ToArray()
@@ -223,7 +226,7 @@ Public Class DashboardControl
 
         ' Dates for past 7 days
         Dim dateLabels As New List(Of String)
-        For i = 6 To 0 Step -1
+        For i = 0 To 6 Step 1
             Dim d = Date.Today.AddDays(-i)
             dateLabels.Add(d.ToString("MMM dd"))
         Next

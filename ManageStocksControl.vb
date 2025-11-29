@@ -1,6 +1,5 @@
 ﻿Imports System.ComponentModel
 Imports System.Data.Common
-'Imports System.Data.SqlClient
 Imports Microsoft.Data.SqlClient
 
 Public Class ManageStocksControl
@@ -80,6 +79,9 @@ Public Class ManageStocksControl
             RaiseEvent StocksUpdated()
             dgvStocks.GridColor = Color.AliceBlue
             MessageBox.Show("Changes saved successfully!")
+            lblChangeConfirm.Text = ""
+            dgvStocks.GridColor = Color.White
+
         Catch ex As Exception
             MessageBox.Show("Error saving changes: " & ex.Message)
         End Try
@@ -117,13 +119,16 @@ Public Class ManageStocksControl
 
     Private Sub dgvStocks_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles dgvStocks.CellValueChanged
         dgvStocks.GridColor = Color.Yellow
+
         dgvStocks.CommitEdit(DataGridViewDataErrorContexts.Commit)
         dgvStocks.EndEdit()
     End Sub
 
+
     Private Sub btnAddItem_Click(sender As Object, e As EventArgs) Handles btnAddItem.Click
         Using con As New SqlConnection(connectAs)
-            Dim cmd As New SqlCommand("INSERT INTO Products (ProductName, Stock, RegularPrice) VALUES (@name, @stock, @price)", con)
+            Dim cmd As New SqlCommand("INSERT INTO Products (ProductName, Stock, RegularPrice, Supplier) VALUES (@name, @stock, @price, @supplier)", con)
+            cmd.Parameters.AddWithValue("@supplier", tbSupplier.Text)
             cmd.Parameters.AddWithValue("@name", tbProductName.Text)
             cmd.Parameters.AddWithValue("@stock", nudStock.Value)
             cmd.Parameters.AddWithValue("@price", nudPrice.Value)
@@ -151,18 +156,41 @@ Public Class ManageStocksControl
         End If
     End Sub
 
-    Private Sub dgvStocks_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) _
-    Handles dgvStocks.CellFormatting
+    'Private Sub dgvStocks_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) _
+    'Handles dgvStocks.CellFormatting
 
-        Dim colName As String = dgvStocks.Columns(e.ColumnIndex).Name
+    '    Dim colName As String = dgvStocks.Columns(e.ColumnIndex).Name
 
-        ' Only format RegularPrice (DECIMAL)
-        If colName = "RegularPrice" Then
-            If e.Value IsNot Nothing AndAlso IsNumeric(e.Value) Then
-                e.Value = AppHelpers.FormatCurrency(Convert.ToDecimal(e.Value))
-                e.FormattingApplied = True
+    '    ' Only format RegularPrice (DECIMAL)
+    '    'If colName = "RegularPrice" Then
+    '    '    If e.Value IsNot Nothing AndAlso IsNumeric(e.Value) Then
+    '    '        e.Value = AppHelpers.FormatCurrency(Convert.ToDecimal(e.Value))
+    '    '        e.FormattingApplied = True
+    '    '    End If
+    '    'End If
+    'End Sub
+
+    Private Sub dgvStocks_CellParsing(sender As Object, e As DataGridViewCellParsingEventArgs) Handles dgvStocks.CellParsing
+        If e.ColumnIndex = dgvStocks.Columns("RegularPrice").Index Then
+            Dim maxValue As Double = 10000
+            Dim minValue As Double = 0
+
+            If Not IsNumeric(e.Value) Then
+                e.Value = 0
+                e.ParsingApplied = True
+            Else
+                Dim cellValue As Decimal = CDec(e.Value)
+                If cellValue > maxValue Then
+                    e.Value = maxValue
+                    e.ParsingApplied = True
+                ElseIf cellValue < minValue Then
+                    e.Value = minValue
+                    e.ParsingApplied = True
+
+                End If
             End If
         End If
+        dgvStocks.GridColor = Color.Yellow
+        lblChangeConfirm.Text = "Save changes to confirm."
     End Sub
-
 End Class

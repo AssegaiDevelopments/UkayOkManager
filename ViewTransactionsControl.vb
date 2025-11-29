@@ -5,6 +5,45 @@ Public Class ViewTransactionsControl
     Private adapter As SqlDataAdapter
     Private dt As New DataTable()
 
+    'start of admin/employee logic
+    Private _loggedInUserId As Integer
+    Private _role As String
+
+    Public Property LoggedInUserId As Integer
+        Get
+            Return _loggedInUserId
+        End Get
+        Set(value As Integer)
+            _loggedInUserId = value
+            _role = GetLoggedInUserRole() ' fetch role from DB
+            ApplyRoleRestrictions()
+        End Set
+    End Property
+
+    Private Function GetLoggedInUserRole() As String
+        Using con As New SqlConnection(connectAs)
+            con.Open()
+            Dim query As String = "SELECT Role FROM Users WHERE UserID=@id"
+            Using cmd As New SqlCommand(query, con)
+                cmd.Parameters.AddWithValue("@id", _loggedInUserId)
+                Dim roleObj = cmd.ExecuteScalar()
+                Return If(roleObj IsNot Nothing, roleObj.ToString(), String.Empty)
+            End Using
+        End Using
+    End Function
+
+    Private Sub ApplyRoleRestrictions()
+        If _loggedInUserId = 0 Then Exit Sub
+
+        Dim role As String = GetLoggedInUserRole() ' fetch from DB
+        If role = "Employee" Then
+            ' Disable admin-only controls
+            btnRemoveTrans.Visible = False
+        End If
+    End Sub
+    'end of admin/employee logic
+
+
     Public Sub InitializeTransactions()
         LoadTransactions()
         btnResetFilters.PerformClick()
@@ -278,5 +317,26 @@ Public Class ViewTransactionsControl
             End If
 
         End If
+    End Sub
+
+    Private Sub btnRemoveTrans_click(sender As Object, e As EventArgs) Handles btnRemoveTrans.Click
+        If dgvTransactionItems.SelectedRows.Count = 0 Then
+            MessageBox.Show("Select a product to remove.")
+            Return
+        End If
+
+        Dim transactionID As Integer = dgvTransactions.SelectedRows(0).Cells("TransactionID").Value
+        If MessageBox.Show("Delete selected transaction?", "Confirm", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+            Using con As New SqlConnection(connectAs)
+                Dim cmd As New SqlCommand("DELETE FROM Transactions WHERE TransactionID=@id", con)
+                Dim cmd2 As New SqlCommand("DELETE FROM TransactionItems WHERE TransactionID=@id", con)
+                cmd.Parameters.AddWithValue("@id", transactionID)
+                cmd2.Parameters.AddWithValue("@id", transactionID)
+                con.Open()
+                cmd.ExecuteNonQuery()
+                cmd2.ExecuteNonQuery()
+            End Using
+        End If
+        LoadTransactions()
     End Sub
 End Class
