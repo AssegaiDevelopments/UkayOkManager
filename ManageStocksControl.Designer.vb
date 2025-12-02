@@ -22,10 +22,12 @@ Partial Class ManageStocksControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
         BufferedPanel1 = New BufferedPanel()
         RoundedPanel1 = New RoundedPanel()
         gbAddProduct = New GroupBox()
+        Label6 = New Label()
+        tbSupplier = New TextBox()
         Label3 = New Label()
         btnAddItem = New Button()
         Label4 = New Label()
@@ -43,6 +45,7 @@ Partial Class ManageStocksControl
         btnSaveChanges = New Button()
         dgvStocks = New DataGridView()
         Label2 = New Label()
+        lblChangeConfirm = New Label()
         BufferedPanel1.SuspendLayout()
         RoundedPanel1.SuspendLayout()
         gbAddProduct.SuspendLayout()
@@ -63,8 +66,9 @@ Partial Class ManageStocksControl
         BufferedPanel1.Controls.Add(Label2)
         BufferedPanel1.Dock = DockStyle.Fill
         BufferedPanel1.Location = New Point(0, 0)
+        BufferedPanel1.Margin = New Padding(4, 5, 4, 5)
         BufferedPanel1.Name = "BufferedPanel1"
-        BufferedPanel1.Size = New Size(1135, 682)
+        BufferedPanel1.Size = New Size(1621, 1137)
         BufferedPanel1.TabIndex = 0
         ' 
         ' RoundedPanel1
@@ -73,14 +77,17 @@ Partial Class ManageStocksControl
         RoundedPanel1.Controls.Add(gbAddProduct)
         RoundedPanel1.Controls.Add(gbManageStocks)
         RoundedPanel1.CornerRadius = 20
-        RoundedPanel1.Location = New Point(25, 80)
+        RoundedPanel1.Location = New Point(36, 133)
+        RoundedPanel1.Margin = New Padding(4, 5, 4, 5)
         RoundedPanel1.Name = "RoundedPanel1"
-        RoundedPanel1.Size = New Size(442, 518)
+        RoundedPanel1.Size = New Size(631, 863)
         RoundedPanel1.TabIndex = 37
         ' 
         ' gbAddProduct
         ' 
         gbAddProduct.BackColor = Color.Transparent
+        gbAddProduct.Controls.Add(Label6)
+        gbAddProduct.Controls.Add(tbSupplier)
         gbAddProduct.Controls.Add(Label3)
         gbAddProduct.Controls.Add(btnAddItem)
         gbAddProduct.Controls.Add(Label4)
@@ -90,21 +97,48 @@ Partial Class ManageStocksControl
         gbAddProduct.Controls.Add(nudPrice)
         gbAddProduct.FlatStyle = FlatStyle.Flat
         gbAddProduct.ForeColor = Color.Black
-        gbAddProduct.Location = New Point(34, 20)
+        gbAddProduct.Location = New Point(49, 33)
+        gbAddProduct.Margin = New Padding(4, 5, 4, 5)
         gbAddProduct.Name = "gbAddProduct"
-        gbAddProduct.Size = New Size(361, 215)
+        gbAddProduct.Padding = New Padding(4, 5, 4, 5)
+        gbAddProduct.Size = New Size(516, 458)
         gbAddProduct.TabIndex = 35
         gbAddProduct.TabStop = False
         gbAddProduct.Text = "Add Product"
+        ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = True
+        Label6.BackColor = Color.Transparent
+        Label6.ForeColor = Color.Black
+        Label6.Location = New Point(64, 147)
+        Label6.Margin = New Padding(4, 0, 4, 0)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(77, 25)
+        Label6.TabIndex = 28
+        Label6.Text = "Supplier"
+        Label6.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' tbSupplier
+        ' 
+        tbSupplier.Cursor = Cursors.IBeam
+        tbSupplier.Font = New Font("Segoe UI", 15.75F)
+        tbSupplier.Location = New Point(64, 181)
+        tbSupplier.Margin = New Padding(0)
+        tbSupplier.MaxLength = 256
+        tbSupplier.Name = "tbSupplier"
+        tbSupplier.Size = New Size(390, 49)
+        tbSupplier.TabIndex = 27
         ' 
         ' Label3
         ' 
         Label3.AutoSize = True
         Label3.BackColor = Color.Transparent
         Label3.ForeColor = Color.Black
-        Label3.Location = New Point(45, 20)
+        Label3.Location = New Point(64, 33)
+        Label3.Margin = New Padding(4, 0, 4, 0)
         Label3.Name = "Label3"
-        Label3.Size = New Size(66, 15)
+        Label3.Size = New Size(100, 25)
         Label3.TabIndex = 26
         Label3.Text = "Item Name"
         Label3.TextAlign = ContentAlignment.MiddleLeft
@@ -114,9 +148,10 @@ Partial Class ManageStocksControl
         btnAddItem.Cursor = Cursors.Hand
         btnAddItem.FlatAppearance.BorderSize = 0
         btnAddItem.ForeColor = Color.Black
-        btnAddItem.Location = New Point(201, 157)
+        btnAddItem.Location = New Point(287, 380)
+        btnAddItem.Margin = New Padding(4, 5, 4, 5)
         btnAddItem.Name = "btnAddItem"
-        btnAddItem.Size = New Size(124, 39)
+        btnAddItem.Size = New Size(177, 65)
         btnAddItem.TabIndex = 25
         btnAddItem.Text = "Add Item"
         btnAddItem.UseVisualStyleBackColor = True
@@ -126,9 +161,10 @@ Partial Class ManageStocksControl
         Label4.AutoSize = True
         Label4.BackColor = Color.Transparent
         Label4.ForeColor = Color.Black
-        Label4.Location = New Point(45, 80)
+        Label4.Location = New Point(64, 251)
+        Label4.Margin = New Padding(4, 0, 4, 0)
         Label4.Name = "Label4"
-        Label4.Size = New Size(36, 15)
+        Label4.Size = New Size(55, 25)
         Label4.TabIndex = 8
         Label4.Text = "Stock"
         Label4.TextAlign = ContentAlignment.MiddleLeft
@@ -137,21 +173,22 @@ Partial Class ManageStocksControl
         ' 
         tbProductName.Cursor = Cursors.IBeam
         tbProductName.Font = New Font("Segoe UI", 15.75F)
-        tbProductName.Location = New Point(45, 40)
+        tbProductName.Location = New Point(64, 67)
         tbProductName.Margin = New Padding(0)
         tbProductName.MaxLength = 256
         tbProductName.Name = "tbProductName"
-        tbProductName.Size = New Size(274, 35)
+        tbProductName.Size = New Size(390, 49)
         tbProductName.TabIndex = 6
         ' 
         ' nudStock
         ' 
         nudStock.Cursor = Cursors.IBeam
         nudStock.Font = New Font("Segoe UI", 15.75F)
-        nudStock.Location = New Point(45, 100)
+        nudStock.Location = New Point(64, 285)
+        nudStock.Margin = New Padding(4, 5, 4, 5)
         nudStock.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         nudStock.Name = "nudStock"
-        nudStock.Size = New Size(121, 35)
+        nudStock.Size = New Size(173, 49)
         nudStock.TabIndex = 7
         ' 
         ' Label5
@@ -159,9 +196,10 @@ Partial Class ManageStocksControl
         Label5.AutoSize = True
         Label5.BackColor = Color.Transparent
         Label5.ForeColor = Color.Black
-        Label5.Location = New Point(45, 140)
+        Label5.Location = New Point(64, 351)
+        Label5.Margin = New Padding(4, 0, 4, 0)
         Label5.Name = "Label5"
-        Label5.Size = New Size(33, 15)
+        Label5.Size = New Size(49, 25)
         Label5.TabIndex = 9
         Label5.Text = "Price"
         Label5.TextAlign = ContentAlignment.MiddleLeft
@@ -171,23 +209,27 @@ Partial Class ManageStocksControl
         nudPrice.Cursor = Cursors.IBeam
         nudPrice.DecimalPlaces = 2
         nudPrice.Font = New Font("Segoe UI", 15.75F)
-        nudPrice.Location = New Point(45, 160)
+        nudPrice.Location = New Point(64, 385)
+        nudPrice.Margin = New Padding(4, 5, 4, 5)
         nudPrice.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         nudPrice.Name = "nudPrice"
-        nudPrice.Size = New Size(121, 35)
+        nudPrice.Size = New Size(173, 49)
         nudPrice.TabIndex = 8
         nudPrice.ThousandsSeparator = True
         ' 
         ' gbManageStocks
         ' 
         gbManageStocks.BackColor = Color.Transparent
+        gbManageStocks.Controls.Add(lblChangeConfirm)
         gbManageStocks.Controls.Add(btnApplyToCell)
         gbManageStocks.Controls.Add(TableLayoutPanel3)
         gbManageStocks.Controls.Add(TableLayoutPanel1)
         gbManageStocks.ForeColor = Color.Black
-        gbManageStocks.Location = New Point(34, 258)
+        gbManageStocks.Location = New Point(49, 508)
+        gbManageStocks.Margin = New Padding(4, 5, 4, 5)
         gbManageStocks.Name = "gbManageStocks"
-        gbManageStocks.Size = New Size(361, 192)
+        gbManageStocks.Padding = New Padding(4, 5, 4, 5)
+        gbManageStocks.Size = New Size(516, 327)
         gbManageStocks.TabIndex = 36
         gbManageStocks.TabStop = False
         gbManageStocks.Text = "Manage Stocks"
@@ -196,9 +238,10 @@ Partial Class ManageStocksControl
         ' 
         btnApplyToCell.Cursor = Cursors.Hand
         btnApplyToCell.ForeColor = Color.Black
-        btnApplyToCell.Location = New Point(118, 73)
+        btnApplyToCell.Location = New Point(174, 134)
+        btnApplyToCell.Margin = New Padding(4, 5, 4, 5)
         btnApplyToCell.Name = "btnApplyToCell"
-        btnApplyToCell.Size = New Size(121, 32)
+        btnApplyToCell.Size = New Size(173, 53)
         btnApplyToCell.TabIndex = 24
         btnApplyToCell.Text = "Apply to selected"
         btnApplyToCell.UseVisualStyleBackColor = True
@@ -212,11 +255,12 @@ Partial Class ManageStocksControl
         TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         TableLayoutPanel3.Controls.Add(Label1, 0, 0)
         TableLayoutPanel3.Controls.Add(nudAddSubtract, 1, 0)
-        TableLayoutPanel3.Location = New Point(4, 22)
+        TableLayoutPanel3.Location = New Point(3, 34)
+        TableLayoutPanel3.Margin = New Padding(4, 5, 4, 5)
         TableLayoutPanel3.Name = "TableLayoutPanel3"
         TableLayoutPanel3.RowCount = 1
         TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel3.Size = New Size(352, 45)
+        TableLayoutPanel3.Size = New Size(510, 90)
         TableLayoutPanel3.TabIndex = 25
         ' 
         ' Label1
@@ -226,9 +270,10 @@ Partial Class ManageStocksControl
         Label1.BackColor = Color.Transparent
         Label1.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Black
-        Label1.Location = New Point(12, 12)
+        Label1.Location = New Point(4, 29)
+        Label1.Margin = New Padding(4, 0, 4, 0)
         Label1.Name = "Label1"
-        Label1.Size = New Size(161, 21)
+        Label1.Size = New Size(247, 32)
         Label1.TabIndex = 23
         Label1.Text = "Add/Subtract to Stock"
         ' 
@@ -236,10 +281,11 @@ Partial Class ManageStocksControl
         ' 
         nudAddSubtract.Anchor = AnchorStyles.Left
         nudAddSubtract.Font = New Font("Courier New", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        nudAddSubtract.Location = New Point(179, 5)
+        nudAddSubtract.Location = New Point(259, 21)
+        nudAddSubtract.Margin = New Padding(4, 5, 4, 5)
         nudAddSubtract.Minimum = New Decimal(New Integer() {100, 0, 0, Integer.MinValue})
         nudAddSubtract.Name = "nudAddSubtract"
-        nudAddSubtract.Size = New Size(170, 35)
+        nudAddSubtract.Size = New Size(228, 48)
         nudAddSubtract.TabIndex = 22
         ' 
         ' TableLayoutPanel1
@@ -250,11 +296,12 @@ Partial Class ManageStocksControl
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         TableLayoutPanel1.Controls.Add(btnRemoveItem, 0, 0)
         TableLayoutPanel1.Controls.Add(btnSaveChanges, 1, 0)
-        TableLayoutPanel1.Location = New Point(67, 146)
+        TableLayoutPanel1.Location = New Point(96, 243)
+        TableLayoutPanel1.Margin = New Padding(4, 5, 4, 5)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 1
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel1.Size = New Size(225, 35)
+        TableLayoutPanel1.Size = New Size(321, 58)
         TableLayoutPanel1.TabIndex = 29
         ' 
         ' btnRemoveItem
@@ -263,9 +310,10 @@ Partial Class ManageStocksControl
         btnRemoveItem.Dock = DockStyle.Fill
         btnRemoveItem.FlatAppearance.BorderSize = 0
         btnRemoveItem.ForeColor = Color.Black
-        btnRemoveItem.Location = New Point(3, 3)
+        btnRemoveItem.Location = New Point(4, 5)
+        btnRemoveItem.Margin = New Padding(4, 5, 4, 5)
         btnRemoveItem.Name = "btnRemoveItem"
-        btnRemoveItem.Size = New Size(106, 29)
+        btnRemoveItem.Size = New Size(152, 48)
         btnRemoveItem.TabIndex = 26
         btnRemoveItem.Text = "Remove Item"
         btnRemoveItem.UseVisualStyleBackColor = True
@@ -279,9 +327,10 @@ Partial Class ManageStocksControl
         btnSaveChanges.FlatAppearance.BorderSize = 2
         btnSaveChanges.FlatStyle = FlatStyle.Flat
         btnSaveChanges.ForeColor = Color.Black
-        btnSaveChanges.Location = New Point(115, 3)
+        btnSaveChanges.Location = New Point(164, 5)
+        btnSaveChanges.Margin = New Padding(4, 5, 4, 5)
         btnSaveChanges.Name = "btnSaveChanges"
-        btnSaveChanges.Size = New Size(107, 29)
+        btnSaveChanges.Size = New Size(153, 48)
         btnSaveChanges.TabIndex = 21
         btnSaveChanges.Text = "Save Changes"
         btnSaveChanges.UseVisualStyleBackColor = False
@@ -291,19 +340,21 @@ Partial Class ManageStocksControl
         dgvStocks.BackgroundColor = Color.White
         dgvStocks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvStocks.Cursor = Cursors.Hand
-        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = Color.GhostWhite
-        DataGridViewCellStyle1.Font = New Font("Segoe UI", 9F)
-        DataGridViewCellStyle1.ForeColor = SystemColors.ControlText
-        DataGridViewCellStyle1.SelectionBackColor = Color.MediumSeaGreen
-        DataGridViewCellStyle1.SelectionForeColor = Color.White
-        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.False
-        dgvStocks.DefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = Color.GhostWhite
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F)
+        DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = Color.MediumSeaGreen
+        DataGridViewCellStyle2.SelectionForeColor = Color.White
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+        dgvStocks.DefaultCellStyle = DataGridViewCellStyle2
         dgvStocks.Dock = DockStyle.Right
         dgvStocks.GridColor = Color.LightCyan
-        dgvStocks.Location = New Point(482, 0)
+        dgvStocks.Location = New Point(688, 0)
+        dgvStocks.Margin = New Padding(4, 5, 4, 5)
         dgvStocks.Name = "dgvStocks"
-        dgvStocks.Size = New Size(653, 682)
+        dgvStocks.RowHeadersWidth = 62
+        dgvStocks.Size = New Size(933, 1137)
         dgvStocks.TabIndex = 33
         ' 
         ' Label2
@@ -312,21 +363,33 @@ Partial Class ManageStocksControl
         Label2.BackColor = Color.Transparent
         Label2.Font = New Font("Malgun Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.ForeColor = Color.White
-        Label2.Location = New Point(15, 27)
+        Label2.Location = New Point(21, 45)
+        Label2.Margin = New Padding(4, 0, 4, 0)
         Label2.Name = "Label2"
-        Label2.Size = New Size(91, 50)
+        Label2.Size = New Size(140, 80)
         Label2.TabIndex = 34
         Label2.Text = "Stock" & vbCrLf & "Manager"
         ' 
+        ' lblChangeConfirm
+        ' 
+        lblChangeConfirm.AutoSize = True
+        lblChangeConfirm.ForeColor = Color.Gold
+        lblChangeConfirm.Location = New Point(243, 213)
+        lblChangeConfirm.Name = "lblChangeConfirm"
+        lblChangeConfirm.Size = New Size(0, 25)
+        lblChangeConfirm.TabIndex = 30
+        lblChangeConfirm.TextAlign = ContentAlignment.MiddleCenter
+        ' 
         ' ManageStocksControl
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackgroundImage = My.Resources.Resources.bg11
         BackgroundImageLayout = ImageLayout.Stretch
         Controls.Add(BufferedPanel1)
+        Margin = New Padding(4, 5, 4, 5)
         Name = "ManageStocksControl"
-        Size = New Size(1135, 682)
+        Size = New Size(1621, 1137)
         BufferedPanel1.ResumeLayout(False)
         BufferedPanel1.PerformLayout()
         RoundedPanel1.ResumeLayout(False)
@@ -364,5 +427,8 @@ Partial Class ManageStocksControl
     Friend WithEvents dgvStocks As DataGridView
     Friend WithEvents Label2 As Label
     Friend WithEvents RoundedPanel1 As RoundedPanel
+    Friend WithEvents Label6 As Label
+    Friend WithEvents tbSupplier As TextBox
+    Friend WithEvents lblChangeConfirm As Label
 
 End Class

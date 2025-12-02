@@ -109,6 +109,7 @@ Public Class Dashboard
         expensesControl.LoggedInUserId = userId
         accountsControl.LoggedInUserId = userId
         cartControl.LoggedInUserId = userId
+        transactionsControl.LoggedInUserId = userId
 
         ApplyRoleRestrictions()
 
@@ -154,6 +155,8 @@ Public Class Dashboard
 
     ' --- Logout / Exit ---
     Private Sub btnLogOut_Click(sender As Object, e As EventArgs) Handles btnLogOut.Click
+        Login.txtbUser.Text = ""
+        Login.txtbPassword.Text = ""
         Login.Show()
         Me.Hide()
     End Sub

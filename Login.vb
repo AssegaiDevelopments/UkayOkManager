@@ -47,7 +47,7 @@ Public Class Login
                         End If
 
                         Dim userId As Integer = Convert.ToInt32(reader("UserID"))
-                        MsgBox("Login successful!", vbInformation, "Login Successful!")
+                        'MsgBox("Login successful!", vbInformation, "Login Successful!")
                         LoginSuccess(userId)  ' pass the ID to the dashboard
                     Else
                         MsgBox("Invalid username or password.", vbExclamation, "Invalid")
