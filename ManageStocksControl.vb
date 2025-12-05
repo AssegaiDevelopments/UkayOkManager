@@ -126,16 +126,24 @@ Public Class ManageStocksControl
 
 
     Private Sub btnAddItem_Click(sender As Object, e As EventArgs) Handles btnAddItem.Click
-        Using con As New SqlConnection(connectAs)
-            Dim cmd As New SqlCommand("INSERT INTO Products (ProductName, Stock, RegularPrice, Supplier) VALUES (@name, @stock, @price, @supplier)", con)
-            cmd.Parameters.AddWithValue("@supplier", tbSupplier.Text)
-            cmd.Parameters.AddWithValue("@name", tbProductName.Text)
-            cmd.Parameters.AddWithValue("@stock", nudStock.Value)
-            cmd.Parameters.AddWithValue("@price", nudPrice.Value)
-            con.Open()
-            cmd.ExecuteNonQuery()
-        End Using
-        LoadProducts()
+        If String.IsNullOrWhiteSpace(tbProductName.Text) Then
+            MsgBox("Product name is empty.", vbInformation, "Empty product name")
+            Exit Sub
+        ElseIf nudPrice.Value <= 0D Then
+            MsgBox("Price cannot be zero or lower, please pick a greater number.", vbInformation, "Invalid price")
+            Exit Sub
+        Else
+            Using con As New SqlConnection(connectAs)
+                Dim cmd As New SqlCommand("INSERT INTO Products (ProductName, Stock, RegularPrice, Supplier) VALUES (@name, @stock, @price, @supplier)", con)
+                cmd.Parameters.AddWithValue("@supplier", tbSupplier.Text)
+                cmd.Parameters.AddWithValue("@name", tbProductName.Text)
+                cmd.Parameters.AddWithValue("@stock", nudStock.Value)
+                cmd.Parameters.AddWithValue("@price", nudPrice.Value)
+                con.Open()
+                cmd.ExecuteNonQuery()
+            End Using
+            LoadProducts()
+        End If
     End Sub
 
     Private Sub btnRemoveItem_Click(sender As Object, e As EventArgs) Handles btnRemoveItem.Click
@@ -156,41 +164,101 @@ Public Class ManageStocksControl
         End If
     End Sub
 
-    'Private Sub dgvStocks_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) _
-    'Handles dgvStocks.CellFormatting
+    'catch dgv errors
+    Private Sub dgvStocks_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) _
+    Handles dgvStocks.DataError
 
-    '    Dim colName As String = dgvStocks.Columns(e.ColumnIndex).Name
+        e.ThrowException = False
+        e.Cancel = True
+    End Sub
 
-    '    ' Only format RegularPrice (DECIMAL)
-    '    'If colName = "RegularPrice" Then
-    '    '    If e.Value IsNot Nothing AndAlso IsNumeric(e.Value) Then
-    '    '        e.Value = AppHelpers.FormatCurrency(Convert.ToDecimal(e.Value))
-    '    '        e.FormattingApplied = True
-    '    '    End If
-    '    'End If
-    'End Sub
+    'price handler
+    Private Sub Price_KeyPress(sender As Object, e As KeyPressEventArgs)
+        Dim tb As TextBox = DirectCast(sender, TextBox)
 
-    Private Sub dgvStocks_CellParsing(sender As Object, e As DataGridViewCellParsingEventArgs) Handles dgvStocks.CellParsing
-        If e.ColumnIndex = dgvStocks.Columns("RegularPrice").Index Then
-            Dim maxValue As Double = 10000
-            Dim minValue As Double = 0
+        If Char.IsControl(e.KeyChar) Then Return
+        If Char.IsDigit(e.KeyChar) Then Return
 
-            If Not IsNumeric(e.Value) Then
-                e.Value = 0
-                e.ParsingApplied = True
-            Else
-                Dim cellValue As Decimal = CDec(e.Value)
-                If cellValue > maxValue Then
-                    e.Value = maxValue
-                    e.ParsingApplied = True
-                ElseIf cellValue < minValue Then
-                    e.Value = minValue
-                    e.ParsingApplied = True
+        If e.KeyChar = "."c AndAlso Not tb.Text.Contains("."c) Then Return
 
-                End If
+        e.Handled = True
+    End Sub
+
+
+    'handle editing
+    Private Sub dgvStocks_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) _
+    Handles dgvStocks.EditingControlShowing
+
+        If dgvStocks.CurrentCell Is Nothing Then Exit Sub
+
+        If dgvStocks.Columns(dgvStocks.CurrentCell.ColumnIndex).Name = "RegularPrice" Then
+            Dim tb As TextBox = TryCast(e.Control, TextBox)
+            If tb IsNot Nothing Then
+                RemoveHandler tb.KeyPress, AddressOf Price_KeyPress
+                AddHandler tb.KeyPress, AddressOf Price_KeyPress
             End If
         End If
-        dgvStocks.GridColor = Color.Yellow
-        lblChangeConfirm.Text = "Save changes to confirm."
+
     End Sub
+
+
+    'edit cell validation
+    Private Sub dgvStocks_CellValidating(sender As Object, e As DataGridViewCellValidatingEventArgs) _
+    Handles dgvStocks.CellValidating
+
+        If dgvStocks.Columns(e.ColumnIndex).Name <> "RegularPrice" Then Return
+
+        Dim input As String = e.FormattedValue.ToString().Trim()
+        Dim value As Decimal
+
+        ' Empty not allowed
+        If String.IsNullOrWhiteSpace(input) Then
+            dgvStocks.Rows(e.RowIndex).ErrorText = "Price cannot be empty."
+            e.Cancel = True
+            Return
+        End If
+
+        ' Not numeric
+        If Not Decimal.TryParse(input, value) Then
+            dgvStocks.Rows(e.RowIndex).ErrorText = "Enter a valid number."
+            e.Cancel = True
+            Return
+        End If
+
+        ' Range check
+        If value < 0 OrElse value > 10000 Then
+            dgvStocks.Rows(e.RowIndex).ErrorText = "Price must be between 0 and 10,000."
+            e.Cancel = True
+            Return
+        End If
+
+        ' No error
+        dgvStocks.Rows(e.RowIndex).ErrorText = ""
+    End Sub
+
+
+    'clear errors, validate edited cells    
+    Private Sub dgvStocks_CellValidated(sender As Object, e As DataGridViewCellEventArgs) _
+    Handles dgvStocks.CellValidated
+
+        dgvStocks.Rows(e.RowIndex).ErrorText = ""
+    End Sub
+
+
+
+    'normalize decimal values
+    Private Sub dgvStocks_CellParsing(sender As Object, e As DataGridViewCellParsingEventArgs) _
+    Handles dgvStocks.CellParsing
+
+        If dgvStocks.Columns(e.ColumnIndex).Name = "RegularPrice" Then
+            Dim value As Decimal
+            If Decimal.TryParse(e.Value?.ToString(), value) Then
+                e.Value = value
+                e.ParsingApplied = True
+            End If
+        End If
+
+    End Sub
+
+
 End Class
